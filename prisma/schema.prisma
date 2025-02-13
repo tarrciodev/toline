@@ -1,0 +1,273 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id            String                @id @default(uuid())
+  name          String
+  description   String
+  createdAt     DateTime              @default(now()) @map("created_at")
+  updatedAt     DateTime              @updatedAt @map("updated_at")
+  ownerId       String                @map("owner_id")
+  owner         Client?               @relation(fields: [ownerId], references: [id])
+  freelancer    Freelancer?           @relation(fields: [freelancerId], references: [id])
+  freelancerId  String?
+  subscriptions ProjectSubscription[]
+  status        String
+  category      Category?             @relation(fields: [categoryId], references: [id])
+  categoryId    String?
+  subcategoryId String?
+  skills        String[]
+  dueDate       DateTime?             @map("due_date")
+  concludedAt   DateTime?             @map("concluded_at")
+  quotation     Quotation?
+  conversations Conversation[]
+  payment       Payment?
+
+  @@unique([name, categoryId, ownerId])
+  @@map("projects")
+}
+
+model User {
+  id            String         @id @default(uuid())
+  userId        String
+  email         String         @unique
+  password      String?
+  username      String
+  type          String
+  createdAt     DateTime       @default(now()) @map("created_at")
+  conversations Conversation[]
+  tag           String         @unique
+  avatarUrl     String?
+
+  @@map("users")
+}
+
+model Client {
+  id                   String                 @id @default(uuid())
+  name                 String
+  email                String                 @unique
+  freelancerEvaluation FreelancerEvaluation[]
+  bio                  String?
+  createdAt            DateTime               @default(now()) @map("created_at")
+  projects             Project[]
+  avatarUrl            String?                @map("avatar_url")
+
+  @@map("clientes")
+}
+
+model Freelancer {
+  id               String                 @id @default(uuid())
+  name             String
+  email            String                 @unique
+  subscripions     ProjectSubscription[]
+  projects         Project[]
+  skills           Skill[]
+  evaluations      FreelancerEvaluation[]
+  certifications   Certification[]
+  especialiazation Category[]
+  identification   Identification?
+  bio              String?
+  isVerified       Boolean                @default(false) @map("is_verified")
+  createdAt        DateTime               @default(now()) @map("created_at")
+  BankAccount      BankAccount?
+  avatarUrl        String?                @map("avatar_url")
+  portifolio       Portifolio[]
+  identificationId String?
+
+  @@map("freelancers")
+}
+
+model ProjectSubscription {
+  id                   String     @id @default(uuid())
+  projectId            String
+  freelancerId         String
+  freelancer           Freelancer @relation(fields: [freelancerId], references: [id])
+  project              Project    @relation(fields: [projectId], references: [id])
+  estimatedTime        String     @map("estimated_time")
+  requiredInformations String     @map("required_informations")
+  justificationText    String     @map("justification_text")
+  similarExperiences   String     @map("similar_experiences")
+  quotation            Float
+  createdAt            DateTime   @default(now()) @map("created_at")
+  invitation           Json?
+
+  @@unique([projectId, freelancerId])
+  @@map("project_subscriptions")
+}
+
+model Category {
+  id            String        @id @default(uuid())
+  name          String        @unique
+  description   String?
+  skills        Skill[]
+  freelancers   Freelancer[]
+  subcategories Subcategory[]
+  slug          String        @unique
+  projects      Project[]
+
+  @@map("categories")
+}
+
+model Subcategory {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  slug        String
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  String?
+
+  @@unique([categoryId, name])
+  @@map("subcategories")
+}
+
+model Skill {
+  id            String       @id @default(uuid())
+  name          String
+  slug          String
+  description   String?
+  category      Category?    @relation(fields: [categoryId], references: [id])
+  categoryId    String?
+  subcategoryId String?      @map("subcategory_id")
+  freelancers   Freelancer[]
+  Portifolios   Portifolio[]
+
+  @@unique([subcategoryId, categoryId, name])
+  @@map("skills")
+}
+
+model FreelancerEvaluation {
+  id           String     @id @default(uuid())
+  rate         String
+  freelancerId String
+  freelancer   Freelancer @relation(fields: [freelancerId], references: [id])
+  evaluatorId  String
+  evaluator    Client     @relation(fields: [evaluatorId], references: [id])
+  comment      String
+
+  @@unique([freelancerId, evaluatorId])
+  @@map("freelancer_evaluations")
+}
+
+model Quotation {
+  id          String   @id @default(uuid())
+  projectId   String   @unique
+  project     Project  @relation(fields: [projectId], references: [id])
+  ammount     Int
+  description String
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("quotations")
+}
+
+model Certification {
+  id                String     @id @default(uuid())
+  freelancerId      String
+  freelancer        Freelancer @relation(fields: [freelancerId], references: [id])
+  certificationName String     @map("certification_name")
+  link              String
+
+  @@map("certifications")
+}
+
+model Identification {
+  id           String      @id @default(uuid())
+  freelancer   Freelancer? @relation(fields: [freelancerId], references: [id])
+  freelancerId String      @unique
+  front        String
+  back         String
+
+  @@map("identifications")
+}
+
+model Conversation {
+  id        String    @id @default(uuid())
+  members   User[]
+  messages  Message[]
+  projectId String?
+  project   Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("conversations")
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  senderId       String
+  content        String
+  createdAt      DateTime     @default(now()) @map("created_at")
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId String
+  saw            Boolean      @default(false)
+  hasFile        Boolean      @default(false)
+  fileInfo       Json?
+
+  @@map("messages")
+}
+
+model Portifolio {
+  id           String             @id @default(uuid())
+  title        String
+  description  String
+  cover        String
+  completedAt  String?            @map("completed_at")
+  freelancer   Freelancer         @relation(fields: [freelancerId], references: [id])
+  skills       Skill[]
+  freelancerId String
+  assets       PortifolioAssets[]
+
+  @@map("portifolios")
+}
+
+model PortifolioAssets {
+  id           String      @id @default(uuid())
+  link         String
+  Portifolio   Portifolio? @relation(fields: [portifolioId], references: [id])
+  portifolioId String?
+
+  @@map("portifolio_assets")
+}
+
+model BankAccount {
+  id           String     @id @default(uuid())
+  nameOnCard   String     @map("name_on_card")
+  bankName     String     @map("bank_name")
+  cardNumber   String     @map("card_number")
+  freelancer   Freelancer @relation(fields: [freelancerId], references: [id])
+  freelancerId String     @unique
+
+  @@map("bank_accounts")
+}
+
+model Payment {
+  id                 String    @id @default(uuid())
+  ammount            Float
+  createdAt          DateTime  @default(now()) @map("created_at")
+  clientInvoce       String?   @map("client_invoice")
+  systemInvoce       String?   @map("system_invoice")
+  verifiedFromSystem Boolean   @default(false) @map("verified_from_system")
+  project            Project   @relation(fields: [projectId], references: [id])
+  projectId          String    @unique
+  competedAt         DateTime? @map("competed_at")
+
+  @@map("payments")
+}
+
+model PasswordResets {
+  id        String   @id @default(uuid())
+  userEmail String   @unique
+  token     String
+  expires   DateTime
+
+  @@map("password_resets")
+}
