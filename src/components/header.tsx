@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
 import { Logo } from "./logo";
+import { MenuBar } from "./mobile/menu-bar";
 
 export function Header() {
     return (
-        <header className='bg-white shadow sticky top-0 z-50 overflow-hidden h-16 px-56'>
+        <header className='bg-white shadow-sm sticky top-0 z-50 overflow-hidden h-16 px-4 sm:px-56'>
             <div className='flex justify-between items-center'>
                 <Logo redirectTo='/' />
                 <nav>
@@ -28,7 +29,7 @@ export function Header() {
                         </li>
                     </ul>
                 </nav>
-                <div className='flex gap-2 items-center'>
+                <div className='hidden sm:flex gap-2 items-center'>
                     <Link href='/login'>Sign in</Link>
                     <Link
                         href='/register'
@@ -37,6 +38,7 @@ export function Header() {
                         Sign up
                     </Link>
                 </div>
+                <MenuBar />
             </div>
         </header>
     );

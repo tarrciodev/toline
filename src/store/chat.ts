@@ -42,6 +42,8 @@ interface ChatProps {
         selectedConversation: IConversation | null
     ) => void;
     addConversation: (conversation: IConversation) => void;
+    displayChatMessage: boolean;
+    setDisplayChatMessage: (displayChatMessage: boolean) => void;
 }
 
 // Persisting only `selectedConversation`
@@ -49,6 +51,9 @@ export const useChatStore = create<ChatProps>()(
     persist(
         (set) => ({
             conversations: [],
+            displayChatMessage: false,
+            setDisplayChatMessage: (displayChatMessage) =>
+                set({ displayChatMessage }),
             setConversations: (conversations) => set({ conversations }),
             selectedConversation: null,
             setSelectedConversation: (selectedConversation) =>

@@ -1,5 +1,5 @@
 "use client";
-import { ShowCaseProps } from "@/actions/users/get-entity";
+
 import {
     Dialog,
     DialogContent,
@@ -7,7 +7,9 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { AddShowCaseForm } from "../forms/add-projects-form";
+import { ShowCaseProps } from "@/store/entity";
+import { Plus } from "lucide-react";
+import { AddShowCaseForm } from "../forms/add-portifolio-form";
 import { ShowCase } from "./show-case";
 
 export function ProjectsIHaveWorkedOn({
@@ -18,21 +20,34 @@ export function ProjectsIHaveWorkedOn({
     showCases?: ShowCaseProps[];
 }) {
     return (
-        <div className='bg-white shadow'>
-            <div className='grid grid-cols-3 gap-2 p-4'>
-                {showCases?.map((showCase) => (
-                    <ShowCase showCase={showCase} key={showCase.id} />
-                ))}
+        <div className='bg-white shadow-sm'>
+            <div className='flex justify-between p-4'>
+                <p>Portifolio</p>
+                <Dialog>
+                    <DialogTrigger>
+                        <span className='flex bg-gray-200 rounded-lg px-2'>
+                            adicionar <Plus />
+                        </span>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Adicione um projeto</DialogTitle>
+                        </DialogHeader>
+                        <AddShowCaseForm entityId={entityId} />
+                    </DialogContent>
+                </Dialog>
             </div>
-            <Dialog>
-                <DialogTrigger>Open</DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Adicione um projeto</DialogTitle>
-                    </DialogHeader>
-                    <AddShowCaseForm entityId={entityId} />
-                </DialogContent>
-            </Dialog>
+            {showCases?.length != 0 ? (
+                <div className='grid grid-cols-3 gap-2 p-4'>
+                    {showCases?.map((showCase) => (
+                        <ShowCase showCase={showCase} key={showCase.id} />
+                    ))}
+                </div>
+            ) : (
+                <p className='px-4 text-sm text-red-500 py-2'>
+                    Ainda não possui nenhum projeto
+                </p>
+            )}
         </div>
     );
 }

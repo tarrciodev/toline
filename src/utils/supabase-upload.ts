@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { supabase } from "@/config/supabase";
 import crypto from "crypto";
 
@@ -10,6 +9,7 @@ export async function supabaseUpload(file: File) {
             .randomBytes(new Date().toString().length)
             .toString("hex");
         const filePath = `${fileName}.${ext}`;
+
         const { data, error } = await supabase.storage
             .from("toline-storage")
             .upload(filePath, file);

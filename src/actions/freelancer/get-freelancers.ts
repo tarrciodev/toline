@@ -1,72 +1,30 @@
 "use server";
 
-import { prisma } from "@/config/prisma";
+import { api } from "@/config/api";
 
 export type FreelancersProps = {
     id: string;
     name: string;
-    isVerified: boolean;
     avatarUrl: string;
     createdAt: string;
+    bio: string;
+    skills: Array<{
+        id: string;
+        name: string;
+    }>;
+    especialization: Array<{
+        id: string;
+        name: string;
+    }>;
 };
 
 export async function getFreelancers(
-    especialization: string | null,
-    skills: string[] | null
+    especialization: string | undefined,
+    skills: string
 ): Promise<FreelancersProps[]> {
-    const freelancers = await prisma.freelancer.findMany({
-        where: {
-            especialiazation: especialization
-                ? {
-                      some: {
-                          slug: {
-                              contains: (especialization as string) ?? "",
-                          },
-                      },
-                  }
-                : {
-                      none: {
-                          slug: {
-                              in: [],
-                          },
-                      },
-                  },
-            skills: skills
-                ? {
-                      some: {
-                          name: {
-                              in: skills,
-                              mode: "insensitive",
-                          },
-                      },
-                  }
-                : {
-                      none: {
-                          name: {
-                              in: [],
-                          },
-                      },
-                  },
-        },
-        select: {
-            id: true,
-            name: true,
-            isVerified: true,
-            avatarUrl: true,
-            createdAt: true,
-        },
-    });
+    const freelancers = await api<FreelancersProps[]>(`/freelancers`);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const parseFreelancers = freelancers.map((freelancer: any) => {
-        return {
-            id: freelancer.id,
-            name: freelancer.name,
-            isVerified: freelancer.isVerified,
-            avatarUrl: freelancer.avatarUrl as string,
-            createdAt: freelancer.createdAt.toLocaleDateString(),
-        };
-    });
+    console.log({ especialization, skills });
 
-    return parseFreelancers;
+    return freelancers;
 }

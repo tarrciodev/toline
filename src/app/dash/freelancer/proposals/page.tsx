@@ -10,8 +10,9 @@ export default async function page({
     searchParams: Promise<{ status: string }>;
 }) {
     const status = (await searchParams).status;
-    const response = await getUserAsEntity();
-    const freelancer = response.data;
+    const freelancer = await getUserAsEntity();
+
+    console.log({ subscriptions: freelancer.subscriptions });
 
     if (status == "sent") {
         const subscriptionsAsId = freelancer?.subscriptions?.map(
@@ -27,7 +28,7 @@ export default async function page({
                 <div className='px-56 flex py-3 gap-4'>
                     <FreelancerProjectsFilter status={status} />
                     <div className='flex flex-col flex-1 gap-2'>
-                        {sentProposals.map((project) => (
+                        {sentProposals?.map((project) => (
                             <Project key={project.id} project={project} />
                         ))}
                     </div>

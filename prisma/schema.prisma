@@ -28,7 +28,7 @@ model Project {
   category      Category?             @relation(fields: [categoryId], references: [id])
   categoryId    String?
   subcategoryId String?
-  skills        String[]
+  skills        Skill[]
   dueDate       DateTime?             @map("due_date")
   concludedAt   DateTime?             @map("concluded_at")
   quotation     Quotation?
@@ -40,16 +40,23 @@ model Project {
 }
 
 model User {
-  id            String         @id @default(uuid())
-  userId        String
-  email         String         @unique
-  password      String?
-  username      String
-  type          String
-  createdAt     DateTime       @default(now()) @map("created_at")
-  conversations Conversation[]
-  tag           String         @unique
-  avatarUrl     String?
+  id             String         @id @default(uuid())
+  email          String         @unique
+  password       String?
+  username       String
+  type           String
+  createdAt      DateTime       @default(now()) @map("created_at")
+  conversations  Conversation[]
+  tag            String         @unique
+  bio            String?
+  avatarUrl      String?        @map("avatar_url")
+  asFreelancer   Freelancer?    @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  freelancerId   String?        @unique
+  asClient       Client?        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId       String?        @unique
+  bankAccount    Json?          @map("bank_account")
+  identification Json?
+  balance        Balance?
 
   @@map("users")
 }
@@ -59,10 +66,9 @@ model Client {
   name                 String
   email                String                 @unique
   freelancerEvaluation FreelancerEvaluation[]
-  bio                  String?
   createdAt            DateTime               @default(now()) @map("created_at")
   projects             Project[]
-  avatarUrl            String?                @map("avatar_url")
+  user                 User?
 
   @@map("clientes")
 }
@@ -77,14 +83,10 @@ model Freelancer {
   evaluations      FreelancerEvaluation[]
   certifications   Certification[]
   especialiazation Category[]
-  identification   Identification?
-  bio              String?
   isVerified       Boolean                @default(false) @map("is_verified")
   createdAt        DateTime               @default(now()) @map("created_at")
-  BankAccount      BankAccount?
-  avatarUrl        String?                @map("avatar_url")
   portifolio       Portifolio[]
-  identificationId String?
+  user             User?
 
   @@map("freelancers")
 }
@@ -97,7 +99,6 @@ model ProjectSubscription {
   project              Project    @relation(fields: [projectId], references: [id])
   estimatedTime        String     @map("estimated_time")
   requiredInformations String     @map("required_informations")
-  justificationText    String     @map("justification_text")
   similarExperiences   String     @map("similar_experiences")
   quotation            Float
   createdAt            DateTime   @default(now()) @map("created_at")
@@ -142,6 +143,7 @@ model Skill {
   subcategoryId String?      @map("subcategory_id")
   freelancers   Freelancer[]
   Portifolios   Portifolio[]
+  Project       Project[]
 
   @@unique([subcategoryId, categoryId, name])
   @@map("skills")
@@ -181,16 +183,6 @@ model Certification {
   @@map("certifications")
 }
 
-model Identification {
-  id           String      @id @default(uuid())
-  freelancer   Freelancer? @relation(fields: [freelancerId], references: [id])
-  freelancerId String      @unique
-  front        String
-  back         String
-
-  @@map("identifications")
-}
-
 model Conversation {
   id        String    @id @default(uuid())
   members   User[]
@@ -216,37 +208,17 @@ model Message {
 }
 
 model Portifolio {
-  id           String             @id @default(uuid())
+  id           String     @id @default(uuid())
   title        String
   description  String
   cover        String
-  completedAt  String?            @map("completed_at")
-  freelancer   Freelancer         @relation(fields: [freelancerId], references: [id])
+  completedAt  String?    @map("completed_at")
+  freelancer   Freelancer @relation(fields: [freelancerId], references: [id])
   skills       Skill[]
   freelancerId String
-  assets       PortifolioAssets[]
+  assets       Json
 
   @@map("portifolios")
-}
-
-model PortifolioAssets {
-  id           String      @id @default(uuid())
-  link         String
-  Portifolio   Portifolio? @relation(fields: [portifolioId], references: [id])
-  portifolioId String?
-
-  @@map("portifolio_assets")
-}
-
-model BankAccount {
-  id           String     @id @default(uuid())
-  nameOnCard   String     @map("name_on_card")
-  bankName     String     @map("bank_name")
-  cardNumber   String     @map("card_number")
-  freelancer   Freelancer @relation(fields: [freelancerId], references: [id])
-  freelancerId String     @unique
-
-  @@map("bank_accounts")
 }
 
 model Payment {
@@ -261,6 +233,15 @@ model Payment {
   competedAt         DateTime? @map("competed_at")
 
   @@map("payments")
+}
+
+model Balance {
+  id        String   @id @default(uuid())
+  amount    Float
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
 }
 
 model PasswordResets {

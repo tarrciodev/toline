@@ -1,6 +1,7 @@
 "use client";
 import { updateFreelancerSkills } from "@/actions/freelancer/update-freelancer-skills";
-import { getSkills, Skills } from "@/actions/skills/get-skills";
+import { getSkills } from "@/actions/skills/get-skills";
+import { useSystemSkillsStore } from "@/store/system-skills";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -48,10 +49,12 @@ export function UserProfileSkills({
     const {
         formState: { isSubmitting },
     } = form;
-    const [systemSkills, setSystemSkills] = useState<Skills[] | null>(null);
+
+    const { setSystemSkills, systemSkills } = useSystemSkillsStore();
     useEffect(() => {
         (async () => {
             const data = await getSkills();
+            setSystemSkills(data);
             setSystemSkills(data);
         })();
     }, []);
@@ -66,6 +69,8 @@ export function UserProfileSkills({
             freelancerId,
             skills: data.skills,
             userSkills,
+            action: "add",
+            systemSkills: systemSkills ?? [],
         });
     }
     return (
@@ -87,12 +92,14 @@ export function UserProfileSkills({
                     </div>
                 )}
             </div>
-            <SkillsList
-                skills={userSkills}
-                freelancerId={freelancerId}
-                toggleDisplaySelectionBox={toggleDisplaySelectionBox}
-                displaySelectionBox={displaySelectionBox}
-            />
+            {userSkills?.length > 0 && (
+                <SkillsList
+                    skills={userSkills}
+                    freelancerId={freelancerId}
+                    toggleDisplaySelectionBox={toggleDisplaySelectionBox}
+                    displaySelectionBox={displaySelectionBox}
+                />
+            )}
             {displaySelectionBox && (
                 <div>
                     <Form {...form}>

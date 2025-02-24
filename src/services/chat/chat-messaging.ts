@@ -1,5 +1,5 @@
 import { api } from "@/config/api";
-import { WEBSOCKET_URL } from "@/config/define-urls";
+import { BASE_URL, WEBSOCKET_URL } from "@/config/define-urls";
 import { IConversation, IMessage } from "@/store/chat";
 import { supabaseUpload } from "@/utils/supabase-upload";
 import { useQueryClient } from "@tanstack/react-query";
@@ -23,6 +23,7 @@ export function useChatMesaging(
     const client = useQueryClient();
 
     function activateWebSocket() {
+        console.log({ WEBSOCKET_URL, BASE_URL });
         const ws = new WebSocket(`${WEBSOCKET_URL}/message/${conversationId}`);
         ws.onopen = () => {
             console.log("Connected to WebSocket");
@@ -114,7 +115,7 @@ export function useChatMesaging(
             },
         };
 
-        await api("http://localhost:3333/message/create", {
+        await api("/message/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -19,14 +19,14 @@ export default function Register() {
     };
 
     return (
-        <main className='flex flex-col'>
-            <section className='flex flex-1 justify-center bg-gray-200 h-screen'>
-                <Card className='w-[30vw] h-[50vh]'>
-                    <CardHeader className='text-center text-4xl'>
+        <main className='flex flex-col px-2'>
+            <section className='flex flex-1 justify-center bg-gray-200 h-screen px-2'>
+                <Card className='sm:w-[30vw] h-[60vh] sm:h-[50vh] px-2'>
+                    <CardHeader className='text-center text-2xl sm:text-4xl'>
                         Crie uma conta agora
                     </CardHeader>
                     <CardDescription className='text-center'>
-                        Seja bem-vindo ao workline! Nos conte o que você está
+                        Seja bem-vindo ao toline! Nos conte o que você está
                         procurando.
                     </CardDescription>
                     <CardContent className='mt-7'>

@@ -1,27 +1,25 @@
 "use server";
-
-import { prisma } from "@/config/prisma";
-import { compareSync } from "bcrypt";
+import { signIn } from "@/auth";
 import { z } from "zod";
 
-const loginWithEmailSchema = z.object({
+const loginWithCredentialsSchema = z.object({
     email: z.string().email({
         message: "Email inválido",
     }),
     password: z.string().min(8, "Password deve ter pelo menos 8 caracteres"),
 });
 
-export async function loginWithEmail(data: {
+export async function loginWithCredentials(data: {
     email: string;
     password: string;
 }): Promise<{
     status: "success" | "error";
     message: string;
     error?: { email: string; password: string };
-}> {
+} | void> {
     const user = data;
 
-    const validateSchema = loginWithEmailSchema.safeParse(user);
+    const validateSchema = loginWithCredentialsSchema.safeParse(user);
 
     if (!validateSchema.success) {
         console.log(validateSchema.error);
@@ -40,30 +38,17 @@ export async function loginWithEmail(data: {
         };
     }
 
-    const userExists = await prisma.user.findUnique({
-        where: {
+    try {
+        await signIn("credentials", {
             email: user.email,
-        },
-    });
-
-    if (!userExists) {
+            password: user.password,
+            redirect: false,
+        });
+    } catch (e) {
+        console.log(e);
         return {
             status: "error",
-            message: "Email ou senha incorretos",
+            message: "Email ou senha invalidos",
         };
     }
-
-    const passwordMatches = compareSync(user.password, userExists.password!);
-
-    if (!passwordMatches) {
-        return {
-            status: "error",
-            message: "Email ou senha incorretos",
-        };
-    }
-
-    return {
-        status: "success",
-        message: "Usuário logado com sucesso",
-    };
 }

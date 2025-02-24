@@ -11,7 +11,7 @@ export default async function Login({
     return (
         <div className='flex flex-col h-screen bg-gray-200'>
             <AcountHeader />
-            <div className='flex flex-1 justify-center pt-8'>
+            <div className='flex flex-1 justify-center sm:pt-8 '>
                 <LoginForm provider={provider} />
             </div>
         </div>

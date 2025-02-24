@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use server";
 
 import {
     PaymentDependencies,
     ProjectPaymentProps,
 } from "@/components/dash/edit-project-payment-button";
-import { prisma } from "@/config/prisma";
+import { api } from "@/config/api";
 import { supabaseUpload } from "@/utils/supabase-upload";
+import { revalidatePath } from "next/cache";
 
 export async function updateProjectPayment({
     data,
@@ -22,110 +22,41 @@ export async function updateProjectPayment({
         };
     }
 
-    const isAuthorized = await prisma.project.findFirst({
-        where: {
-            id: dependencies.projectId,
-            ownerId: dependencies.clientId,
-        },
-        select: {
-            payment: {
-                select: {
-                    id: true,
-                    clientInvoce: true,
-                },
-            },
-            dueDate: true,
-        },
-    });
+    const url = await supabaseUpload(data.file!);
 
-    if (!isAuthorized) {
+    if (!url) {
         return {
             status: "error",
-            message: "You are not authorized to update this project",
+            message: "Upload failed",
         };
     }
 
-    let invoince;
-    if (data.file) {
-        const url = await supabaseUpload(data.file);
-        invoince = url;
-    }
-
-    if (dependencies.paymentId) {
-        try {
-            await prisma.payment.update({
-                where: {
-                    id: dependencies.paymentId,
-                },
-                data: {
-                    ammount: Number(data.ammount),
-                    clientInvoce:
-                        typeof invoince === "string"
-                            ? invoince
-                            : isAuthorized.payment?.clientInvoce,
-                    verifiedFromSystem: false,
-                },
-            });
-
-            if (data.date) {
-                await prisma.project.update({
-                    where: {
-                        id: dependencies.projectId,
-                    },
-                    data: {
-                        dueDate: data.date,
-                    },
-                });
-            }
-
-            return {
-                status: "success",
-                message: "Project updated successfully",
-            };
-        } catch (error) {
-            return {
-                status: "error",
-                message: "Error updating project",
-            };
-        }
-    }
-
-    try {
-        await prisma.payment.create({
-            data: {
+    const projectUpadated = await api<{ id: string }>(
+        `/project/${dependencies.projectId}/owner/${dependencies.ownerId}/payment`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
                 ammount: Number(data.ammount),
-                clientInvoce:
-                    typeof invoince === "string"
-                        ? invoince
-                        : isAuthorized.payment?.clientInvoce,
-                project: {
-                    connect: {
-                        id: dependencies.projectId,
-                    },
-                },
-                verifiedFromSystem: false,
-            },
-        });
-
-        if (data.date) {
-            await prisma.project.update({
-                where: {
-                    id: dependencies.projectId,
-                },
-                data: {
-                    dueDate: data.date,
-                },
-            });
+                clientInvoice: url,
+                dueDate: data.dueDate,
+            }),
         }
+    );
 
-        return {
-            status: "success",
-            message: "Project updated successfully",
-        };
-    } catch (error) {
+    if (!projectUpadated.id) {
         return {
             status: "error",
-            message: "Error updating project",
+            message: "Não foi possível atualizar o pagamento",
         };
     }
+
+    revalidatePath("/");
+
+    return {
+        status: "success",
+        message: "Pagamento atualizado com sucesso",
+    };
 }

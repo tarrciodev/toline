@@ -19,7 +19,7 @@ export function EditProjectDatePicker({
 }: {
     control: Control<
         {
-            date?: Date | null | undefined;
+            dueDate?: Date | null | undefined;
             ammount?: string | undefined;
             file?: File | null | undefined;
             check?: boolean | undefined;
@@ -32,10 +32,10 @@ export function EditProjectDatePicker({
     return (
         <FormField
             control={control}
-            name='date'
+            name='dueDate'
             render={({ field }) => (
                 <FormItem className='flex justify-between items-center'>
-                    <FormLabel>Data de Conclusão</FormLabel>
+                    <FormLabel>Due Date para o Projeto</FormLabel>
                     <FormControl>
                         <Popover>
                             <PopoverTrigger asChild>

@@ -52,7 +52,7 @@ export function RegisterWithCredentialsForm() {
     async function submitForm(data: registerWithCredentialProps) {
         const register = await registerWithCredentials(data, pathname);
 
-        if (register.status == "error") {
+        if (register?.status == "error") {
             setDisplayFormMessage(true);
             return;
         }

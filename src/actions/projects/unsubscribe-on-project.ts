@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/config/prisma";
+import { api } from "@/config/api";
 import { revalidatePath } from "next/cache";
 
 export async function unsubscribeOnProject(
@@ -10,33 +10,12 @@ export async function unsubscribeOnProject(
     if (!projectId || !freelancerId) {
         return {
             status: "rejected",
-            message: "Sem informações suficientes para criar esta subscrição",
+            message: "O id do projeto e do freelancer precisam ser informados",
         };
     }
 
-    const subscriptionExists = await prisma.projectSubscription.findUnique({
-        where: {
-            projectId_freelancerId: {
-                projectId,
-                freelancerId,
-            },
-        },
-    });
-
-    if (!subscriptionExists) {
-        return {
-            status: "rejected",
-            message: "Você ja não se inscreveu nesse projeto",
-        };
-    }
-
-    await prisma.projectSubscription.delete({
-        where: {
-            projectId_freelancerId: {
-                projectId,
-                freelancerId,
-            },
-        },
+    await api(`/project/${projectId}/unsubscribe/${freelancerId}`, {
+        method: "PUT",
     });
 
     revalidatePath("/");

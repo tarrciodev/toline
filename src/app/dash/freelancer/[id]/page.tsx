@@ -11,8 +11,7 @@ export default async function Freelancer({
     params: Promise<{ id: string }>;
 }) {
     const { id } = await params;
-    const response = await getFreelancerById(id);
-    const freelancer = response.data;
+    const freelancer = await getFreelancerById(id);
 
     return (
         <div className='min-h-screen'>

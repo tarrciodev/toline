@@ -8,7 +8,7 @@ export default async function Client({
     const params = await searchParams;
     const provider = params?.provider;
     return (
-        <div className='flex flex-1 justify-center'>
+        <div className='flex flex-1 justify-center px-8'>
             <RegisterForm provider={provider} pathname='client' />
         </div>
     );

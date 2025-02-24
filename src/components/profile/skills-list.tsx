@@ -1,6 +1,7 @@
 "use client";
 
-import { removeFreelancerSkills } from "@/actions/freelancer/remove-freelancer-skills";
+import { updateFreelancerSkills } from "@/actions/freelancer/update-freelancer-skills";
+import { useSystemSkillsStore } from "@/store/system-skills";
 import { useState, useTransition } from "react";
 import { Loader } from "../loader";
 import { Badge } from "../ui/badge";
@@ -30,6 +31,8 @@ export function SkillsList({
 }: ISkillListProps) {
     const [selectedSkills, setSelectedSkills] = useState<ISkills[]>([]);
 
+    const { systemSkills } = useSystemSkillsStore();
+
     function handleMarkToDelete(skill: ISkills) {
         setSelectedSkills((prev) => {
             const alreadySelected = prev.find((item) => item.id === skill.id);
@@ -45,7 +48,20 @@ export function SkillsList({
     async function handleSave() {
         startTransition(async () => {
             try {
-                await removeFreelancerSkills(freelancerId, selectedSkills);
+                const data = await updateFreelancerSkills({
+                    freelancerId,
+                    skills: selectedSkills.map((skill) => skill.name),
+                    userSkills: skills,
+                    systemSkills: systemSkills ?? [],
+                    action: "remove",
+                });
+
+                console.log({
+                    data,
+                    skills,
+                    systemSkills,
+                    selectedSkills: selectedSkills.map((skill) => skill.id),
+                });
             } catch (error) {
                 console.error("Failed to save:", error);
             }

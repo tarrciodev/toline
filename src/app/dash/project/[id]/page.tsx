@@ -1,7 +1,7 @@
 import { getProjectById } from "@/actions/projects/get-project-by-id";
-import { getUser } from "@/actions/users/get-user";
+import { getMe } from "@/actions/users/get-me";
 import { DashHeader } from "@/components/dash-header";
-import { ProjectSideBar } from "@/components/dash/project-details";
+import { ProjectSideBar } from "@/components/project-details";
 import { Badge } from "@/components/ui/badge";
 
 export default async function ProjectDetails({
@@ -10,10 +10,9 @@ export default async function ProjectDetails({
     params: Promise<{ id: string }>;
 }) {
     const id = (await params).id;
-    const response = await getProjectById(id);
-    const project = response.project;
+    const project = await getProjectById(id);
 
-    const user = await getUser();
+    const user = await getMe();
     const entity = {
         id: user.userId,
         type: user.type as "freelancer" | "client",
@@ -22,7 +21,7 @@ export default async function ProjectDetails({
     return (
         <div>
             <DashHeader />
-            <div className='flex justify-between px-56 py-8 gap-6'>
+            <div className='flex flex-col sm:flex-row sm:justify-between px-4 sm:px-56 py-8 gap-6'>
                 <div className='flex flex-col flex-1'>
                     <div className='space-y-4'>
                         <h1 className='text-4xl font-bold'>{project?.name}</h1>
@@ -30,7 +29,6 @@ export default async function ProjectDetails({
                         <div className='flex gap-2'>
                             <p>Status: {project?.status}</p>
                             <p>Data de Publicaçao: {project?.createdAt}</p>
-                            <p>Data de Atualizaçao: {project?.updatedAt}</p>
                         </div>
                     </div>
                     <div className='mt-5'>
@@ -44,7 +42,7 @@ export default async function ProjectDetails({
                         </div>
                     </div>
                 </div>
-                <div className='w-[30dvw]'>
+                <div className='sm:w-[30dvw] w-full'>
                     <ProjectSideBar project={project!} entity={entity} />
                 </div>
             </div>

@@ -52,7 +52,14 @@ export function MessageItem({
                             </div>
                         ) : (
                             <div>
-                                <p className='bg-gray-50 p-2'>
+                                <p
+                                    className={cn(
+                                        "p-2 rounded",
+                                        imTheSender
+                                            ? "bg-gray-50"
+                                            : "bg-green-700"
+                                    )}
+                                >
                                     {fileInfo?.name}.{fileInfo?.extension}
                                 </p>
                             </div>

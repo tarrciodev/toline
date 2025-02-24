@@ -6,33 +6,40 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTransition } from "react";
 import { Loader } from "./loader";
-import { ISubscriptionFullProps } from "./subscriber";
 import { Button } from "./ui/button";
 
+interface ISelectedFreelancerProps {
+    freelancer: {
+        id: string;
+        name: string;
+        avatarUrl?: string;
+    };
+    ownerId: string;
+    projectId: string;
+}
 export function SelectedFreelancer({
-    subscription,
-    entityId,
+    freelancer,
+    ownerId,
     projectId,
-}: ISubscriptionFullProps) {
+}: ISelectedFreelancerProps) {
     const [isPending, startTransition] = useTransition();
     function handleHireFreelancerOnMyProject() {
         startTransition(async () => {
-            const data = await removeFreelancerFromMyProject({
+            await removeFreelancerFromMyProject({
                 projectId,
-                entityId,
-                freelancerId: subscription.freelancer.id,
+                ownerId,
+                freelancerId: freelancer.id,
             });
-            console.log(data);
         });
     }
     return (
-        <div className='flex flex-col gap-4 shadow p-4 bg-white border border-gray-100'>
+        <div className='flex flex-col gap-4 shadow-sm p-4 bg-white border border-gray-100'>
             <div className='flex gap-2 items-center'>
                 <div>
-                    {subscription.freelancer.avatarUrl ? (
+                    {freelancer.avatarUrl ? (
                         <div>
                             <Image
-                                src={subscription.freelancer.avatarUrl}
+                                src={freelancer.avatarUrl}
                                 alt='Avatar'
                                 width={40}
                                 height={40}
@@ -40,18 +47,16 @@ export function SelectedFreelancer({
                         </div>
                     ) : (
                         <span className='h-20 w-20 rounded bg-teal-900 p-4 text-teal-50'>
-                            {extractAvatarFromName(
-                                subscription.freelancer.name
-                            )}
+                            {extractAvatarFromName(freelancer.name)}
                         </span>
                     )}
                 </div>
                 <div>
                     <Link
-                        href={`/dash/freelancers/${subscription.freelancer.id}`}
+                        href={`/dash/freelancers/${freelancer.id}`}
                         className='font-semibold hover:underline'
                     >
-                        {subscription.freelancer.name}
+                        {freelancer.name}
                     </Link>
                     <p className='flex'>
                         <Star />

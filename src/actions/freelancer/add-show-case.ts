@@ -1,36 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use server";
 
-import { ShowCaseProps } from "@/components/forms/add-projects-form";
-import { prisma } from "@/config/prisma";
+import { api } from "@/config/api";
+import { ShowCaseProps } from "@/services/freelancers/add-portifolio-service";
 import { supabaseUpload } from "@/utils/supabase-upload";
 import { revalidatePath } from "next/cache";
 import { getSkills } from "../skills/get-skills";
 
-export async function addShowCase(data: ShowCaseProps, entityId: string) {
-    if (!entityId) {
+export async function addShowCase(data: ShowCaseProps, freelancerId: string) {
+    if (!freelancerId) {
         return {
             status: "error",
             message: "Nenhum usuario encontrado.",
         };
     }
 
-    const entityExists = await prisma.freelancer.findFirst({
-        where: {
-            id: entityId,
-        },
-    });
+    const cover = await supabaseUpload(data.cover);
 
-    if (!entityExists) {
-        return {
-            status: "error",
-            message: "Nenhum usuario encontrado.",
-        };
-    }
-
-    const url = await supabaseUpload(data.cover);
-
-    if (!url) {
+    if (!cover) {
         return {
             status: "error",
             message: "Erro ao carregar cover.",
@@ -40,47 +27,37 @@ export async function addShowCase(data: ShowCaseProps, entityId: string) {
     const skills = await getSkills();
     const selectedSkills = skills
         .filter((skill) => data?.skills?.includes(skill.name))
-        .map((skill) => {
-            return {
-                id: skill.id,
-            };
-        });
+        .map((skill) => skill.id);
 
     try {
-        const portifolio = await prisma.portifolio.create({
-            data: {
-                title: data.title,
-                description: data.description,
-                cover: url as string,
-                freelancer: {
-                    connect: {
-                        id: entityId,
-                    },
-                },
-                skills: {
-                    connect: selectedSkills,
-                },
-                completedAt: data.concluedAt,
-            },
-        });
-
         const parseAssets = data.assets.map(async (asset) => {
             const link = await supabaseUpload(asset);
-            return {
-                link: link as string,
-                portifolioId: portifolio.id,
-            };
+            return link;
         });
 
         const assets = (await Promise.all(parseAssets)).filter(
-            (data) => data.link != null
+            (data) => data != null
         );
 
-        console.log({ assets });
+        const portifolio = await api(
+            `/freelancer/${freelancerId}/add-portifolio`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: data.title,
+                    description: data.description,
+                    cover,
+                    assets: assets,
+                    skills: selectedSkills,
+                    completedAt: data.completedAt,
+                }),
+            }
+        );
 
-        await prisma.portifolioAssets.createMany({
-            data: assets,
-        });
+        console.log({ portifolio });
 
         revalidatePath("/");
 
@@ -89,6 +66,7 @@ export async function addShowCase(data: ShowCaseProps, entityId: string) {
             message: "showcase adicionado com sucesso...",
         };
     } catch (error) {
+        console.log(error);
         return {
             status: "error",
             message: "Erro ao carregar assests",

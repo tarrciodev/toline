@@ -1,8 +1,8 @@
-import { EntityProps } from "@/actions/users/get-entity";
+import { EntityProps } from "@/store/entity";
 import { FileCheck2, FolderKanban, Hourglass, Megaphone } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 
-export function ClientCards({ entity }: { entity: EntityProps }) {
+export function ClientCard({ entity }: { entity: EntityProps }) {
     const publishedProjects = entity.projects?.length;
 
     const onGoingProjects = entity.projects?.filter(

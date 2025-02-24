@@ -1,8 +1,8 @@
 "use client";
 
-import { loginWithEmail } from "@/actions/users/login-with-email";
+import { loginWithCredentials } from "@/actions/users/login-with-credentials";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { redirect } from "next/navigation"; // Import the redirect function from next/navigation
+import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -36,8 +36,8 @@ export default function LoginWithCredentials() {
     });
 
     async function submitForm(data: loginWithEmailProps) {
-        const login = await loginWithEmail(data);
-        if (login.status == "error") {
+        const login = await loginWithCredentials(data);
+        if (login?.status == "error") {
             toast.error(login.message);
             return;
         }

@@ -8,7 +8,7 @@ export function Projects() {
                   Explore Projects
               </h3>
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12'>
-                  <div className='p-6 bg-white rounded shadow'>
+                  <div className='p-6 bg-white rounded shadow-sm'>
                       <h4 className='text-lg font-semibold text-gray-700'>
                           Web Development
                       </h4>
@@ -16,7 +16,7 @@ export function Projects() {
                           Build a responsive e-commerce website.
                       </p>
                   </div>
-                  <div className='p-6 bg-white rounded shadow'>
+                  <div className='p-6 bg-white rounded shadow-sm'>
                       <h4 className='text-lg font-semibold text-gray-700'>
                           Graphic Design
                       </h4>
@@ -24,7 +24,7 @@ export function Projects() {
                           Design a modern logo for a startup.
                       </p>
                   </div>
-                  <div className='p-6 bg-white rounded shadow'>
+                  <div className='p-6 bg-white rounded shadow-sm'>
                       <h4 className='text-lg font-semibold text-gray-700'>
                           Content Writing
                       </h4>

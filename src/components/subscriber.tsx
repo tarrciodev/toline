@@ -18,29 +18,28 @@ interface ISubscription {
 }
 
 export interface ISubscriptionFullProps {
-    entityId: string;
+    ownerId: string;
     projectId: string;
     subscription: ISubscription;
 }
 
 export function Subscriber({
     subscription,
-    entityId,
+    ownerId,
     projectId,
 }: ISubscriptionFullProps) {
     const [isPending, startTransition] = useTransition();
     function handleHireFreelancerOnMyProject() {
         startTransition(async () => {
-            const data = await hireFreelancerOnMyProject({
+            await hireFreelancerOnMyProject({
                 projectId,
-                entityId,
+                ownerId,
                 freelancerId: subscription.freelancer.id,
             });
-            console.log(data);
         });
     }
     return (
-        <div className='flex flex-col gap-4 shadow p-4 bg-white border border-gray-100'>
+        <div className='flex flex-col gap-4 shadow-sm p-4 bg-white border border-gray-100'>
             <div className='flex gap-2 items-center'>
                 <div>
                     {subscription.freelancer.avatarUrl ? (

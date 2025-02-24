@@ -1,5 +1,5 @@
 "use client";
-import { ShowCaseProps } from "@/actions/users/get-entity";
+
 import {
     Dialog,
     DialogContent,
@@ -7,6 +7,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { ShowCaseProps } from "@/store/entity";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import Image from "next/image";
 
@@ -34,9 +35,9 @@ export function ShowCase({ showCase }: { showCase: ShowCaseProps }) {
                 <div className='w-full border border-gray-100' />
                 <ScrollArea className='h-[80dvh] overflow-y-auto flex flex-col gap-2'>
                     {showCase.assets.map((asset) => (
-                        <div key={asset.id}>
+                        <div key={asset}>
                             <Image
-                                src={asset.link}
+                                src={asset}
                                 alt='asset'
                                 width={400}
                                 height={400}

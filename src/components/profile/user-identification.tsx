@@ -1,26 +1,76 @@
 "use client";
+import { updateFreelancerIdentification } from "@/actions/freelancer/update-freelancer-identification";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
-import { UploadImage } from "./upload-image";
+import { Button } from "../ui/button";
+import { UploadImagePreview } from "./upload-image-preview";
 
-export default function UserIdentification() {
+export default function UserIdentification({ userId }: { userId: string }) {
     const [BIFront, setBIFront] = useState<File | null>(null);
     const [BIBack, setBIBack] = useState<File | null>(null);
-    console.log({ BIFront, BIBack });
+    const [displayIdentificationBox, setDisplayIdentificationBox] =
+        useState(false);
+
+    function toggleDisplayIdentificationBox() {
+        setDisplayIdentificationBox((prev) => !prev);
+    }
+
+    async function handleUpdateUserIdentification() {
+        updateFreelancerIdentification({ BIFront, BIBack, userId });
+    }
+
     return (
         <div className='bg-white flex p-4 rounded shadow-xl flex-col'>
             <div className='flex w-full justify-between'>
                 <div className='flex flex-col flex-1'>
                     <span className='font-semibold text-lg'>Identificação</span>
                 </div>
-                <span className='cursor-pointer'>
+                <span
+                    className='cursor-pointer'
+                    onClick={toggleDisplayIdentificationBox}
+                >
                     <Pencil />
                 </span>
             </div>
-            <div className='flex gap-5'>
-                <UploadImage setState={setBIFront} type='BIFront' />
-                <UploadImage setState={setBIBack} type='BIBack' />
-            </div>
+            {displayIdentificationBox || (
+                <div>
+                    <p className='text-red-500 text-sm'>
+                        Você ainda não adicionou o seu Bilhete
+                    </p>
+                </div>
+            )}
+            {displayIdentificationBox && (
+                <div>
+                    <div className='flex flex-col'>
+                        <div className='flex gap-5'>
+                            <UploadImagePreview
+                                setState={setBIFront}
+                                type='BIFront'
+                            />
+                            <UploadImagePreview
+                                setState={setBIBack}
+                                type='BIBack'
+                            />
+                        </div>
+                        <div className='flex items-center gap-1 py-2 self-start'>
+                            <Button
+                                type='button'
+                                size='sm'
+                                className='flex flex-1 bg-red-700 hover:bg-red-600'
+                            >
+                                Cancelar
+                            </Button>
+                            <Button
+                                className='flex flex-1'
+                                size='sm'
+                                onClick={handleUpdateUserIdentification}
+                            >
+                                Salvar
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

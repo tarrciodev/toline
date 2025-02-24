@@ -32,7 +32,7 @@ export async function LoginForm({
 
     return (
         <div
-            className={cn("flex flex-col gap-3 w-[30vw]", className)}
+            className={cn("flex flex-col gap-3 sm:w-[30vw]", className)}
             {...props}
         >
             <Card>
@@ -65,14 +65,14 @@ export async function LoginForm({
                             )}
                             <LoginWithCredentials />
 
-                            <div className='flex justify-between text-sm'>
+                            <div className='flex justify-center sm:justify-between text-sm'>
                                 <Link
                                     href='/forgot-password'
                                     className='text-blue-800 font-semibold'
                                 >
                                     Esqueci a minha senha
                                 </Link>
-                                <div>
+                                <div className='hidden sm:flex'>
                                     Não tem uma conta?{" "}
                                     <Link
                                         href='/register'
@@ -86,7 +86,7 @@ export async function LoginForm({
                     </div>
                 </CardContent>
             </Card>
-            <div className='text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  '>
+            <div className='text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary  '>
                 By clicking continue, you agree to our{" "}
                 <a href='#'>Terms of Service</a> and{" "}
                 <a href='#'>Privacy Policy</a>.

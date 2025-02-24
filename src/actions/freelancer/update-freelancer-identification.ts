@@ -1,75 +1,45 @@
 "use server";
 
-import { prisma } from "@/config/prisma";
+import { api } from "@/config/api";
 import { supabaseUpload } from "@/utils/supabase-upload";
-import { getUserAsEntity } from "../users/get-entity";
+import { revalidatePath } from "next/cache";
 
-export async function updateFreelancerIdentification(
-    file: File,
-    type: "BIFront" | "BIBack"
-): Promise<{ status: "error" | "success"; message: string }> {
-    const response = await getUserAsEntity();
-    console.log(response);
-    if (response.status == "error") {
+export async function updateFreelancerIdentification({
+    BIFront,
+    BIBack,
+    userId,
+}: {
+    BIFront: File | null;
+    BIBack: File | null;
+    userId: string;
+}) {
+    const [frontUrl, backUrl] = await Promise.all([
+        supabaseUpload(BIFront!),
+        supabaseUpload(BIBack!),
+    ]);
+
+    if (!BIFront || !BIBack) {
         return {
             status: "error",
-            message: "Entity not found",
+            message: "Erro ao fazer o upload",
         };
     }
 
-    const entity = response.data;
-
-    if (!file) {
-        return {
-            status: "error",
-            message: "File not found",
-        };
-    }
-
-    const url = await supabaseUpload(file);
-
-    if (type === "BIFront") {
-        await prisma.identification.create({
-            data: {
-                freelancerId: entity?.id as string,
-                front: url as string,
-                back: "",
-            },
-        });
-
-        return {
-            status: "success",
-            message: "Front updated successfully",
-        };
-    }
-
-    const updateBack = await prisma.identification.update({
-        where: {
-            freelancerId: entity?.id,
+    await api(`/user/${userId}/identification/update`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
         },
-        data: {
-            back: url as string,
-        },
+        body: JSON.stringify({
+            frontUrl,
+            backUrl,
+        }),
     });
 
-    if (!updateBack) {
-        return {
-            status: "error",
-            message: "Back updated failed",
-        };
-    }
-
-    await prisma.freelancer.update({
-        where: {
-            id: entity?.id,
-        },
-        data: {
-            isVerified: true,
-        },
-    });
+    revalidatePath("/");
 
     return {
         status: "success",
-        message: "Back updated successfully",
+        message: "Identificação atualizada com sucesso",
     };
 }

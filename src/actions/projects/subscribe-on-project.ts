@@ -1,12 +1,12 @@
 "use server";
-import { prisma } from "@/config/prisma";
+
+import { api } from "@/config/api";
 import { revalidatePath } from "next/cache";
 
 type DataProps = {
     quotation: number;
-    justification: string;
     estimatedTime: string;
-    information: string;
+    requiredInformations: string;
     similarExperiences: string;
 };
 
@@ -27,38 +27,28 @@ export async function subscribeOnProject(
         };
     }
 
-    const subscriptionExists = await prisma.projectSubscription.findUnique({
-        where: {
-            projectId_freelancerId: {
-                projectId,
-                freelancerId,
+    const subscrition = await api<{ id: true }>(
+        `/project/${dependencies.projectId}/subscribe/${dependencies.freelancerId}`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
             },
-        },
-    });
+            body: JSON.stringify(data),
+        }
+    );
 
-    if (subscriptionExists) {
+    if (!subscrition.id) {
         return {
             status: "rejected",
-            message: "Você ja se inscreveu nesse projeto",
+            message: "Ocorreu um erro ao se inscrever no projeto",
         };
     }
-
-    await prisma.projectSubscription.create({
-        data: {
-            projectId,
-            freelancerId,
-            quotation: data.quotation,
-            justificationText: data.justification,
-            estimatedTime: data.estimatedTime,
-            requiredInformations: data.information,
-            similarExperiences: data.similarExperiences,
-        },
-    });
 
     revalidatePath("/");
 
     return {
         status: "Created",
-        message: "Você se inscreveu nesse projeto",
+        message: "Inscrição criada com sucesso",
     };
 }

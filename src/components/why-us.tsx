@@ -9,7 +9,7 @@ export function WhyUs() {
                   Porque Nos Escolher?
               </h3>
               <div className='grid grid-cols-1 md:grid-cols-3 gap-8 mt-12'>
-                  <div className='p-6 bg-white rounded shadow'>
+                  <div className='p-6 bg-white rounded shadow-sm'>
                       <h4 className='text-3xl text-blue-600'>
                           Vasta reserva de talentos
                       </h4>
@@ -18,7 +18,7 @@ export function WhyUs() {
                           vários domínios.
                       </p>
                   </div>
-                  <div className='p-6 bg-white rounded shadow relative'>
+                  <div className='p-6 bg-white rounded shadow-sm relative'>
                       <h4 className='text-3xl  text-blue-600'>
                           Fácil de utilizar
                       </h4>
@@ -28,7 +28,7 @@ export function WhyUs() {
                       </p>
                       <BorderBeam />
                   </div>
-                  <div className='p-6 bg-white rounded shadow'>
+                  <div className='p-6 bg-white rounded shadow-sm'>
                       <h4 className='text-3xl text-blue-600'>
                           Pagamentos seguros
                       </h4>

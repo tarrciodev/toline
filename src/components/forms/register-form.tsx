@@ -8,7 +8,7 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-import { registerUserAfterAuth } from "@/actions/users/register-user-after-auth";
+import { registerSocial } from "@/actions/users/register-social";
 import { redirect } from "next/navigation";
 import { AuthButtonProviderButton } from "../auth-button-provider";
 import { FormMessage } from "../form-message";
@@ -27,7 +27,7 @@ export async function RegisterForm({
 }: IAuthFormProps) {
     let displayFormMessage = false;
     if (provider) {
-        const data = await registerUserAfterAuth(pathname!);
+        const data = await registerSocial(pathname!);
         if (data.status === "error") {
             displayFormMessage = true;
         }
@@ -38,7 +38,7 @@ export async function RegisterForm({
 
     return (
         <div
-            className={cn("flex flex-col gap-3 w-[30vw]", className)}
+            className={cn("flex flex-col gap-3 sm:w-[30vw]", className)}
             {...props}
         >
             <Card>
@@ -73,8 +73,8 @@ export async function RegisterForm({
                 </CardHeader>
                 <CardContent>
                     <div>
-                        <div className='grid gap-3'>
-                            <div className='flex gap-4 justify-center w-full'>
+                        <div className='flex flex-col gap-3'>
+                            <div className='flex sm:gap-4 justify-center'>
                                 <AuthButtonProviderButton
                                     provider='google'
                                     currentUrl={`register/${pathname}`}
@@ -106,7 +106,7 @@ export async function RegisterForm({
                     </div>
                 </CardContent>
             </Card>
-            <div className='text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  '>
+            <div className='text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary  '>
                 By clicking continue, you agree to our{" "}
                 <a href='#'>Terms of Service</a> and{" "}
                 <a href='#'>Privacy Policy</a>.

@@ -1,4 +1,4 @@
-import { getUser } from "@/actions/users/get-user";
+import { getMe } from "@/actions/users/get-me";
 import { useChatStore } from "@/store/chat";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
@@ -22,7 +22,7 @@ export function UserFoundForConversation({
     const [me, setMe] = useState("");
     useEffect(() => {
         (async () => {
-            const data = await getUser();
+            const data = await getMe();
             setMe(data.id);
         })();
     }, []);

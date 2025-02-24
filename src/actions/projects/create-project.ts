@@ -1,6 +1,7 @@
 "use server";
+
 import { auth } from "@/auth";
-import { prisma } from "@/config/prisma";
+import { api } from "@/config/api";
 
 interface ICreateProjectProps {
     name: string;
@@ -21,51 +22,39 @@ export async function createProject(
     project: ICreateProjectProps,
     filteredSkills: IFilteredSkills[] | undefined
 ): Promise<{ status: "created" | "rejected"; message: string }> {
-    const {
-        user: { email },
-    } = (await auth()) as { user: { email: string } };
-    if (!email) return { status: "rejected", message: "Usuario não logado" };
+    const { user } = (await auth()) as { user: { email: string } };
 
-    const owner = await prisma.client.findUnique({
-        where: {
-            email,
-        },
-        select: {
-            id: true,
-        },
-    });
+    if (!user) {
+        return {
+            status: "rejected",
+            message: "Você precisa estar logado para criar um projeto",
+        };
+    }
 
-    if (!owner) return { status: "rejected", message: "Usuário não logado" };
-
-    const parsedSliks = filteredSkills
-        ?.filter((skill) => project.skills?.includes(skill.name))
-        .map((skill) => skill.id);
-    console.log(parsedSliks);
-    const newProject = await prisma.project.create({
-        data: {
-            name: project.name,
-            description: project.description,
-            category: {
-                connect: {
-                    id: project.categoryId,
-                },
+    const me = await api<{ userId: string }>(`/me/${user.email}`);
+    const createdProject = await api<{ id: string }>(
+        `/project/create/${me.userId}`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
             },
-            skills: parsedSliks as string[],
-            owner: {
-                connect: {
-                    id: owner.id,
-                },
-            },
-            status: "Não Iniciado",
-        },
-    });
+            body: JSON.stringify({
+                name: project.name,
+                description: project.description,
+                categoryId: project.categoryId,
+                skills: filteredSkills?.map((s) => s.id),
+            }),
+        }
+    );
 
-    if (!newProject) {
+    if (!createdProject?.id) {
         return {
             status: "rejected",
             message: "Erro ao criar projeto",
         };
     }
+
     return {
         status: "created",
         message: "Projeto criado com sucesso",

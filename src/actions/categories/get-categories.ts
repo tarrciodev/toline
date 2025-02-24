@@ -44,6 +44,5 @@ export async function getCategories(): Promise<Icategories[]> {
             },
         },
     });
-    console.log({ categories });
     return categories;
 }

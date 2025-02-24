@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { Button } from "../ui/button";
 import {
@@ -71,7 +70,7 @@ export function ProjectSuscriptionForm({
                         <div>
                             <FormField
                                 control={form.control}
-                                name='information'
+                                name='requiredInformations'
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>
@@ -79,28 +78,7 @@ export function ProjectSuscriptionForm({
                                             começar?
                                         </FormLabel>
                                         <FormControl>
-                                            <Input
-                                                placeholder='exempo: (duas semanas)'
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <div>
-                            <FormField
-                                control={form.control}
-                                name='justification'
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>
-                                            Porque se considera o candidato
-                                            ideal?
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Textarea {...field} />
+                                            <Input {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -147,7 +125,7 @@ export function ProjectSuscriptionForm({
                             />
                         </div>
                         <Button
-                            className='w-full mt-3'
+                            className='w-full mt-3 cursor-pointer'
                             type='submit'
                             disabled={isSubmitting}
                         >

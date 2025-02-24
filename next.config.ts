@@ -27,6 +27,9 @@ const nextConfig: NextConfig = {
             },
         ],
     },
+    serverActions: {
+        bodySizeLimit: "10mb", // Defina um limite maior, como 10MB
+    },
 };
 
 export default withPlaiceholder(nextConfig);

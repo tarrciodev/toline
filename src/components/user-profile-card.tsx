@@ -1,14 +1,14 @@
-import { getUser } from "@/actions/users/get-user";
+import { getMe } from "@/actions/users/get-me";
 import { PencilLine, Star } from "lucide-react";
 import Link from "next/link";
 import { ProfileCompletation } from "./profile/profile-completation";
 import { Card, CardContent, CardHeader } from "./ui/card";
 
 export async function UserProfileCard() {
-    const user = await getUser();
+    const me = await getMe();
     return (
-        <Link href={`/dash/profile/${user.userId}`}>
-            <Card className='rounded w-[25vw]'>
+        <Link href={`/dash/profile/${me.id}`}>
+            <Card className='rounded sm:w-[25vw]'>
                 <CardHeader className='flex-row justify-between w-full'>
                     <span>Meu Perfil</span>
                     <span className='cursor-pointer'>

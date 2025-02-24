@@ -1,6 +1,6 @@
 import { getUserAsEntity } from "@/actions/users/get-entity";
 import { DashHeader } from "@/components/dash-header";
-import { ProjectSideBar } from "@/components/dash/project-details";
+import { ProjectSideBar } from "@/components/project-details";
 import { Subscriber } from "@/components/subscriber";
 import { Badge } from "@/components/ui/badge";
 
@@ -9,8 +9,7 @@ export default async function MyProject({
 }: {
     params: Promise<{ id: string }>;
 }) {
-    const response = await getUserAsEntity();
-    const entity = response.data;
+    const entity = await getUserAsEntity();
     const projectId = (await params).id;
     const project = entity?.projects?.find(
         (project) => project.id == projectId
@@ -27,8 +26,7 @@ export default async function MyProject({
     const projectDependencies = {
         projectId: project.id,
         freelancerId: project.freelancerId as string,
-        clientId: entity?.id as string,
-        paymentId: project.payment?.id as string,
+        ownerId: project.owner?.id as string,
     };
 
     return (
@@ -92,7 +90,7 @@ export default async function MyProject({
                                     key={subscription.id}
                                     subscription={subscription}
                                     projectId={project.id}
-                                    entityId={entity?.id as string}
+                                    ownerId={entity?.userId as string}
                                 />
                             ))}
                         </div>
@@ -102,6 +100,7 @@ export default async function MyProject({
                     <ProjectSideBar
                         projectDependencies={projectDependencies}
                         project={project}
+                        entity={entity}
                     />
                 </div>
             </div>

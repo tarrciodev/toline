@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
-import { prisma } from "@/config/prisma";
+import { api } from "@/config/api";
 
 export async function loginWithAuthProvider(): Promise<{
     status: "success" | "error";
@@ -10,13 +10,20 @@ export async function loginWithAuthProvider(): Promise<{
     const { user } = (await auth()) as {
         user: { email: string; name: string };
     };
-    const userExists = await prisma.user.findUnique({
-        where: {
-            email: user.email,
-        },
-    });
+    const userExists = await api<{ email: string; name: string }>(
+        "/auth/social",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: user.email,
+            }),
+        }
+    );
 
-    if (!userExists) {
+    if (!userExists.email) {
         return {
             status: "error",
             message: "Nenhum usuario foi encontrado",

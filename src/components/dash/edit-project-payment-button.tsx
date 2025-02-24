@@ -11,7 +11,6 @@ import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogDescription } from "@radix-ui/react-dialog";
 import {
     Form,
     FormControl,
@@ -31,7 +30,7 @@ import { EditProjectDatePicker } from "./date-picker";
 export const ProjectPaymentSchema = z
     .object({
         ammount: z.string().optional(),
-        date: z.date().nullable().optional(),
+        dueDate: z.date().nullable().optional(),
         file: z
             .instanceof(File)
             .nullable()
@@ -44,11 +43,9 @@ export const ProjectPaymentSchema = z
                     ),
                 "O ficheiro deve ser uma imagem válida (JPEG, PNG, GIF)"
             ),
-        check: z.boolean().optional(),
     })
     .refine(
         (data) => {
-            // Valida que não pode haver `file` sem `ammount`
             if (data.file && !data.ammount) {
                 return false;
             }
@@ -57,17 +54,15 @@ export const ProjectPaymentSchema = z
         {
             message:
                 "O campo 'file' só pode ser preenchido se o campo 'ammount' também estiver preenchido.",
-            path: ["file"], // Associa a mensagem ao campo `file`
+            path: ["file"],
         }
     );
 
-// Tipagem derivada automaticamente
 export type ProjectPaymentProps = z.infer<typeof ProjectPaymentSchema>;
 
 export type PaymentDependencies = {
     projectId: string;
-    paymentId: string;
-    clientId: string;
+    ownerId: string;
 };
 
 export function EditProjectPaymentButton({
@@ -88,12 +83,10 @@ export function EditProjectPaymentButton({
     } = form;
 
     async function handleSubmit(data: ProjectPaymentProps) {
-        console.log(data);
-        const response = await updateProjectPayment({
+        await updateProjectPayment({
             data,
             dependencies: paymentDependencies,
         });
-        console.log(response);
     }
     return (
         <Dialog>
@@ -105,10 +98,6 @@ export function EditProjectPaymentButton({
             <DialogContent className='px-12'>
                 <DialogHeader>
                     <DialogTitle>Atualizar Projeto</DialogTitle>
-                    <DialogDescription>
-                        Ao Remover o freelancer do projeto, nenhum outro campo
-                        deve ser preenchido.
-                    </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
                     <form
@@ -137,7 +126,9 @@ export function EditProjectPaymentButton({
                                 name='file'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Descrição</FormLabel>
+                                        <FormLabel>
+                                            Comprovativo de pagamento
+                                        </FormLabel>
                                         <FormControl>
                                             <Input
                                                 type='file'

@@ -26,19 +26,23 @@ export function AuthButtonProviderButton({
                             fill='currentColor'
                         />
                     </svg>
-                    {currentUrl == "login" ? "Entrar com" : "Registar com"}{" "}
-                    Google
+                    <span className='text-xs'>
+                        {currentUrl == "login" ? "Entrar com" : "Registar com"}{" "}
+                        Google
+                    </span>
                 </Button>
             ) : (
                 <Button
-                    className='w-full'
+                    className='w-full text-white flex'
                     name='action'
                     value='github'
                     type='submit'
                 >
                     <Github />
-                    {currentUrl == "login" ? "Entrar com" : "Registar com"}{" "}
-                    Github
+                    <span className='text-xs'>
+                        {currentUrl == "login" ? "Entrar com" : "Registar com"}{" "}
+                        Github
+                    </span>
                 </Button>
             )}
         </form>

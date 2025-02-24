@@ -2,6 +2,7 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { api } from "@/config/api";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
 import { MessageItem } from "./message-item";
 
 export interface IMessage {
@@ -27,6 +28,8 @@ export function ChatMessageList({
     conversationId: string;
     me: string;
 }) {
+    const lastMessageRef = useRef<HTMLDivElement | null>(null);
+
     const { data: messages, error } = useQuery<IMessage[]>({
         queryKey: ["messages", conversationId],
         queryFn: async () => {
@@ -37,11 +40,29 @@ export function ChatMessageList({
             return data;
         },
     });
+
+    useEffect(() => {
+        if (lastMessageRef.current) {
+            lastMessageRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "end",
+            });
+        }
+    }, [messages]);
     return (
         <div className='flex-1'>
-            <ScrollArea className=' px-6 pt-7 overflow-auto'>
-                {messages?.map(message => (
-                    <MessageItem key={message.id} message={message} me={me} />
+            <ScrollArea className=' px-6 pt-7 h-[64vh] overflow-auto'>
+                {messages?.map((message, index) => (
+                    <div
+                        key={message.id}
+                        ref={
+                            index === messages.length - 1
+                                ? lastMessageRef
+                                : null
+                        }
+                    >
+                        <MessageItem message={message} me={me} />
+                    </div>
                 ))}
             </ScrollArea>
         </div>

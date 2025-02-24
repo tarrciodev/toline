@@ -12,7 +12,6 @@ import { useForm } from "react-hook-form";
 import { updateProjectQuotation } from "@/actions/projects/update-project-quotation";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogDescription } from "@radix-ui/react-dialog";
 import {
     Form,
     FormControl,
@@ -37,8 +36,7 @@ export type EditProjectFormProps = z.infer<typeof EditProjectFormSchema>;
 
 type QuotationDependencies = {
     projectId: string;
-    quotationId: string;
-    clientId: string;
+    ownerId: string;
 };
 
 export function EditProjectQoutationButton({
@@ -59,16 +57,13 @@ export function EditProjectQoutationButton({
     } = form;
 
     async function handleSubmit(data: EditProjectFormProps) {
-        const response = await updateProjectQuotation({
+        await updateProjectQuotation({
             formData: data,
             dependencies: {
                 projectId: quotationDependencies.projectId,
-                clientId: quotationDependencies.clientId,
-                quotationId: quotationDependencies.quotationId as string,
+                ownerId: quotationDependencies.ownerId,
             },
         });
-
-        console.log(response);
     }
     return (
         <Dialog>
@@ -80,10 +75,6 @@ export function EditProjectQoutationButton({
             <DialogContent className='px-12'>
                 <DialogHeader>
                     <DialogTitle>Atualizar Projeto</DialogTitle>
-                    <DialogDescription>
-                        Ao Remover o freelancer do projeto, nenhum outro campo
-                        deve ser preenchido.
-                    </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
                     <form

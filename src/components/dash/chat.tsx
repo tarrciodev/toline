@@ -1,5 +1,5 @@
 "use client";
-import { getUser } from "@/actions/users/get-user";
+import { getMe } from "@/actions/users/get-me";
 import {
     Sheet,
     SheetContent,
@@ -14,7 +14,7 @@ import {
     MessageCircleOff,
     MessageSquarePlus,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChatHeader } from "./chat/chat-header";
 import { ChatMessageList } from "./chat/chat-message-list";
 import { ChatMessaging } from "./chat/chat-messaging";
@@ -23,14 +23,20 @@ import { NewConversation } from "./new-conversation";
 
 export default function Chat() {
     const [displayNewConversation, setDisplayNewConversation] = useState(false);
-    const { selectedConversation } = useChatStore();
+    const { selectedConversation, displayChatMessage, setDisplayChatMessage } =
+        useChatStore();
+    const chatRef = useRef<HTMLSpanElement | null>(null);
     const { setMe, me } = useMeStore();
     useEffect(() => {
         (async () => {
-            const me = await getUser();
+            const me = await getMe();
             setMe(me);
+            if (displayChatMessage) {
+                chatRef.current?.click();
+                setDisplayChatMessage(false);
+            }
         })();
-    }, [setMe]);
+    }, [setMe, displayChatMessage, setDisplayChatMessage]);
 
     function togleDisplayNewConversation() {
         setDisplayNewConversation((prev) => !prev);
@@ -38,8 +44,8 @@ export default function Chat() {
 
     return (
         <Sheet>
-            <SheetTrigger>
-                <span>
+            <SheetTrigger asChild>
+                <span ref={chatRef} className='cursor-pointer'>
                     <MessageCircle />
                 </span>
             </SheetTrigger>

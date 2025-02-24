@@ -1,23 +1,29 @@
 import { IProject } from "@/actions/projects/get-projects";
 import Link from "next/link";
+import { Badge } from "./ui/badge";
 
 export function Project({ project }: { project: IProject }) {
     return (
-        <div className='bg-white flex flex-col gap-2 border-t border-gray-200 w-full py-2 p-6'>
+        <div className='bg-white flex flex-col gap-2 border-t border-gray-200 w-full py-2 px-2 sm:p-6'>
             <Link
                 href={`/dash/project/${project.id}`}
                 className='text-blue-700 font-semibold'
             >
                 {project.name}
             </Link>
-            <div className='flex gap-2'>
-                <p>{project.category}</p>|
-                <p>
+            <div className='flex gap-2 flex-wrap items-center'>
+                <p className='text-sm sm:text-base'>{project.category}</p>
+                {project.subcategory && (
+                    <>
+                        |<p>{project.subcategory}</p>
+                    </>
+                )}
+                <p className='text-sm sm:text-base'>
                     Data de Publicaçao:{" "}
                     <span className='font-semibold'>{project?.createdAt}</span>
                 </p>
                 |
-                <p>
+                <p className='text-sm sm:text-base'>
                     <span>Subscritores:</span>{" "}
                     <span className='font-semibold'>
                         {project?.subscriptions?.length}
@@ -25,10 +31,18 @@ export function Project({ project }: { project: IProject }) {
                 </p>
             </div>
             <div>
-                <p>{project?.description}</p>
+                <p className='line-clamp-5'>{project?.description}</p>
             </div>
+            {project.skills?.length != 0 && (
+                <div>
+                    <p className='font-semibold'>Skills</p>
+                    {project.skills?.map((skill) => (
+                        <Badge key={skill.id}>{skill.name}</Badge>
+                    ))}
+                </div>
+            )}
             <div>
-                Proprietario do Projeto:{" "}
+                Proprietario:{" "}
                 <span className='font-semibold'>{project?.owner?.name}</span>
             </div>
         </div>

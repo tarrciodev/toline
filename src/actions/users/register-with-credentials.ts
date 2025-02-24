@@ -1,10 +1,9 @@
 "use server";
 
+import { signIn } from "@/auth";
 import { registerWithCredentialProps } from "@/components/forms/register-with-credentials";
 import { aj } from "@/config/aj";
-import { prisma } from "@/config/prisma";
-import { generateTagFromEmail } from "@/utils/generate-tag-from-email";
-import { hashSync } from "bcrypt";
+import { api } from "@/config/api";
 import z, { ZodError } from "zod";
 
 const schema = z.object({
@@ -20,11 +19,11 @@ export async function registerWithCredentials(
     status: "success" | "error";
     message: string;
     error?: ZodError<{ name: string; email: string; password: string }>;
-}> {
+} | null> {
     const user = {
         email: data.email,
-        name: data.password,
-        password: data.name,
+        name: data.name,
+        password: data.password,
     };
 
     const validateSchema = schema.safeParse(user);
@@ -43,41 +42,35 @@ export async function registerWithCredentials(
         return { status: "error", message: "Email bloqueado" };
     }
 
-    const userExists = await prisma.user.findUnique({
-        where: {
-            email: user.email,
-        },
-    });
+    const userCreated = await api<{ email: string; password: string }>(
+        "/register",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: user.email,
+                name: user.name,
+                password: user.password,
+                type: userType,
+            }),
+        }
+    );
 
-    if (userExists) {
-        return { status: "error", message: "Email já cadastrado" };
+    if (!userCreated.email) {
+        return { status: "error", message: "Erro ao criar o usuário" };
     }
 
-    const entity =
-        userType == "freelancer"
-            ? await prisma.freelancer.create({
-                  data: {
-                      name: user.name,
-                      email: user.email,
-                  },
-              })
-            : await prisma.client.create({
-                  data: {
-                      name: user.name,
-                      email: user.email,
-                  },
-              });
-
-    await prisma.user.create({
-        data: {
-            userId: entity.id,
+    try {
+        await signIn("credentials", {
             email: user.email,
-            password: hashSync(user.password, 8),
-            username: user.name,
-            tag: generateTagFromEmail(entity.email),
-            type: userType,
-        },
-    });
-
-    return { status: "success", message: "usuario criado com sucesso" }; // Return an object with a success property
+            password: user.password,
+            redirect: false,
+        });
+        return { status: "success", message: "usuario criado com sucesso" };
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+        return { status: "error", message: "Erro ao criar o usuário" };
+    }
 }

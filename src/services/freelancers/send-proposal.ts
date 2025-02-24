@@ -14,14 +14,10 @@ const SubscriptionSchema = z.object({
             "Por favor, informe o tempo necessário para terminar o projeto."
         )
         .min(5, "A resposta deve ter pelo menos 5 caracteres."),
-    information: z
+    requiredInformations: z
         .string()
         .nonempty("Por favor, informe as informações necessárias para começar.")
         .min(5, "A resposta deve ter pelo menos 5 caracteres."),
-    justification: z
-        .string()
-        .nonempty("Por favor, justifique porque você é o candidato ideal.")
-        .min(20, "A justificativa deve ter pelo menos 20 caracteres."),
     similarExperiences: z
         .string()
         .nonempty(
@@ -58,10 +54,9 @@ export function useSendProposalServices(
         resolver: zodResolver(SubscriptionSchema),
         defaultValues: {
             estimatedTime: "",
-            information: "",
-            justification: "",
+            requiredInformations: "",
             similarExperiences: "",
-            quotation: 0, // Começa como string para corresponder ao input.
+            quotation: 0,
         },
     });
 

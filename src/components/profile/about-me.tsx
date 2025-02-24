@@ -6,7 +6,7 @@ import { Loader } from "../loader";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 
-export function AboutMe() {
+export function AboutMe({ userId }: { userId: string }) {
     const [displayTextBox, setDisplayTextBox] = useState(false);
     function toogleDisplayTextBox() {
         setDisplayTextBox((prev) => !prev);
@@ -41,6 +41,7 @@ export function AboutMe() {
                         placeholder='Nos fale um poquinho sobre você'
                         className='h-32'
                     />
+                    <input type='hidden' name='userId' value={userId} />
 
                     <div className='w-full p-4 flex justify-end gap-2'>
                         <Button
