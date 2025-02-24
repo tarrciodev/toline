@@ -1,5 +1,4 @@
-import { auth } from "@/auth";
-import { prisma } from "@/config/prisma";
+import { getMe } from "@/actions/users/get-me";
 import React from "react";
 
 export async function Can({
@@ -9,17 +8,9 @@ export async function Can({
     who: "client" | "freelancer";
     children: React.ReactNode;
 }) {
-    const { user } = (await auth()) as {
-        user: { email: string; name: string };
-    };
+    const me = await getMe();
 
-    const entity = await prisma.user.findUnique({
-        where: {
-            email: user.email,
-        },
-    });
-
-    const isAuthorized = who === entity!.type!;
+    const isAuthorized = who === me?.type;
 
     if (!isAuthorized) {
         return <></>;

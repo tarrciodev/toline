@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader } from "./ui/card";
 export async function UserProfileCard() {
     const me = await getMe();
     return (
-        <Link href={`/dash/profile/${me.id}`}>
+        <Link href={`/dash/profile/${me?.id}`}>
             <Card className='rounded sm:w-[25vw]'>
                 <CardHeader className='flex-row justify-between w-full'>
                     <span>Meu Perfil</span>
