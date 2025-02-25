@@ -1,5 +1,6 @@
+"use client";
 import { api } from "@/config/api";
-import { BASE_URL, WEBSOCKET_URL } from "@/config/define-urls";
+import { WEBSOCKET_URL } from "@/config/define-urls";
 import { IConversation, IMessage } from "@/store/chat";
 import { supabaseUpload } from "@/utils/supabase-upload";
 import { useQueryClient } from "@tanstack/react-query";
@@ -23,13 +24,12 @@ export function useChatMesaging(
     const client = useQueryClient();
 
     function activateWebSocket() {
-        console.log({ WEBSOCKET_URL, BASE_URL });
         const ws = new WebSocket(`${WEBSOCKET_URL}/message/${conversationId}`);
         ws.onopen = () => {
             console.log("Connected to WebSocket");
         };
 
-        ws.onmessage = event => {
+        ws.onmessage = (event) => {
             const commingMessage = JSON.parse(event.data).message;
             if (commingMessage) {
                 const oldMessages = client.getQueryData([
@@ -37,7 +37,7 @@ export function useChatMesaging(
                     conversationId,
                 ]) as IMessage[];
                 const newMessages = oldMessages.find(
-                    message => message.id === commingMessage.id
+                    (message) => message.id === commingMessage.id
                 )
                     ? oldMessages
                     : [...oldMessages, commingMessage];
@@ -52,7 +52,7 @@ export function useChatMesaging(
             if (oldConversations) {
                 client.setQueryData(
                     ["conversations", me],
-                    oldConversations.map(conversation => {
+                    oldConversations.map((conversation) => {
                         if (conversation.id === conversationId) {
                             return {
                                 ...conversation,
