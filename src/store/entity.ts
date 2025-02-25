@@ -66,6 +66,7 @@ export type EntityProps = {
     userId: string;
     projects?: ProjectFullProps[];
     createdAt: string;
+    avatarUrl?: string;
     type: "freelancer" | "client";
     certifications?: {
         id: string;

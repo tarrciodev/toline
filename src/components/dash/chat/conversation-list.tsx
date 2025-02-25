@@ -25,16 +25,13 @@ export default function ConversationList({ me }: { me: string }) {
             setConversations(data);
         }
     }, [data, setConversations]);
-
-    console.log(conversations);
-
     return (
         <div className='flex flex-col gap-3 justify-center'>
             {conversations?.length == 0 ? (
                 <EmptyConversationItem />
             ) : (
                 <>
-                    {conversations.map(conversation => (
+                    {conversations.map((conversation) => (
                         <ConversationItem
                             key={conversation.id}
                             conversation={conversation}

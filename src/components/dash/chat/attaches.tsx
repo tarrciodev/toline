@@ -12,7 +12,7 @@ export function Attaches({ handleSendAttachment }: ISendAttachement) {
                 type='file'
                 accept='.pdf,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.gif,.webp,.bmp,.tiff,.ico'
                 className='absolute h-full w-full z-10 opacity-0'
-                onChange={handleSendAttachment} // Agora a função tem tipagem correta
+                onChange={handleSendAttachment}
             />
             <Paperclip />
         </span>
