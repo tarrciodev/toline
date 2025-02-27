@@ -1,5 +1,4 @@
 import { getUserAsEntity } from "@/actions/users/get-entity";
-import { DashHeader } from "@/components/dash-header";
 import { ProjectSideBar } from "@/components/project-details";
 import { Subscriber } from "@/components/subscriber";
 import { Badge } from "@/components/ui/badge";
@@ -30,80 +29,77 @@ export default async function MyProject({
     };
 
     return (
-        <div className='h-[100dvh]'>
-            <DashHeader />
-            <div className='px-56 flex py-6 gap-6'>
-                <div className='flex flex-col flex-1 gap-2'>
-                    <h1 className='text-blue-700 font-semibold text-2xl'>
-                        <strong>{project.name}</strong>
-                    </h1>
+        <main className='flex gap-4 w-full flex-1'>
+            <div className='flex flex-col flex-1 gap-2'>
+                <h1 className='text-blue-700 font-semibold text-2xl'>
+                    <strong>{project.name}</strong>
+                </h1>
+                <div className='flex gap-2'>
+                    <p>
+                        Categoria:{" "}
+                        <span className='font-semibold'>
+                            {project.category}
+                        </span>
+                    </p>
+                    {project.subcategory && (
+                        <p>
+                            Subcategoria:{" "}
+                            <span className='font-semibold'>
+                                {project.subcategory}
+                            </span>
+                        </p>
+                    )}
+                    <p>
+                        Publicado:{" "}
+                        <span className='font-semibold'>
+                            {project.createdAt}
+                        </span>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <span className='font-semibold'>Descrição:</span>{" "}
+                        {project.description}
+                    </p>
+                </div>
+                <div>
+                    <p className='text-lg font-semibold'>Skills</p>
                     <div className='flex gap-2'>
-                        <p>
-                            Categoria:{" "}
-                            <span className='font-semibold'>
-                                {project.category}
-                            </span>
-                        </p>
-                        {project.subcategory && (
-                            <p>
-                                Subcategoria:{" "}
-                                <span className='font-semibold'>
-                                    {project.subcategory}
-                                </span>
-                            </p>
-                        )}
-                        <p>
-                            Publicado:{" "}
-                            <span className='font-semibold'>
-                                {project.createdAt}
-                            </span>
-                        </p>
-                    </div>
-                    <div>
-                        <p>
-                            <span className='font-semibold'>Descrição:</span>{" "}
-                            {project.description}
-                        </p>
-                    </div>
-                    <div>
-                        <p className='text-lg font-semibold'>Skills</p>
-                        <div className='flex gap-2'>
-                            {project.skills?.map((skill) => (
-                                <Badge key={skill.id}>{skill.name}</Badge>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className='flex gap-2 justify-between mt-2'>
-                        {entity?.type === "freelancer" && (
-                            <p>
-                                Proprietário do Projeto:{" "}
-                                <span>{project?.owner?.name}</span>
-                            </p>
-                        )}
-                    </div>
-                    <div className='flex flex-col gap-6'>
-                        <p className='font-semibold text-xl'>Propostas</p>
-                        <div className='space-y-2'>
-                            {subscriptions?.map((subscription) => (
-                                <Subscriber
-                                    key={subscription.id}
-                                    subscription={subscription}
-                                    projectId={project.id}
-                                    ownerId={entity?.userId as string}
-                                />
-                            ))}
-                        </div>
+                        {project.skills?.map((skill) => (
+                            <Badge key={skill.id}>{skill.name}</Badge>
+                        ))}
                     </div>
                 </div>
-                <div className='w-[30dvw]'>
-                    <ProjectSideBar
-                        projectDependencies={projectDependencies}
-                        project={project}
-                        entity={entity}
-                    />
+
+                <div className='flex gap-2 justify-between mt-2'>
+                    {entity?.type === "freelancer" && (
+                        <p>
+                            Proprietário do Projeto:{" "}
+                            <span>{project?.owner?.name}</span>
+                        </p>
+                    )}
+                </div>
+                <div className='flex flex-col gap-6'>
+                    <p className='font-semibold text-xl'>Propostas</p>
+                    <div className='space-y-2'>
+                        {subscriptions?.map((subscription) => (
+                            <Subscriber
+                                key={subscription.id}
+                                subscription={subscription}
+                                projectId={project.id}
+                                ownerId={entity?.userId as string}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
+            <div className='w-[30dvw]'>
+                <ProjectSideBar
+                    projectDependencies={projectDependencies}
+                    project={project}
+                    entity={entity}
+                />
+            </div>
+        </main>
     );
 }

@@ -21,14 +21,6 @@ export function Hero() {
                         excelente para desenvolver o seu projeto.
                     </p>
                 </div>
-                <div className='mt-6 '>
-                    <a
-                        href='/register'
-                        className='bg-blue-600 text-white px-6 py-3 rounded-lg text-lg hover:bg-blue-700'
-                    >
-                        Get Started
-                    </a>
-                </div>
             </div>
             <OrbitingUsers />
         </section>

@@ -1,6 +1,5 @@
 import { getProjectsBySubscription } from "@/actions/projects/get-projects-by-subscription";
 import { getUserAsEntity } from "@/actions/users/get-entity";
-import { DashHeader } from "@/components/dash-header";
 import { FreelancerProjectsFilter } from "@/components/freelancers/freelancer-projects-filter";
 import { Project } from "@/components/project";
 
@@ -23,17 +22,14 @@ export default async function page({
         );
 
         return (
-            <div className='min-h-screen'>
-                <DashHeader />
-                <div className='px-56 flex py-3 gap-4'>
-                    <FreelancerProjectsFilter status={status} />
-                    <div className='flex flex-col flex-1 gap-2'>
-                        {sentProposals?.map((project) => (
-                            <Project key={project.id} project={project} />
-                        ))}
-                    </div>
+            <main>
+                <FreelancerProjectsFilter status={status} />
+                <div className='flex flex-col flex-1 gap-2'>
+                    {sentProposals?.map((project) => (
+                        <Project key={project.id} project={project} />
+                    ))}
                 </div>
-            </div>
+            </main>
         );
     }
 
@@ -46,28 +42,25 @@ export default async function page({
     );
 
     return (
-        <div className='min-h-screen'>
-            <DashHeader />
-            <div className='px-56 flex py-3 gap-4'>
-                <FreelancerProjectsFilter status={status} />
-                <div className='flex flex-col flex-1 gap-2'>
-                    {status == "accepted" && (
-                        <>
-                            {accceptedProposals?.map((project) => (
-                                <Project key={project.id} project={project} />
-                            ))}
-                        </>
-                    )}
+        <main className='flex py-3 gap-4'>
+            <FreelancerProjectsFilter status={status} />
+            <div className='flex flex-col flex-1 gap-2'>
+                {status == "accepted" && (
+                    <>
+                        {accceptedProposals?.map((project) => (
+                            <Project key={project.id} project={project} />
+                        ))}
+                    </>
+                )}
 
-                    {status == "concluded" && (
-                        <>
-                            {concludedProjects?.map((project) => (
-                                <Project key={project.id} project={project!} />
-                            ))}
-                        </>
-                    )}
-                </div>
+                {status == "concluded" && (
+                    <>
+                        {concludedProjects?.map((project) => (
+                            <Project key={project.id} project={project!} />
+                        ))}
+                    </>
+                )}
             </div>
-        </div>
+        </main>
     );
 }

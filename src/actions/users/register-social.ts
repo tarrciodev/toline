@@ -7,7 +7,7 @@ export async function registerSocial(
     type: "client" | "freelancer"
 ): Promise<{ status: "success" | "error"; message: string }> {
     const { user } = (await auth()) as {
-        user: { email: string; name: string };
+        user: { email: string; name: string; image: string };
     };
 
     const userCreated = await api<{ email: string; password: string }>(
@@ -20,6 +20,7 @@ export async function registerSocial(
             body: JSON.stringify({
                 email: user.email,
                 name: user.name,
+                avatarUrl: user?.image,
                 type,
             }),
         }

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -52,11 +52,13 @@ export default function ResetPassword() {
     });
 
     const [resetResult, setResetResult] = useState({ status: "", message: "" });
+    const query = useSearchParams();
 
+    const email = query.get("email") as string;
     const token = usePathname().split("/").pop() as string;
 
     async function handleSubmit(data: ResetPasswordProps) {
-        const reset = await resetPassword({ ...data, token });
+        const reset = await resetPassword({ ...data, token, email });
         setResetResult({ status: reset.status, message: reset.message });
         setTimeout(() => {
             setResetResult({ status: "", message: "" });

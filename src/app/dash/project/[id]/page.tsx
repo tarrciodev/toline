@@ -1,6 +1,5 @@
 import { getProjectById } from "@/actions/projects/get-project-by-id";
 import { getMe } from "@/actions/users/get-me";
-import { DashHeader } from "@/components/dash-header";
 import { ProjectSideBar } from "@/components/project-details";
 import { Badge } from "@/components/ui/badge";
 
@@ -19,33 +18,30 @@ export default async function ProjectDetails({
     };
 
     return (
-        <div>
-            <DashHeader />
-            <div className='flex flex-col sm:flex-row sm:justify-between px-4 sm:px-56 py-8 gap-6'>
-                <div className='flex flex-col flex-1'>
-                    <div className='space-y-4'>
-                        <h1 className='text-4xl font-bold'>{project?.name}</h1>
-                        <p>{project?.description}</p>
-                        <div className='flex gap-2'>
-                            <p>Status: {project?.status}</p>
-                            <p>Data de Publicaçao: {project?.createdAt}</p>
-                        </div>
-                    </div>
-                    <div className='mt-5'>
-                        <h2 className='text-2xl font-semibold py-2'>
-                            Habilidades Desejadas
-                        </h2>
-                        <div className='flex gap-1'>
-                            {project?.skills?.map((skill) => (
-                                <Badge key={skill?.id}>{skill?.name}</Badge>
-                            ))}
-                        </div>
+        <main className='flex flex-col sm:flex-row sm:justify-between  py-3 gap-6 w-full'>
+            <div className='flex flex-col flex-1'>
+                <div className='space-y-4'>
+                    <h1 className='text-4xl font-bold'>{project?.name}</h1>
+                    <p>{project?.description}</p>
+                    <div className='flex gap-2'>
+                        <p>Status: {project?.status}</p>
+                        <p>Data de Publicaçao: {project?.createdAt}</p>
                     </div>
                 </div>
-                <div className='sm:w-[30dvw] w-full'>
-                    <ProjectSideBar project={project!} entity={entity} />
+                <div className='mt-5'>
+                    <h2 className='text-2xl font-semibold py-2'>
+                        Habilidades Desejadas
+                    </h2>
+                    <div className='flex gap-1'>
+                        {project?.skills?.map((skill) => (
+                            <Badge key={skill?.id}>{skill?.name}</Badge>
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
+            <div className='sm:w-[30dvw] w-full'>
+                <ProjectSideBar project={project!} entity={entity} />
+            </div>
+        </main>
     );
 }

@@ -1,6 +1,5 @@
 import { getUserAsEntity } from "@/actions/users/get-entity";
 import { Can } from "@/components/can";
-import { DashHeader } from "@/components/dash-header";
 import { AboutMe } from "@/components/profile/about-me";
 import { FreelancerCard } from "@/components/profile/freelancer-card";
 import { ProfileSideBar } from "@/components/profile/profile-sidebar";
@@ -17,42 +16,39 @@ export default async function EditProfile() {
     const profileCompletation = defaultScore + bioScore + identificationScore;
 
     return (
-        <div className='h-[100dvh]'>
-            <DashHeader />
-            <div className='px-56 flex py-3 gap-6'>
-                <div className='flex flex-col flex-1 gap-2'>
-                    <FreelancerCard entity={entity} />
-                    <AboutMe userId={entity.id} />
-                    <Can who='freelancer'>
-                        <>
-                            <UserProfileSkills
-                                freelancerId={entity.userId}
-                                userSkills={entity.skills!}
-                            />
-                            {/* <Certification
+        <main className='flex py-3 gap-6'>
+            <div className='flex flex-col flex-1 gap-2'>
+                <FreelancerCard entity={entity} />
+                <AboutMe userId={entity.id} />
+                <Can who='freelancer'>
+                    <>
+                        <UserProfileSkills
+                            freelancerId={entity.userId}
+                            userSkills={entity.skills!}
+                        />
+                        {/* <Certification
                                 certifications={entity?.certifications}
                             /> */}
-                            <ProjectsIHaveWorkedOn
-                                entityId={entity.userId}
-                                showCases={entity.showCases!}
-                            />
-                            {!entity.identification && (
-                                <UserIdentification userId={entity.id} />
-                            )}
-                        </>
-                    </Can>
-                </div>
-                <aside className='w-[20dvw]'>
-                    <ProfileSideBar
-                        entityType={entity.type}
-                        projects={entity?.projects}
-                        certifications={entity?.certifications?.length ?? 0}
-                        skills={entity?.skills?.length ?? 0}
-                        createdAt={entity?.createdAt}
-                        profileCompletation={profileCompletation}
-                    />
-                </aside>
+                        <ProjectsIHaveWorkedOn
+                            entityId={entity.userId}
+                            showCases={entity.showCases!}
+                        />
+                        {!entity.identification && (
+                            <UserIdentification userId={entity.id} />
+                        )}
+                    </>
+                </Can>
             </div>
-        </div>
+            <aside className='w-[20dvw]'>
+                <ProfileSideBar
+                    entityType={entity.type}
+                    projects={entity?.projects}
+                    certifications={entity?.certifications?.length ?? 0}
+                    skills={entity?.skills?.length ?? 0}
+                    createdAt={entity?.createdAt}
+                    profileCompletation={profileCompletation}
+                />
+            </aside>
+        </main>
     );
 }

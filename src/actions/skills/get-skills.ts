@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/config/prisma";
+import { api } from "@/config/api";
 
 export type Skills = {
     id: string;
@@ -8,12 +8,7 @@ export type Skills = {
 };
 
 export async function getSkills(): Promise<Skills[]> {
-    const skills = await prisma.skill.findMany({
-        select: {
-            id: true,
-            name: true,
-        },
-    });
+    const skills = await api<Skills[]>("/skills");
 
     return skills;
 }

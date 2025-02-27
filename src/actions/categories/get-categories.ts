@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/config/prisma";
+import { api } from "@/config/api";
 
 export type ICategorySkills = {
     id: string;
@@ -24,25 +24,6 @@ export type Icategories = {
 };
 
 export async function getCategories(): Promise<Icategories[]> {
-    const categories = await prisma.category.findMany({
-        include: {
-            subcategories: {
-                select: {
-                    id: true,
-                    name: true,
-                },
-            },
-            skills: {
-                select: {
-                    id: true,
-                    slug: true,
-                    name: true,
-                    description: true,
-                    categoryId: true,
-                    subcategoryId: true,
-                },
-            },
-        },
-    });
+    const categories = await api<Icategories[]>("/categories");
     return categories;
 }

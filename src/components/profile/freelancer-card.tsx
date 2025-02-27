@@ -7,13 +7,13 @@ export function FreelancerCard({ entity }: { entity: EntityProps }) {
         <div className='border border-gray-200 rounded p-8 w-full flex gap-2 bg-white shadow-xl'>
             <div>
                 {entity.avatarUrl ? (
-                    <div className='size-40 rounded-full bg-linear-to-r from-blue-500 to-green-500 p-2 flex items-center justify-center'>
+                    <div className='size-40 rounded-full bg-linear-to-r from-blue-500 to-green-500 flex items-center justify-center'>
                         <Image
-                            src={`https://github.com/tarcisioteixeira.png`}
+                            src={entity.avatarUrl}
                             alt='User picture'
                             width={100}
                             height={100}
-                            className='rounded-full size-[9.8rem]'
+                            className='rounded-full size-[9.8rem] object-cover'
                         />
                     </div>
                 ) : (

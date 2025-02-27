@@ -1,63 +1,32 @@
 "use server";
 
-import { prisma } from "@/config/prisma";
-import { isAutdated } from "@/utils/is-outdated";
-import { hashSync } from "bcrypt";
+import { api } from "@/config/api";
 
 export async function resetPassword(data: {
     password: string;
     confirmPassword: string;
     token: string;
+    email: string;
 }) {
     const userReset = {
         password: data.password,
-        confirmPassword: data.confirmPassword,
+        token: data.token,
     };
 
-    console.log(userReset);
-
-    const tokenIsValide = await prisma.passwordResets.findFirst({
-        where: {
-            token: data.token,
+    const response = await api(`/user/reset-password/${data.email}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
         },
+        body: JSON.stringify(userReset),
     });
 
-    if (!tokenIsValide) {
+    if (!response) {
         return {
             status: "error",
-            message: "Token inválido",
+            message: "Falha ao resetar a password",
         };
     }
-
-    const tokenHasExpired = isAutdated(tokenIsValide.expires);
-
-    if (tokenHasExpired) {
-        await prisma.passwordResets.delete({
-            where: {
-                id: tokenIsValide.id,
-            },
-        });
-
-        return {
-            status: "error",
-            message: "O Token expirou",
-        };
-    }
-
-    await prisma.user.update({
-        where: {
-            email: tokenIsValide.userEmail,
-        },
-        data: {
-            password: hashSync(userReset.password, 8),
-        },
-    });
-
-    await prisma.passwordResets.delete({
-        where: {
-            id: tokenIsValide.id,
-        },
-    });
 
     return {
         status: "success",

@@ -25,6 +25,11 @@ const nextConfig: NextConfig = {
                 hostname: "ap-south-1.graphassets.com",
                 pathname: "/**",
             },
+            {
+                protocol: "https",
+                hostname: "lh3.googleusercontent.com",
+                pathname: "/**",
+            },
         ],
     },
     serverActions: {

@@ -35,7 +35,6 @@ import {
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 
-// Define schema
 const createProjectSchema = z.object({
     name: z.string().min(3, "Name must be at least 3 characters."),
     description: z
@@ -46,10 +45,8 @@ const createProjectSchema = z.object({
     skills: z.array(z.string()).optional(),
 });
 
-// Infer type from schema
 type CreateProjectProps = z.infer<typeof createProjectSchema>;
 
-// Define category and skill types
 export interface Skill {
     id: string;
     name: string;
@@ -80,12 +77,11 @@ export function CreateProjectForm() {
 
     const { watch } = form;
     const {
-        formState: { isSubmitting },
+        formState: { isSubmitting, isSubmitSuccessful },
     } = form;
 
     const [categories, setCategories] = useState<Category[] | null>(null);
 
-    // Fetch categories on component mount
     useEffect(() => {
         const fetchCategories = async () => {
             const data = await getCategories();
@@ -93,6 +89,12 @@ export function CreateProjectForm() {
         };
         fetchCategories();
     }, []);
+
+    useEffect(() => {
+        if (isSubmitSuccessful) {
+            form.reset();
+        }
+    }, [isSubmitSuccessful, form]);
 
     const categoryId = watch("categoryId");
     const category = categories?.find((cat) => cat.id === categoryId);
