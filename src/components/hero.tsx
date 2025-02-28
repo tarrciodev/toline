@@ -1,14 +1,14 @@
 import { OrbitingUsers } from "./orbiting-circle";
-import TypingAnimation from "./ui/typing-animation";
+import { TextRoll } from "./ui/text-roll";
 
 export function Hero() {
     return (
-        <section className='bg-blue-50  py-8 sm:py-20  flex px-4 sm:px-56'>
+        <section className='bg-blue-50  py-8 sm:py-20  flex px-4 sm:px-56 gap-8'>
             <div>
-                <TypingAnimation
-                    className='text-2xl sm:text-4xl font-extrabold text-blue-700 sm:max-w-[40vw] text-left'
-                    text=' A TOLINE É A Sua Plataforma, Para Encontrar Projetos, E Profissionais A Distancia De Um Click'
-                />
+                <TextRoll className='text-2xl sm:text-4xl font-extrabold text-blue-700 sm:max-w-[35vw] text-left'>
+                    A TOLINE É A Sua Plataforma, Para Encontrar Projetos, E
+                    Profissionais A Distancia De Um Click
+                </TextRoll>
 
                 <div className='mt-4 text-4xl'>
                     <p></p>
