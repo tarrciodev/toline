@@ -1,7 +1,10 @@
+import { api } from "@/config/api";
 import { cn } from "@/lib/utils";
 import { formatFileSize } from "@/utils/format-file-size";
 import { getTimeOnly } from "@/utils/get-time-only";
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
+import { useEffect } from "react";
 import { IMessage } from "./chat-message-list";
 import { DownloadButton } from "./down-load-file";
 
@@ -21,6 +24,23 @@ export function MessageItem({
         extension: string;
     };
     const isImage = fileInfo?.type?.startsWith("image/");
+    const client = useQueryClient();
+
+    useEffect(() => {
+        (async () => {
+            if (!message.saw && message.senderId != me) {
+                await api(`/message/${message.id}/update`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ saw: true }),
+                });
+
+                client.invalidateQueries({ queryKey: ["conversations", me] });
+            }
+        })();
+    }, [client, me, message.id, message.saw, message.senderId]);
 
     return (
         <div

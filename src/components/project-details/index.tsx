@@ -1,5 +1,5 @@
 import { ProjectFullProps } from "@/store/entity";
-import { ChatWithProjectOwner } from "../dash/chat/chat-with-project-owner";
+import { ChatWithEntity } from "../dash/chat/chat-with-entity";
 import { MarkProjectAsConcluded } from "./mark-as-concluded";
 import { ProjectDetails } from "./project-detail";
 import { ProjectDetailsFreelancer } from "./project-detail-freelancer";
@@ -55,7 +55,10 @@ export function ProjectSideBar({
             />
             {entity?.type == "freelancer" && (
                 <div className='flex flex-col gap-1'>
-                    <ChatWithProjectOwner owner={project.owner!} />
+                    <ChatWithEntity
+                        entityId={project.owner!.userId}
+                        entityType='client'
+                    />
                     <SubscriptionActions
                         project={{
                             id: project.id,

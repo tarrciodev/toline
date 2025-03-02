@@ -1,19 +1,22 @@
 "use client";
-import { hireFreelancerOnMyProject } from "@/actions/client/hire-freelancer-on-my-project";
 import { extractAvatarFromName } from "@/utils/extract-avatar-from-name";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useTransition } from "react";
-import { Loader } from "./loader";
-import { Button } from "./ui/button";
-interface ISubscription {
+import { SubscriptionDetails } from "./dash/subscription-details";
+
+export interface ISubscription {
     id: string;
     freelancer: {
         id: string;
         name: string;
         avatarUrl?: string;
+        userId: string;
     };
+    estimatedTime: string;
+    requiredInformations: string;
+    quotation: number;
+    similarExperiences: string;
     createdAt: string;
 }
 
@@ -28,16 +31,6 @@ export function Subscriber({
     ownerId,
     projectId,
 }: ISubscriptionFullProps) {
-    const [isPending, startTransition] = useTransition();
-    function handleHireFreelancerOnMyProject() {
-        startTransition(async () => {
-            await hireFreelancerOnMyProject({
-                projectId,
-                ownerId,
-                freelancerId: subscription.freelancer.id,
-            });
-        });
-    }
     return (
         <div className='flex flex-col gap-4 shadow-sm p-4 bg-white border border-gray-100'>
             <div className='flex gap-2 items-center'>
@@ -75,21 +68,19 @@ export function Subscriber({
                     </p>
                 </div>
             </div>
-            <div className='flex gap-3'>
-                <p>
-                    <span>Submetido</span>: {subscription.createdAt}
-                </p>
-                <p>
-                    <span>Mensagens: 0</span>
-                </p>
-                <Button
-                    variant='outline'
-                    className='ml-auto'
-                    disabled={isPending}
-                    onClick={handleHireFreelancerOnMyProject}
-                >
-                    {isPending && <Loader />}Contratar
-                </Button>
+            <div className='flex flex-col gap-3'>
+                <div className='flex gap-3'>
+                    <p>
+                        <span>Submetido</span>: {subscription.createdAt}
+                    </p>
+                    <p>
+                        <span>Mensagens: 0</span>
+                    </p>
+                </div>
+                <SubscriptionDetails
+                    subscription={subscription}
+                    dependencies={{ projectId, ownerId }}
+                />
             </div>
         </div>
     );

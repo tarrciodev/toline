@@ -3,15 +3,7 @@ import BlogPost from "@/components/bolg/blog-post";
 import { Header } from "@/components/header";
 
 export default async function Blog() {
-    const { hasNextPage, hasPreviousPage, posts, totalPages, totalPosts } =
-        await getPosts(1);
-    console.log({
-        hasNextPage,
-        hasPreviousPage,
-        posts,
-        totalPages,
-        totalPosts,
-    });
+    const { posts } = await getPosts(1);
 
     return (
         <div className='bg-gray-50 min-h-screen'>

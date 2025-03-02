@@ -4,7 +4,6 @@ import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
 
 export function Freelancer({ freelancer }: { freelancer: FreelancersProps }) {
     return (
@@ -44,9 +43,9 @@ export function Freelancer({ freelancer }: { freelancer: FreelancersProps }) {
                             <Star />
                         </p>
                     </div>
-                    <Button className='bg-teal-900 w-fit self-center'>
+                    {/* <Button className='bg-teal-900 w-fit self-center'>
                         Convidar
-                    </Button>
+                    </Button> */}
                 </div>
                 <p className='my-2 line-clamp-3'>{freelancer.bio}</p>
                 {freelancer.skills.length > 0 && (

@@ -49,7 +49,7 @@ export function DashHeader({ user }: { user: IDashUser }) {
                         <Chat />
                         <NotificationsLink />
                     </div>
-                    <div>
+                    <div className='hidden sm:flex'>
                         <UserHeaderIcon user={user} />
                     </div>
                 </div>

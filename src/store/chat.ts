@@ -31,7 +31,8 @@ export interface IConversation {
     id: string;
     projectId?: string;
     members: IMember[];
-    message: IMessage;
+    lastMessage?: IMessage;
+    messages: IMessage[];
 }
 
 interface ChatProps {

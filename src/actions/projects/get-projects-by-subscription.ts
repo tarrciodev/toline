@@ -15,6 +15,5 @@ export async function getProjectsBySubscription(
             subscriptions,
         }),
     });
-    console.log({ projects });
     return projects;
 }

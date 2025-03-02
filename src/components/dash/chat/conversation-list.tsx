@@ -1,30 +1,15 @@
 "use client";
-import { api } from "@/config/api";
-import { IConversation, useChatStore } from "@/store/chat";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { IConversation } from "@/store/chat";
 import ConversationItem from "./conversation-item";
 import EmptyConversationItem from "./empty-conversation-item";
 
-export default function ConversationList({ me }: { me: string }) {
-    const { conversations, setConversations } = useChatStore();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { data, error } = useQuery<IConversation[]>({
-        queryKey: ["conversations", me],
-        queryFn: async () => {
-            const data = await api<IConversation[]>(
-                `/conversations/user/${me}`
-            );
-
-            return data;
-        },
-    });
-
-    useEffect(() => {
-        if (data) {
-            setConversations(data);
-        }
-    }, [data, setConversations]);
+export default function ConversationList({
+    conversations,
+    me,
+}: {
+    conversations: IConversation[];
+    me: string;
+}) {
     return (
         <div className='flex flex-col gap-3 justify-center'>
             {conversations?.length == 0 ? (

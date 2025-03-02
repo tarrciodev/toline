@@ -34,7 +34,12 @@ export type ProjectFullProps = {
             id: string;
             name: string;
             avatarUrl?: string;
+            userId: string;
         };
+        estimatedTime?: string;
+        requiredInformations?: string;
+        quotation?: number;
+        similarExperiences?: string;
         createdAt: string;
     }>;
     owner?: {

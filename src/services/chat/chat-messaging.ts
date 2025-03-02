@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { api } from "@/config/api";
 import { WEBSOCKET_URL } from "@/config/define-urls";
 import { IConversation, IMessage } from "@/store/chat";
 import { supabaseUpload } from "@/utils/supabase-upload";
 import { useQueryClient } from "@tanstack/react-query";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
 
 interface IUseChatMessaging {
     activateWebSocket: () => void;
@@ -14,6 +15,13 @@ interface IUseChatMessaging {
     handleSendAttachment: (
         event: React.ChangeEvent<HTMLInputElement>
     ) => Promise<void>;
+    handleSendOnKeyDown: (
+        event: React.KeyboardEvent<HTMLTextAreaElement>
+    ) => void;
+    handleSelectEmoji: (emojiData: any) => void;
+    displayEmoji: boolean;
+    toggleDisplayEmoji: () => void;
+    textAreaRef: RefObject<HTMLTextAreaElement | null>;
 }
 
 export function useChatMesaging(
@@ -21,6 +29,11 @@ export function useChatMesaging(
     me: string
 ): IUseChatMessaging {
     const [messageContent, setMessageContent] = useState("");
+    const [displayEmoji, setDisplayEmoji] = useState(false);
+    const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+    function toggleDisplayEmoji() {
+        setDisplayEmoji(!displayEmoji);
+    }
     const client = useQueryClient();
 
     function activateWebSocket() {
@@ -31,6 +44,7 @@ export function useChatMesaging(
 
         ws.onmessage = (event) => {
             const commingMessage = JSON.parse(event.data).message;
+
             if (commingMessage) {
                 const oldMessages = client.getQueryData([
                     "messages",
@@ -56,7 +70,7 @@ export function useChatMesaging(
                         if (conversation.id === conversationId) {
                             return {
                                 ...conversation,
-                                message: commingMessage,
+                                lastMessage: commingMessage,
                             };
                         }
                         return conversation;
@@ -87,6 +101,21 @@ export function useChatMesaging(
 
         setMessageContent("");
     }
+
+    async function handleSendOnKeyDown(
+        e: React.KeyboardEvent<HTMLTextAreaElement>
+    ) {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault(); // Impede quebra de linha no textarea
+            handleSendMessage();
+        }
+    }
+
+    const handleSelectEmoji = (emojiData: any) => {
+        setMessageContent((prev) => prev + emojiData.emoji);
+        toggleDisplayEmoji();
+        textAreaRef.current?.focus();
+    };
 
     async function handleSendAttachment(
         event: React.ChangeEvent<HTMLInputElement>
@@ -129,6 +158,11 @@ export function useChatMesaging(
         messageContent,
         setMessageContent,
         handleSendMessage,
+        handleSendOnKeyDown,
         handleSendAttachment,
+        handleSelectEmoji,
+        displayEmoji,
+        toggleDisplayEmoji,
+        textAreaRef,
     };
 }

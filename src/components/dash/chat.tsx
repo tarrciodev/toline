@@ -1,5 +1,4 @@
 "use client";
-import { getMe } from "@/actions/users/get-me";
 import {
     Sheet,
     SheetContent,
@@ -7,14 +6,14 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet";
+import useChatService from "@/services/chat";
 import { useChatStore } from "@/store/chat";
-import { useMeStore } from "@/store/me";
 import {
     MessageCircle,
     MessageCircleOff,
     MessageSquarePlus,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { ChatHeader } from "./chat/chat-header";
 import { ChatMessageList } from "./chat/chat-message-list";
 import { ChatMessaging } from "./chat/chat-messaging";
@@ -23,29 +22,36 @@ import { NewConversation } from "./new-conversation";
 
 export default function Chat() {
     const [displayNewConversation, setDisplayNewConversation] = useState(false);
-    const { selectedConversation, displayChatMessage, setDisplayChatMessage } =
-        useChatStore();
-    const chatRef = useRef<HTMLSpanElement | null>(null);
-    const { setMe, me } = useMeStore();
-    useEffect(() => {
-        (async () => {
-            const me = await getMe();
-            setMe(me);
-            if (displayChatMessage) {
-                chatRef.current?.click();
-                setDisplayChatMessage(false);
-            }
-        })();
-    }, [setMe, displayChatMessage, setDisplayChatMessage]);
+    const {
+        selectedConversation,
+        displayChatMessage,
+        setDisplayChatMessage,
+        conversations,
+        setConversations,
+    } = useChatStore();
 
     function togleDisplayNewConversation() {
         setDisplayNewConversation((prev) => !prev);
     }
 
+    const { chatRef, me, unreadMessages, activateWebSocketForNotification } =
+        useChatService({
+            displayChatMessage,
+            setDisplayChatMessage,
+            setConversations,
+        });
+
+    activateWebSocketForNotification();
+
     return (
         <Sheet>
             <SheetTrigger asChild>
-                <span ref={chatRef} className='cursor-pointer'>
+                <span ref={chatRef} className='cursor-pointer rlative'>
+                    {unreadMessages && unreadMessages?.length != 0 && (
+                        <i className='absolute size-6 rounded-full bg-red-800 flex items-center justify-center text-white text-xs top-2 font-semibold border-2 border-white'>
+                            {unreadMessages.length!}
+                        </i>
+                    )}
                     <MessageCircle />
                 </span>
             </SheetTrigger>
@@ -72,7 +78,10 @@ export default function Chat() {
                                 <MessageSquarePlus />
                             </span>
                         </div>
-                        <ConversationList me={me?.id as string} />
+                        <ConversationList
+                            me={me?.id as string}
+                            conversations={conversations}
+                        />
                     </div>
                     <div className='flex-1 bg-white flex flex-col h-[88vh]'>
                         {selectedConversation ? (

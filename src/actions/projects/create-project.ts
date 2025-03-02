@@ -7,6 +7,7 @@ interface ICreateProjectProps {
     name: string;
     description: string;
     categoryId: string;
+    subcategoryId?: string;
     skills?: Array<string>;
 }
 
@@ -33,7 +34,6 @@ export async function createProject(
     }
 
     const me = await api<{ userId: string }>(`/me/${user.email}`);
-    console.log({ me });
     const createdProject = await api<{ id: string }>(
         `/project/create/${me.userId}`,
         {
@@ -46,6 +46,7 @@ export async function createProject(
                 description: project.description,
                 categoryId: project.categoryId,
                 skills: filteredSkills?.map((s) => s.id),
+                subcategoryId: project.subcategoryId,
             }),
         }
     );

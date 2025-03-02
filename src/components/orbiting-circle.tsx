@@ -1,4 +1,5 @@
 import Image from "next/image";
+import creative from "../assets/creative.jpg";
 import dontcare from "../assets/dontcare.jpg";
 import fashion from "../assets/fashion.jpg";
 import female from "../assets/female.jpg";
@@ -13,36 +14,36 @@ export function OrbitingUsers() {
         <div className='hidden relative sm:flex h-[350px] sm:w-[30dvw] flex-col items-center justify-center  rounded-lg'>
             <OrbitingCircles iconSize={60}>
                 <Image
-                    src='https://cf.workana.com/logos/6e9ebb5a014a0ae7dc5dfb367db472f9/xe/Felizdiados_192_192.png'
-                    alt='Notion'
+                    src={creative.src}
+                    alt='freelancer na toline'
                     className='w-full h-full object-cover rounded-full'
                     width={100}
                     height={100}
                 />
                 <Image
                     src={female.src}
-                    alt='Notion'
+                    alt='freelancer na toline'
                     className='w-full h-full object-cover rounded-full'
                     width={100}
                     height={100}
                 />
                 <Image
                     src={lafemme.src}
-                    alt='Notion'
+                    alt='freelancer na toline'
                     className='w-full h-full object-cover rounded-full'
                     width={100}
                     height={100}
                 />
                 <Image
                     src={old.src}
-                    alt='Notion'
+                    alt='freelancer na toline'
                     className='w-full h-full object-cover rounded-full'
                     width={100}
                     height={100}
                 />
                 <Image
                     src={nerd.src}
-                    alt='Notion'
+                    alt='freelancer na toline'
                     className='w-full h-full object-cover rounded-full'
                     width={100}
                     height={100}
@@ -51,21 +52,21 @@ export function OrbitingUsers() {
             <OrbitingCircles iconSize={30} radius={100} reverse speed={2}>
                 <Image
                     src='https://github.com/tarcisioteixeira.png'
-                    alt='Notion'
+                    alt='freelancer na toline'
                     className='w-full h-full object-cover rounded-full'
                     width={100}
                     height={100}
                 />
                 <Image
                     src={dontcare.src}
-                    alt='Notion'
+                    alt='freelancer na toline'
                     className='w-full h-full object-cover rounded-full'
                     width={100}
                     height={100}
                 />
                 <Image
                     src={fashion.src}
-                    alt='Notion'
+                    alt='freelancer na toline'
                     className='w-full h-full object-cover rounded-full'
                     width={100}
                     height={100}

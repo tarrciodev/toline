@@ -15,9 +15,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-    title: "tooline | trabalho remoto",
+    title: "toline | trabalho remoto",
     description:
-        "tooline, a plataforma que lhe conecta a milhares de freelancers ao redor do mundo",
+        "toline, a plataforma que lhe conecta a milhares de freelancers ao redor do mundo",
 };
 
 export default function RootLayout({

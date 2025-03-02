@@ -6,11 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 interface IUseChatWithOwnerService {
     handleChatWithOwner: () => Promise<void>;
 }
-export function useChatWithOwnerService({
-    owner,
-}: {
-    owner: { userId: string };
-}): IUseChatWithOwnerService {
+export function useChatWithEntityService(
+    entityId: string
+): IUseChatWithOwnerService {
     const { setSelectedConversation, setDisplayChatMessage } = useChatStore();
     const { me } = useMeStore();
     const { data } = useQuery<IConversation[]>({
@@ -23,8 +21,10 @@ export function useChatWithOwnerService({
         },
     });
 
+    console.log({ data });
+
     const userOnMyConversations = data?.find((conversation) =>
-        conversation.members.some((member) => member.id == owner.userId)
+        conversation.members.some((member) => member.id == entityId)
     );
 
     async function handleChatWithOwner() {
@@ -42,7 +42,7 @@ export function useChatWithOwnerService({
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    members: [owner.userId, me?.id],
+                    members: [entityId, me?.id],
                 }),
             }
         );
