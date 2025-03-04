@@ -7,7 +7,7 @@ import { ChatConversationContainer } from "@/components/dash/chat/conversation-c
 import useChatService from "@/services/chat";
 import { useChatStore } from "@/store/chat";
 import { MessageCircle, MessageCircleOff } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function ChatMobile() {
     const [displayNewConversation, setDisplayNewConversation] = useState(false);
@@ -42,8 +42,18 @@ export function ChatMobile() {
 
     activateWebSocketForNotification();
 
+    useEffect(() => {
+        if (displayChat || displayChatMessage) {
+            document.body.classList.add("overflow-hidden");
+        } else {
+            document.body.classList.remove("overflow-hidden");
+        }
+
+        return () => document.body.classList.remove("overflow-hidden");
+    }, [displayChat, displayChatMessage]);
+
     return (
-        <div className='flex sm:hidden'>
+        <div className='flex sm:hidden bg-white'>
             <span
                 ref={chatRef}
                 className='cursor-pointer rlative'
@@ -58,7 +68,7 @@ export function ChatMobile() {
                 <MessageCircle />
             </span>
             {displayChat && (
-                <div className='fixed left-0 w-full h-full'>
+                <div className='fixed left-0 top-0 w-full h-dvh bottom-0 bg-white z-20'>
                     <div className='flex gap-2'>
                         <div className='h-dvh sm:h-[88vh] bg-white w-full px-4 py-6 relative'>
                             <ChatConversationContainer
@@ -79,7 +89,7 @@ export function ChatMobile() {
             )}
 
             {displayChatMessage && (
-                <div className='flex-1 bg-white top-0 left-0  fixed w-full flex flex-col h-dvh '>
+                <div className='flex-1 bg-white inset-0 fixed w-full flex flex-col h-dvh z-40 pb-10'>
                     {selectedConversation ? (
                         <>
                             <ChatHeader

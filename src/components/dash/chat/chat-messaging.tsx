@@ -30,7 +30,7 @@ export function ChatMessaging({ conversationId, me }: IChatMessaging) {
     }, [conversationId, activateWebSocket]);
 
     return (
-        <div className='px-6  pb-3 sm:pt-1 sm:pb-5 h-fit'>
+        <div className='px-6  pb-6 pt-1 sm:pb-5 h-fit '>
             <div className='flex gap-2 items-center'>
                 <div className='flex-1 flex gap-2 items-center relative'>
                     <Textarea
@@ -56,7 +56,7 @@ export function ChatMessaging({ conversationId, me }: IChatMessaging) {
                 </span>
             </div>
             {displayEmoji && (
-                <div className='absolute bottom-16 right-6 z-10'>
+                <div className='absolute left-0 sm:left-[60%] w-full sm:w-fit bottom-24 sm:bottom-16 right-6 z-10 px-6'>
                     <EmojiPicker onEmojiClick={handleSelectEmoji} />
                 </div>
             )}
