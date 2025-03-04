@@ -14,7 +14,7 @@ export default async function PostBySlug({
     return (
         <div className='bg-gray-50 min-h-screen'>
             <Header />
-            <main className='px-56 py-8 space-y-5'>
+            <main className='px-4 sm:px-56 py-8 space-y-5'>
                 <div className='flex justify-center flex-col items-center'>
                     {hasCover && (
                         <div className='w-full relative h-[45vh]'>
