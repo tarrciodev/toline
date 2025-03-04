@@ -68,8 +68,10 @@ export default function useChatService({
             const data = await getMe();
             setMe(data);
             if (displayChatMessage) {
-                chatRef.current?.click();
-                setDisplayChatMessage(false);
+                if (window.innerWidth > 640) {
+                    chatRef.current?.click();
+                    // setDisplayChatMessage(false);
+                }
             }
         })();
     }, [setMe, displayChatMessage, setDisplayChatMessage]);

@@ -3,6 +3,7 @@ import Chat from "./dash/chat";
 import { UserHeaderIcon } from "./dash/header/user-header-icon";
 import NotificationsLink from "./dash/notifications-link";
 import { Logo } from "./logo";
+import { ChatMobile } from "./mobile/cha-mobile";
 import { MenuBarDash } from "./mobile/dash/menu-bar-dash";
 
 export interface IDashUser {
@@ -47,6 +48,7 @@ export function DashHeader({ user }: { user: IDashUser }) {
                 <div className='flex gap-10 items-center'>
                     <div className='flex gap-3'>
                         <Chat />
+                        <ChatMobile />
                         <NotificationsLink />
                     </div>
                     <div className='hidden sm:flex'>

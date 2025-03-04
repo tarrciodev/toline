@@ -21,8 +21,8 @@ export function PaginationControll({ totalResult }: IPaginationControll) {
     const hasNextPage = page + 1 <= totalNumberOfPages;
     const hasPreviousPage = page - 1 >= 1;
     return (
-        <div className='flex justify-end items-center sm:w-full'>
-            <div className='flex gap-4  border sm:border-gray-400 py-2 px-3 sm:px-6 rounded'>
+        <div className='flex justify-end items-center w-full'>
+            <div className='flex gap-4 items-center  border sm:border-gray-400 py-2 px-3 sm:px-6 rounded w-full'>
                 <div className='hidden sm:flex text-sm flex-1'>
                     Pagina {page} de {Math.ceil(totalResult / 8)}
                 </div>

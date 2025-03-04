@@ -13,8 +13,8 @@ export default async function Freelancer({
     const freelancer = await getFreelancerById(id);
 
     return (
-        <div className='flex gap-4'>
-            <div className='flex flex-col flex-1 gap-2'>
+        <div className='flex gap-4 w-full'>
+            <div className='flex flex-col flex-1 gap-2 w-full'>
                 <FreelancerCard entity={freelancer!} />
                 <UserProfileSkills
                     freelancerId={freelancer!.id}
@@ -26,7 +26,7 @@ export default async function Freelancer({
                     publicProfile
                 />
             </div>
-            <aside className='w-[300dvw]'>
+            <aside className='w-[300dvw] hidden sm:flex'>
                 <ProfileSideBar
                     projects={freelancer?.projects}
                     certifications={freelancer?.certifications?.length ?? 0}

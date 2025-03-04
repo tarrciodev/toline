@@ -26,8 +26,6 @@ export async function registerSocial(
         }
     );
 
-    console.log({ userCreated });
-
     if (!userCreated.email) {
         return { status: "error", message: "Erro ao criar o usuário" };
     }

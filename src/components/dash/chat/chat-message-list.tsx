@@ -51,7 +51,7 @@ export function ChatMessageList({
     }, [messages]);
     return (
         <div className='flex-1'>
-            <ScrollArea className=' px-6 pt-7 h-[64vh] overflow-auto'>
+            <ScrollArea className=' px-6 pt-1 h-[77vh] sm:h-[66vh] overflow-auto'>
                 {messages?.map((message, index) => (
                     <div
                         key={message.id}

@@ -45,6 +45,10 @@ interface ChatProps {
     addConversation: (conversation: IConversation) => void;
     displayChatMessage: boolean;
     setDisplayChatMessage: (displayChatMessage: boolean) => void;
+    activateChatMessage: boolean;
+    setActivateChatMessage: (activateChatMessage: boolean) => void;
+    displayChat: boolean;
+    setDisplayChat: (displayChat: boolean) => void;
 }
 
 // Persisting only `selectedConversation`
@@ -63,6 +67,11 @@ export const useChatStore = create<ChatProps>()(
                 set((state) => ({
                     conversations: [...state.conversations, conversation],
                 })),
+            activateChatMessage: false,
+            setActivateChatMessage: (activateChatMessage: boolean) =>
+                set({ activateChatMessage }),
+            displayChat: false,
+            setDisplayChat: (displayChat: boolean) => set({ displayChat }),
         }),
         {
             name: "selected-conversation-storage", // Key for localStorage

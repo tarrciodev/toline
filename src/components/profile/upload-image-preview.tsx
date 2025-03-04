@@ -23,7 +23,7 @@ export function UploadImagePreview({ setState, type }: IUploadImageProps) {
     };
 
     return (
-        <div className='w-[20dvw]'>
+        <div className='w-full sm:w-[20dvw]'>
             {file ? (
                 <div>
                     <div className='relative border border-green-400 w-full h-40 overflow-hidden'>

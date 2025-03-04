@@ -35,7 +35,6 @@ export async function getProjects(
     const data = await api<{ projects: IProject[]; totalItems: number }>(
         `/projects?page=${page}&take=8&slug=${slug}`
     );
-    console.log({ page });
     const parsedProjects = data.projects.map((project) => {
         return {
             ...project,

@@ -56,7 +56,7 @@ export function Freelancer({ freelancer }: { freelancer: FreelancersProps }) {
                         ))}
                     </div>
                 )}
-                <p>
+                <p className='mt-3 sm:mt-0'>
                     <span>Aderiu</span>: {freelancer.createdAt}
                 </p>
             </div>

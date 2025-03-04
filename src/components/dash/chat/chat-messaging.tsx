@@ -30,7 +30,7 @@ export function ChatMessaging({ conversationId, me }: IChatMessaging) {
     }, [conversationId, activateWebSocket]);
 
     return (
-        <div className='px-6 py-7'>
+        <div className='px-6  pb-3 sm:pt-1 sm:pb-5 h-fit'>
             <div className='flex gap-2 items-center'>
                 <div className='flex-1 flex gap-2 items-center relative'>
                     <Textarea

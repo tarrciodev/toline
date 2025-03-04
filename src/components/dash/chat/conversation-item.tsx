@@ -8,17 +8,22 @@ import { NoUserAvatar } from "./no-user-avatar";
 interface IChatConvesations {
     conversation: IConversation;
     me: string;
+    toggleDisplayChatMessage?: () => void;
 }
 
 export default function ConversationItem({
     conversation,
     me,
+    toggleDisplayChatMessage,
 }: IChatConvesations) {
     const friend = conversation?.members?.find((member) => member.id !== me);
     const hasAvatar = friend?.avatarUrl;
     const { setSelectedConversation } = useChatStore();
     function handleSelectConversation() {
         setSelectedConversation(conversation);
+        if (toggleDisplayChatMessage) {
+            toggleDisplayChatMessage();
+        }
     }
 
     const imTheSender = conversation?.lastMessage?.senderId === me;

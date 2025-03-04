@@ -13,7 +13,7 @@ export function ClientCard({ entity }: { entity: EntityProps }) {
         (project) => project.status == "Completado"
     ).length;
     return (
-        <div className='flex gap-4 items-center'>
+        <div className='flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center'>
             <Card className='flex  flex-1 items-center rounded'>
                 <CardContent className='flex items-center gap-2 pt-4'>
                     <span className='size-16 rounded-full flex items-center justify-center bg-blue-700 text-blue-50'>

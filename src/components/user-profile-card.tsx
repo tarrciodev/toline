@@ -1,7 +1,6 @@
 import { getMe } from "@/actions/users/get-me";
-import { PencilLine, Star } from "lucide-react";
+import { PencilLine } from "lucide-react";
 import Link from "next/link";
-import { BluredImage } from "./blured-image";
 import { ProfileCompletation } from "./profile/profile-completation";
 import { Card, CardContent, CardHeader } from "./ui/card";
 
@@ -17,7 +16,7 @@ export async function UserProfileCard() {
                     </span>
                 </CardHeader>
                 <CardContent>
-                    <div className='flex gap-3'>
+                    {/* <div className='flex gap-3'>
                         {me.avatarUrl ? (
                             <div className='size-20 bg-linear-to-l from-teal-800 to-blue-800 p-[0.10rem]'>
                                 <BluredImage
@@ -39,7 +38,7 @@ export async function UserProfileCard() {
                                 <Star />
                             </span>
                         </div>
-                    </div>
+                    </div> */}
                     <div className='mt-6'>
                         <ProfileCompletation
                             profileCompletation={50}

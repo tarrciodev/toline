@@ -26,7 +26,6 @@ export async function createProject(
     const { user } = (await auth()) as { user: { email: string } };
 
     if (!user) {
-        console.log("user not found");
         return {
             status: "rejected",
             message: "Você precisa estar logado para criar um projeto",
@@ -52,7 +51,6 @@ export async function createProject(
     );
 
     if (!createdProject?.id) {
-        console.log(createdProject);
         return {
             status: "rejected",
             message: "Erro ao criar projeto",

@@ -21,8 +21,6 @@ export function useChatWithEntityService(
         },
     });
 
-    console.log({ data });
-
     const userOnMyConversations = data?.find((conversation) =>
         conversation.members.some((member) => member.id == entityId)
     );

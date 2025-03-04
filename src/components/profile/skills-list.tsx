@@ -48,19 +48,12 @@ export function SkillsList({
     async function handleSave() {
         startTransition(async () => {
             try {
-                const data = await updateFreelancerSkills({
+                await updateFreelancerSkills({
                     freelancerId,
                     skills: selectedSkills.map((skill) => skill.name),
                     userSkills: skills,
                     systemSkills: systemSkills ?? [],
                     action: "remove",
-                });
-
-                console.log({
-                    data,
-                    skills,
-                    systemSkills,
-                    selectedSkills: selectedSkills.map((skill) => skill.id),
                 });
             } catch (error) {
                 console.error("Failed to save:", error);
@@ -76,7 +69,7 @@ export function SkillsList({
         <>
             {displaySelectionBox && (
                 <div className='border border-gray-200 rounded pt-4 px-4'>
-                    <div className='flex gap-2'>
+                    <div className='flex gap-1 flex-wrap'>
                         {skills.map((skill) => (
                             <SkillItem
                                 key={skill.id}
@@ -115,7 +108,7 @@ export function SkillsList({
 
             {displaySelectionBox || (
                 <div>
-                    <div className='flex gap-2'>
+                    <div className='flex gap-1 flex-wrap'>
                         {skills.map((skill) => (
                             <Badge key={skill.id}>{skill.name}</Badge>
                         ))}

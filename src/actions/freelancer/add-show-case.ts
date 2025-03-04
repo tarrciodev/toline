@@ -57,8 +57,6 @@ export async function addShowCase(data: ShowCaseProps, freelancerId: string) {
             }
         );
 
-        console.log({ portifolio });
-
         revalidatePath("/");
 
         return {
@@ -66,7 +64,6 @@ export async function addShowCase(data: ShowCaseProps, freelancerId: string) {
             message: "showcase adicionado com sucesso...",
         };
     } catch (error) {
-        console.log(error);
         return {
             status: "error",
             message: "Erro ao carregar assests",

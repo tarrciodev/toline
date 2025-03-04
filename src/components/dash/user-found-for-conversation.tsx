@@ -1,9 +1,7 @@
-import { getMe } from "@/actions/users/get-me";
 import { api } from "@/config/api";
 import { IConversation, useChatStore } from "@/store/chat";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { NoUserAvatar } from "./chat/no-user-avatar";
 
 export interface IUserFoundForConversationProps {
@@ -16,18 +14,13 @@ export interface IUserFoundForConversationProps {
 export function UserFoundForConversation({
     user,
     toggleDisplayNewConversation,
+    me,
 }: {
     user: IUserFoundForConversationProps;
     toggleDisplayNewConversation: () => void;
+    me: string;
 }) {
     const { addConversation, setSelectedConversation } = useChatStore();
-    const [me, setMe] = useState("");
-    useEffect(() => {
-        (async () => {
-            const data = await getMe();
-            setMe(data.id);
-        })();
-    }, []);
 
     const client = useQueryClient();
 

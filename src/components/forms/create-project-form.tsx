@@ -123,10 +123,10 @@ export function CreateProjectForm() {
     return (
         <Form {...form}>
             <form
-                className='w-[30vw]'
+                className='w-full sm:w-[30vw]'
                 onSubmit={form.handleSubmit(handleSubmit)}
             >
-                <h1 className='text-center text-4xl font-semibold mb-8'>
+                <h1 className='text-center text-xl sm:text-4xl font-semibold mb-8'>
                     Crie um novo projeto
                 </h1>
 

@@ -16,7 +16,7 @@ export default async function EditProfile() {
     const profileCompletation = defaultScore + bioScore + identificationScore;
 
     return (
-        <main className='flex py-3 gap-6'>
+        <main className='flex flex-col sm:flex-row py-3 gap-6 w-full'>
             <div className='flex flex-col flex-1 gap-2'>
                 <FreelancerCard entity={entity} />
                 <AboutMe userId={entity.id} />
@@ -39,7 +39,7 @@ export default async function EditProfile() {
                     </>
                 </Can>
             </div>
-            <aside className='w-[20dvw]'>
+            <aside className='hidden sm:flex w-[20dvw]'>
                 <ProfileSideBar
                     entityType={entity.type}
                     projects={entity?.projects}

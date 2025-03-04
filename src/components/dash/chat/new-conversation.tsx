@@ -1,6 +1,7 @@
 "use client";
 import { api } from "@/config/api";
 import { cn } from "@/lib/utils";
+import { MeProps } from "@/store/me";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
@@ -8,16 +9,18 @@ import { useDebouncedCallback } from "use-debounce";
 import {
     IUserFoundForConversationProps,
     UserFoundForConversation,
-} from "./user-found-for-conversation";
+} from "../user-found-for-conversation";
 
 interface INewConversationProps {
     displayNewConversation: boolean;
     togleDisplayNewConversation: () => void;
+    me: MeProps;
 }
 
 export function NewConversation({
     togleDisplayNewConversation,
     displayNewConversation,
+    me,
 }: INewConversationProps) {
     const [search, setSearch] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -27,7 +30,7 @@ export function NewConversation({
         queryKey: ["conversations", debouncedSearch],
         queryFn: async () => {
             const data = await api<IUserFoundForConversationProps[]>(
-                `/conversations/search-user-for-conversation?search=${debouncedSearch}`
+                `/conversations/search-user-for-conversation/me/${me.tag}?search=${debouncedSearch}`
             );
             return data;
         },
@@ -60,20 +63,21 @@ export function NewConversation({
             </div>
             <div>
                 <input
-                    onChange={e => handleSearch(e.target.value)}
+                    onChange={(e) => handleSearch(e.target.value)}
                     value={search}
                     className='w-full border-b border-gray-200 py-2 mb-3 px-4'
                     placeholder='Buscar Conversas'
                 />
             </div>
             <div className='mt-2 flex flex-col gap-3'>
-                {data?.map(user => (
+                {data?.map((user) => (
                     <UserFoundForConversation
                         user={user}
                         key={user.id}
                         toggleDisplayNewConversation={
                             togleDisplayNewConversation
                         }
+                        me={me.id}
                     />
                 ))}
             </div>

@@ -17,9 +17,11 @@ export default async function Page({
             <div className=' w-full sm:w-[20vw] bg-white px-3 sm:px-8 shadow-lg flex-col h-fit py-6'>
                 <h1 className='text-xl sm:text-4xl font-semibold mb-2'>
                     Filtros{" "}
-                    <div className='flex sm:hidden'>
-                        <PaginationControll totalResult={totalItems} />
-                    </div>
+                    {totalItems / 8 > 1 && (
+                        <div className='flex w-full sm:hidden'>
+                            <PaginationControll totalResult={totalItems} />
+                        </div>
+                    )}
                 </h1>
                 <CategoryFilters slug={slug} />
             </div>
@@ -36,9 +38,13 @@ export default async function Page({
                         ))}
                     </div>
                 )}
-                <div className='mt-5 flex sm-hidden'>
-                    <PaginationControll totalResult={totalItems} />
-                </div>
+                {totalItems / 8 > 1 && (
+                    <div className='mt-5 flex sm-hidden justify-end'>
+                        <div className='w-[20vw]'>
+                            <PaginationControll totalResult={totalItems} />
+                        </div>
+                    </div>
+                )}
             </div>
         </main>
     );

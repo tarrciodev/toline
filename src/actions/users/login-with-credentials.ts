@@ -22,7 +22,6 @@ export async function loginWithCredentials(data: {
     const validateSchema = loginWithCredentialsSchema.safeParse(user);
 
     if (!validateSchema.success) {
-        console.log(validateSchema.error);
         const error = {
             email: validateSchema.error.issues.find((i) => i.path[0] == "email")
                 ?.message as string,
@@ -44,8 +43,8 @@ export async function loginWithCredentials(data: {
             password: user.password,
             redirect: false,
         });
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
-        console.log(e);
         return {
             status: "error",
             message: "Email ou senha invalidos",

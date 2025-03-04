@@ -42,7 +42,7 @@ export default function UserIdentification({ userId }: { userId: string }) {
             {displayIdentificationBox && (
                 <div>
                     <div className='flex flex-col'>
-                        <div className='flex gap-5'>
+                        <div className='flex flex-col sm:flex-row gap-5'>
                             <UploadImagePreview
                                 setState={setBIFront}
                                 type='BIFront'

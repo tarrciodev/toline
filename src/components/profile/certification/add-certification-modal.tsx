@@ -15,7 +15,7 @@ import { ReactNode, useActionState, useState } from "react";
 
 export function AddCertificationModal({ children }: { children: ReactNode }) {
     const [file, setFile] = useState<File | null>(null);
-    console.log(file);
+
     function handleUpload(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0];
         if (!file) {
@@ -24,12 +24,11 @@ export function AddCertificationModal({ children }: { children: ReactNode }) {
         setFile(file);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [state, formAction, isPending] = useActionState(
         addFreelancerCertification,
         null
     );
-
-    console.log(state);
 
     return (
         <Dialog>

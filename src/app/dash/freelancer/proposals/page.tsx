@@ -20,7 +20,7 @@ export default async function page({
         );
 
         return (
-            <main className='flex py-3 gap-4 w-full'>
+            <main className='flex flex-col sm:flex-row py-3 gap-4 w-full'>
                 <FreelancerProjectsFilter status={status} />
                 <div className='flex flex-col flex-1 gap-2'>
                     {sentProposals?.map((project) => (
@@ -40,7 +40,7 @@ export default async function page({
     );
 
     return (
-        <main className='flex py-3 gap-4 w-full'>
+        <main className='flex flex-col sm:flex-row py-3 gap-4 w-full '>
             <FreelancerProjectsFilter status={status} />
             <div className='flex flex-col flex-1 gap-2'>
                 {status == "accepted" && (
