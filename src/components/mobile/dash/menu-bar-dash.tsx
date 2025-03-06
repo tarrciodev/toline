@@ -24,37 +24,31 @@ export function MenuBarDash() {
                         <DrawerTitle>Dashboard</DrawerTitle>
                     </DrawerHeader>
                     <div className='flex flex-col gap-2'>
-                        <div>
+                        <div className='flex flex-col gap-4'>
                             <div>
                                 <p className='font-semibold text-xl py-1'>
                                     Geral
                                 </p>
                                 <nav>
                                     <ul className='flex flex-col space-x-6'>
-                                        <li className='py-2 border-y border-gray-200 w-full'>
-                                            <Link
-                                                href='/dash/projects'
-                                                className='text-gray-700 hover:text-blue-600'
-                                            >
-                                                Projects
-                                            </Link>
-                                        </li>
-                                        <li className='py-2 border-b border-gray-200 w-full'>
-                                            <Link
-                                                href='/dash/freelancers'
-                                                className='text-gray-700 hover:text-blue-600'
-                                            >
-                                                Freelancers
-                                            </Link>
-                                        </li>
-                                        <li className='py-2 border-b border-gray-200 w-full'>
-                                            <a
-                                                href='/blog'
-                                                className='text-gray-700 hover:text-blue-600'
-                                            >
-                                                Blog
-                                            </a>
-                                        </li>
+                                        <Link
+                                            href='/dash/projects'
+                                            className='text-gray-700 hover:text-blue-60 py-2 border-y border-gray-200 w-full'
+                                        >
+                                            Projects
+                                        </Link>
+                                        <Link
+                                            href='/dash/freelancers'
+                                            className='text-gray-700 hover:text-blue-600 border-y py-2 border-gray-200 w-full'
+                                        >
+                                            Freelancers
+                                        </Link>
+                                        <Link
+                                            href='/blog'
+                                            className='text-gray-700 hover:text-blue-600 border-y py-2 border-gray-200 w-full'
+                                        >
+                                            Blog
+                                        </Link>
                                     </ul>
                                 </nav>
                             </div>
@@ -94,7 +88,7 @@ export function MenuBarDash() {
                         </div>
                         <Button
                             onClick={handleSignout}
-                            className='bg-blue-600 text-white  hover:bg-blue-700'
+                            className='bg-blue-600 text-white  hover:bg-blue-700 w-full'
                         >
                             Sign out
                         </Button>
