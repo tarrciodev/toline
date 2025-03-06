@@ -1,14 +1,13 @@
 import { OrbitingUsers } from "./orbiting-circle";
-import { TextRoll } from "./ui/text-roll";
 
 export function Hero() {
     return (
-        <section className='bg-blue-50  py-8 sm:py-20  flex px-4 sm:px-56 gap-18'>
+        <section className='bg-blue-50  py-8 sm:py-20  flex px-4 sm:px-56 gap-10'>
             <div>
-                <TextRoll className='text-2xl sm:text-4xl font-extrabold text-blue-700 sm:max-w-[35vw] text-left'>
+                <p className='text-2xl sm:text-4xl font-extrabold text-blue-700 sm:max-w-[50vw] text-left'>
                     A TOLINE É A Sua Plataforma, Para Encontrar Projetos, E
                     Profissionais A Distancia De Um Click
-                </TextRoll>
+                </p>
 
                 <div className='mt-4 text-4xl'>
                     <p></p>

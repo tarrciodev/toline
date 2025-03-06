@@ -27,7 +27,7 @@ export function Projects() {
                             Redação
                         </h4>
                         <p className='text-gray-600 mt-2'>
-                            Copyrighting, Redação e Revivão de Conteúdos.
+                            Copyrighting, Redação e Revisão de Conteúdos.
                         </p>
                     </div>
                 </div>

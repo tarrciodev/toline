@@ -1,3 +1,5 @@
+import { handleSignout } from "@/actions/users/signout";
+import { Button } from "@/components/ui/button";
 import {
     Drawer,
     DrawerContent,
@@ -90,12 +92,12 @@ export function MenuBarDash() {
                                 </nav>
                             </div>
                         </div>
-                        <Link
-                            href='/register'
-                            className='bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex justify-center items-center'
+                        <Button
+                            onClick={handleSignout}
+                            className='bg-blue-600 text-white  hover:bg-blue-700'
                         >
                             Sign out
-                        </Link>
+                        </Button>
                     </div>
                 </DrawerContent>
             </Drawer>

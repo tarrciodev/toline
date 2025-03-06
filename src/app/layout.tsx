@@ -20,6 +20,8 @@ export const metadata: Metadata = {
         "toline, a plataforma que lhe conecta a milhares de freelancers ao redor do mundo",
 };
 
+export const maxDuration = 60;
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -28,7 +30,7 @@ export default function RootLayout({
     return (
         <html lang='en'>
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+                className={`${geistSans.variable} ${geistMono.variable} antialiased `}
             >
                 {children}
                 <Toaster position='top-right' />
