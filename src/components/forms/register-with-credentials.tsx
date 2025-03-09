@@ -29,8 +29,8 @@ export const registerWithCredentialsSchema = z.object({
         .trim()
         .min(3, "O nome deve ter pelo menos 3 caracteres")
         .regex(
-            /^[A-Za-zÀ-ÖØ-öø-ÿ]+ [A-Za-zÀ-ÖØ-öø-ÿ]+$/,
-            "Digite nome e sobrenome corretamente"
+            /^([A-Za-zÀ-ÖØ-öø-ÿ]+(?:\s[A-Za-zÀ-ÖØ-öø-ÿ]+){1,5})$/,
+            "Digite um nome válido com 2 a 6 palavras"
         ),
     password: z.string().min(8, "Password deve ter pelo menos 8 caracteres"),
 });

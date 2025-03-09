@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export function MenuBar() {
     return (
-        <div className='flex sm:hidden'>
+        <div className='flex sm:hidden ml-10 sm:ml-0'>
             <Drawer>
                 <DrawerTrigger asChild>
                     <span>

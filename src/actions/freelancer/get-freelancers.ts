@@ -22,9 +22,9 @@ export async function getFreelancers(
     especialization: string | undefined,
     skills: string
 ): Promise<FreelancersProps[]> {
-    const freelancers = await api<FreelancersProps[]>(`/freelancers`);
-
-    console.log({ especialization, skills });
+    const freelancers = await api<FreelancersProps[]>(
+        `/freelancers?skills=${skills}&especialization=${especialization}`
+    );
 
     return freelancers;
 }

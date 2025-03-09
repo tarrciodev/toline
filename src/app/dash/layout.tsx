@@ -1,5 +1,6 @@
 import { getUserAsEntity } from "@/actions/users/get-entity";
 import { DashHeader } from "@/components/dash-header";
+import { Footer } from "@/components/footer";
 import Providers from "@/providers";
 
 export default async function DashLayout({
@@ -20,6 +21,7 @@ export default async function DashLayout({
                 <div className='bg-gray-200 px-4 sm:px-56 py-2 sm:py-6 flex flex-1'>
                     {children}
                 </div>
+                <Footer />
             </div>
         </Providers>
     );

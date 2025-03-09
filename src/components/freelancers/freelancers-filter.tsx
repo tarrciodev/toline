@@ -18,7 +18,8 @@ import {
 export function FreelancersFilters() {
     const [categories, setCategories] = useState<Icategories[]>([]);
 
-    const { searchParams, setQueryParams } = useQuerySetter();
+    const { searchParams, setQueryParams, removeQueryParams } =
+        useQuerySetter();
     const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
     const especialization = searchParams.get("especialization");
 
@@ -55,7 +56,12 @@ export function FreelancersFilters() {
                 <MultiSelector
                     onValuesChange={(e) => {
                         setSelectedSkills(e);
-                        setQueryParams("skills", e.join(","));
+
+                        if (e.length > 0) {
+                            setQueryParams("skills", e.join(","));
+                        } else {
+                            removeQueryParams("skills"); // Remove 'skills' param if empty
+                        }
                     }}
                     values={selectedSkills}
                 >

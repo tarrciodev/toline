@@ -18,7 +18,7 @@ export default async function Page({
                 <FreelancersFilters />
             </div>
             <div className='flex flex-col flex-1 gap-2'>
-                {freelancers.map((freelancer) => (
+                {freelancers?.map((freelancer) => (
                     <Freelancer freelancer={freelancer} key={freelancer.id} />
                 ))}
             </div>
