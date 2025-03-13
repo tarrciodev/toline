@@ -1,9 +1,8 @@
 import { getCurrentYear } from "@/utils/get-current-year";
-import { facebook, instagram, teams, whatsap, youtube } from "@/utils/links";
+import { facebook, instagram, whatsap, youtube } from "@/utils/links";
 import Link from "next/link";
 import { FacebookIcon } from "./svg-icons/facebook";
 import { InstagramIcon } from "./svg-icons/instagram";
-import { TeamsIcon } from "./svg-icons/teams";
 import { Whatsapp } from "./svg-icons/whatsapp";
 import { YoutubeIcon } from "./svg-icons/youtube";
 
@@ -16,16 +15,8 @@ export function Footer() {
                     reservados.
                 </p>
                 <ul className='flex space-x-6'>
-                    <li>
-                        <a href='#' className='hover:text-blue-400'>
-                            Política de Privacidade
-                        </a>
-                    </li>
-                    <li>
-                        <a href='#' className='hover:text-blue-400'>
-                            Termos de Serviço
-                        </a>
-                    </li>
+                    <Link href='/privacy-policy'>Política de Privacidade</Link>
+                    <Link href='terms-of-use'>Termos de Serviço</Link>
                 </ul>
                 <h2 className='text-lg font-semibold'>Siga-nos</h2>
                 <div className='flex gap-6'>
@@ -40,9 +31,6 @@ export function Footer() {
                     </Link>
                     <Link href={whatsap}>
                         <Whatsapp />
-                    </Link>
-                    <Link href={teams}>
-                        <TeamsIcon />
                     </Link>
                 </div>
             </div>

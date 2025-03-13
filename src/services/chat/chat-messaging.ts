@@ -43,7 +43,7 @@ export function useChatMesaging(
         };
 
         ws.onmessage = (event) => {
-            const commingMessage = JSON.parse(event.data).message;
+            const commingMessage = JSON.parse(event.data);
 
             if (commingMessage) {
                 const oldMessages = client.getQueryData([
@@ -107,7 +107,9 @@ export function useChatMesaging(
     ) {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault(); // Impede quebra de linha no textarea
-            handleSendMessage();
+            if (messageContent !== "") {
+                handleSendMessage();
+            }
         }
     }
 

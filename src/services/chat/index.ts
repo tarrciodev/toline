@@ -83,7 +83,8 @@ export default function useChatService({
         };
 
         ws.onmessage = (event) => {
-            const commingMessage = JSON.parse(event.data).message as IMessage;
+            const commingMessage = JSON.parse(event.data) as IMessage;
+            console.log({ commingMessage });
 
             if (!conversations) {
                 client.invalidateQueries({
