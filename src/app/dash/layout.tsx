@@ -1,7 +1,7 @@
 import { getUserAsEntity } from "@/actions/users/get-entity";
 import { DashHeader } from "@/components/dash-header";
 import { Footer } from "@/components/footer";
-import Providers from "@/providers";
+import { Providers } from "@/providers";
 
 export default async function DashLayout({
     children,
