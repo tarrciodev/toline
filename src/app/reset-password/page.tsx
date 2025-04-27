@@ -1,4 +1,5 @@
 import { Logo } from "@/components/logo";
+import { Suspense } from "react";
 import { ResetPasswordForm } from "./(components)/reset-password-form";
 
 export default function ResetPassword() {
@@ -10,7 +11,9 @@ export default function ResetPassword() {
             <div className='flex flex-1 justify-center pt-4'>
                 <div className='w-[30vw]  p-8'>
                     <h1 className='px-0 font-semibold'>Reset Password</h1>
-                    <ResetPasswordForm />
+                    <Suspense>
+                        <ResetPasswordForm />
+                    </Suspense>
                 </div>
             </div>
         </div>
