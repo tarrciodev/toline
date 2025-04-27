@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
                 Política de Privacidade
             </h1>
             <p className='mb-4'>
-                A TOLINE valoriza a privacidade dos seus usuários e segue as
+                A TOOLINE valoriza a privacidade dos seus usuários e segue as
                 diretrizes descritas abaixo.
             </p>
 

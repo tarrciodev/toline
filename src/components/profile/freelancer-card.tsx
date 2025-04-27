@@ -1,10 +1,14 @@
+import { UpdateUserCard } from "@/app/dash/profile/[id]/(components)/update-user-card";
 import { EntityProps } from "@/store/entity";
 import { extractAvatarFromName } from "@/utils/extract-avatar-from-name";
 import Image from "next/image";
 
 export function FreelancerCard({ entity }: { entity: EntityProps }) {
     return (
-        <div className='border border-gray-200 rounded p-4 sm:p-8 w-full flex gap-2 bg-white shadow-xl'>
+        <div className='border border-gray-200 rounded p-4 sm:p-8 w-full flex gap-2 bg-white shadow-xl relative'>
+            <span className='absolute right-5 top-5'>
+                <UpdateUserCard />
+            </span>
             <div>
                 {entity.avatarUrl ? (
                     <div className='size-10 sm:size-40 rounded-full bg-linear-to-r from-blue-500 to-green-500 flex items-center justify-center'>

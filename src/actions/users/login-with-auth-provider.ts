@@ -10,7 +10,7 @@ export async function loginWithAuthProvider(): Promise<{
     const { user } = (await auth()) as {
         user: { email: string; name: string };
     };
-    const userExists = await api<{ email: string; name: string }>(
+    const userExists = await api<{ email: string; name: string; type: string }>(
         "/auth/social",
         {
             method: "POST",

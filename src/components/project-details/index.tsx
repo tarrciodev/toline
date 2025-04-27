@@ -34,7 +34,7 @@ export function ProjectSideBar({
 
     const imSubscribed =
         project.subscriptions?.some(
-            (subscription) => subscription.freelancer.id === entity?.id
+            (subscription) => subscription.toliner.id === entity?.id
         ) ?? false;
 
     const subscriber = project.freelancer;
@@ -64,7 +64,7 @@ export function ProjectSideBar({
                             id: project.id,
                             freelancerId: project?.freelancerId,
                         }}
-                        freelancerId={entity.id}
+                        tolinerId={entity.id}
                         imSubscribed={imSubscribed}
                     />
                 </div>

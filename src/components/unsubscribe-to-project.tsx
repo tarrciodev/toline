@@ -18,10 +18,10 @@ import { useRef, useTransition } from "react";
 
 export function UnsubscribeToProject({
     projectId,
-    freelancerId,
+    tolinerId,
 }: {
     projectId: string;
-    freelancerId: string;
+    tolinerId: string;
 }) {
     const [isPending, startTransition] = useTransition();
 
@@ -29,10 +29,7 @@ export function UnsubscribeToProject({
 
     function handleUnsubscribe() {
         startTransition(async () => {
-            const response = await unsubscribeOnProject(
-                projectId,
-                freelancerId
-            );
+            const response = await unsubscribeOnProject(projectId, tolinerId);
             if (response.status === "success") {
                 closeRef.current?.click();
             }

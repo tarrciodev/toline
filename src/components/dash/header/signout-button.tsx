@@ -4,7 +4,10 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 export function SignoutButton() {
     return (
-        <DropdownMenuItem onClick={() => handleSignout()}>
+        <DropdownMenuItem
+            onClick={() => handleSignout()}
+            className='flex justify-center'
+        >
             logout
         </DropdownMenuItem>
     );

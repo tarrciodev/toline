@@ -1,5 +1,5 @@
 import { getProjectsBySubscription } from "@/actions/projects/get-projects-by-subscription";
-import { getUserAsEntity } from "@/actions/users/get-entity";
+import { getTolinerAsEntity } from "@/actions/toliners/get-entity";
 import { FreelancerProjectsFilter } from "@/components/freelancers/freelancer-projects-filter";
 import { Project } from "@/components/project";
 
@@ -9,7 +9,7 @@ export default async function page({
     searchParams: Promise<{ status: string }>;
 }) {
     const status = (await searchParams).status;
-    const freelancer = await getUserAsEntity();
+    const freelancer = await getTolinerAsEntity();
 
     if (status == "sent") {
         const subscriptionsAsId = freelancer?.subscriptions?.map(
@@ -31,12 +31,12 @@ export default async function page({
         );
     }
 
-    const accceptedProposals = freelancer?.projects?.filter(
-        (project) => project.status != "Completado"
+    const accceptedProposals = freelancer?.projectsFreelanced?.filter(
+        (project) => project.status != "Concluido"
     );
 
-    const concludedProjects = freelancer?.projects?.filter(
-        (project) => project.status == "Completado"
+    const concludedProjects = freelancer?.projectsFreelanced?.filter(
+        (project) => project.status == "Concluido"
     );
 
     return (

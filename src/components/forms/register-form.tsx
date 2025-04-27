@@ -12,7 +12,7 @@ import { registerSocial } from "@/actions/users/register-social";
 import { redirect } from "next/navigation";
 import { AuthButtonProviderButton } from "../auth-button-provider";
 import { FormMessage } from "../form-message";
-import { RegisterWithCredentialsForm } from "./register-with-credentials";
+import { MultiStepForm } from "../MultForm";
 
 export interface IAuthFormProps extends React.ComponentPropsWithoutRef<"div"> {
     provider: "google" | "github" | null | undefined;
@@ -74,13 +74,9 @@ export async function RegisterForm({
                 <CardContent>
                     <div>
                         <div className='flex flex-col gap-3'>
-                            <div className='flex sm:gap-4 justify-center'>
+                            <div className='flex sm:gap-4'>
                                 <AuthButtonProviderButton
                                     provider='google'
-                                    currentUrl={`register/${pathname}`}
-                                />
-                                <AuthButtonProviderButton
-                                    provider='github'
                                     currentUrl={`register/${pathname}`}
                                 />
                             </div>
@@ -92,7 +88,7 @@ export async function RegisterForm({
                             {displayFormMessage && (
                                 <FormMessage message='Essa conta já existe' />
                             )}
-                            <RegisterWithCredentialsForm />
+                            <MultiStepForm />
                             <div className='text-center text-sm'>
                                 Já tem uma conta?{" "}
                                 <Link

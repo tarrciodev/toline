@@ -11,7 +11,7 @@ export function Footer() {
         <footer className='bg-gray-50 text-gray-900 py-8'>
             <div className='max-w-6xl mx-auto px-4 flex flex-col items-center gap-4'>
                 <p>
-                    &copy; {getCurrentYear()} Toline. Todos os direitos
+                    &copy; {getCurrentYear()} Tooline. Todos os direitos
                     reservados.
                 </p>
                 <ul className='flex space-x-6'>

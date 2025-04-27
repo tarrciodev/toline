@@ -15,7 +15,7 @@ export type IProject = {
     };
     subscriptions?: Array<{
         id: string;
-        freelancer: {
+        toliner: {
             id: string;
             name: string;
             avatarUrl?: string;

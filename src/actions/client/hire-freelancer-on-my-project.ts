@@ -37,6 +37,8 @@ export async function hireFreelancerOnMyProject(data: HireFreelancerProps) {
         }
     );
 
+    console.log({ hired: project });
+
     if (!project.id) {
         return {
             status: "error",

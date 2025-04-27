@@ -1,8 +1,8 @@
-import { getUserAsEntity } from "@/actions/users/get-entity";
+import { getTolinerAsEntity } from "@/actions/toliners/get-entity";
 import { Project } from "@/components/entity/project";
 
 export default async function Page() {
-    const entity = await getUserAsEntity();
+    const entity = await getTolinerAsEntity();
     const projects = entity?.projects;
 
     return (

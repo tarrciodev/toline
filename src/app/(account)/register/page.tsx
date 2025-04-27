@@ -55,7 +55,6 @@ export default function Register() {
                                     <RadioGroupItem
                                         value='freelancer'
                                         id='r2'
-                                        onChangeCapture={(e) => console.log(e)}
                                     />
                                     <Label
                                         htmlFor='r2'

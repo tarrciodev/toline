@@ -1,25 +1,28 @@
 "use server";
-
 import { api } from "@/config/api";
-import { resend } from "@/config/resend";
 
 export async function forgotPassword(
-    _: unknown,
-    formData: FormData
+    email: string
 ): Promise<{ status: "success" | "error"; message: string }> {
-    const email = formData.get("email") as string;
+    const response = await api<{
+        status: "error" | "success";
+        message: string;
+    }>(
+        `/user/forgot-password?userEmail=${email}&siteUrl=${process.env.SITE_URL as string}`,
+        {
+            method: "POST",
+        }
+    );
 
-    const token = await api(`/user/forgot-password/${email}`);
-
-    await resend.emails.send({
-        from: "Acme <onboarding@resend.dev>",
-        to: [email],
-        subject: "Hello world",
-        text: `${process.env.SITE_URL as string}/reset-password/${token}?email=${email}`,
-    });
+    if (response.status === "error") {
+        return {
+            status: "error",
+            message: response.message,
+        };
+    }
 
     return {
         status: "success",
-        message: "Um email foi enviado para seu email",
+        message: "Enviamos uma mensagem para o seu email, por favor verifique",
     };
 }

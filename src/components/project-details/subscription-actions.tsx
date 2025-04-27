@@ -4,11 +4,11 @@ import { UnsubscribeToProject } from "../unsubscribe-to-project";
 
 export function SubscriptionActions({
     project,
-    freelancerId,
+    tolinerId,
     imSubscribed,
 }: {
     project: { id: string; freelancerId?: string };
-    freelancerId: string;
+    tolinerId: string;
     imSubscribed: boolean;
 }) {
     return (
@@ -22,12 +22,12 @@ export function SubscriptionActions({
                     {imSubscribed ? (
                         <UnsubscribeToProject
                             projectId={project.id}
-                            freelancerId={freelancerId}
+                            tolinerId={tolinerId}
                         />
                     ) : (
                         <ProjectSuscriptionForm
                             projectId={project.id}
-                            freelancerId={freelancerId}
+                            tolinerId={tolinerId}
                         />
                     )}
                 </>

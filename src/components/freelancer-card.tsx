@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Card, CardContent } from "./ui/card";
 
 export async function FreelancerCard({ entity }: { entity: EntityProps }) {
-    const acceptedProposals = entity.projects?.filter(
+    const acceptedProposals = entity.projectsFreelanced?.filter(
         (project) => project.status != "Completado"
     ).length;
     const submittedProposals = entity.subscriptions?.filter(
@@ -13,17 +13,19 @@ export async function FreelancerCard({ entity }: { entity: EntityProps }) {
 
     return (
         <div className='flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center'>
-            <Card className='flex  flex-1 items-center rounded'>
-                <CardContent className='flex items-center gap-2 pt-4'>
-                    <span className='size-16 rounded-full flex items-center justify-center bg-blue-700 text-blue-50'>
-                        <CircleDollarSign />
-                    </span>
-                    <div>
-                        <span>0</span>
-                        <p>Seus ganhos</p>
-                    </div>
-                </CardContent>
-            </Card>
+            <Link href={`/dash/freelancer/${entity.id}/earnings`}>
+                <Card className='flex  flex-1 items-center rounded'>
+                    <CardContent className='flex items-center gap-2 pt-4'>
+                        <span className='size-16 rounded-full flex items-center justify-center bg-blue-700 text-blue-50'>
+                            <CircleDollarSign />
+                        </span>
+                        <div>
+                            <span>0</span>
+                            <p>Seus ganhos</p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </Link>
 
             <Link href='/dash/freelancer/proposals?status=sent'>
                 <Card className='flex-1 rounded'>

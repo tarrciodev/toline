@@ -5,16 +5,16 @@ import { revalidatePath } from "next/cache";
 
 export async function unsubscribeOnProject(
     projectId: string,
-    freelancerId: string
+    tolinerId: string
 ): Promise<{ status: "success" | "rejected"; message: string }> {
-    if (!projectId || !freelancerId) {
+    if (!projectId || !tolinerId) {
         return {
             status: "rejected",
             message: "O id do projeto e do freelancer precisam ser informados",
         };
     }
 
-    await api(`/project/${projectId}/unsubscribe/${freelancerId}`, {
+    await api(`/project/${projectId}/unsubscribe/${tolinerId}`, {
         method: "PUT",
     });
 

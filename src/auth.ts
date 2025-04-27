@@ -23,23 +23,40 @@ const authOptions = {
                     password: string;
                 };
 
-                const userAuth = await api<{ email: string; name: string }>(
-                    "/auth/credentials",
+                const userAuth = await api<{
+                    email: string;
+                    name: string;
+                    type: string;
+                }>("/auth/credentials", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password,
+                    }),
+                });
+
+                if (!userAuth.email) {
+                    throw new Error("Email ou senha inválidos");
+                }
+
+                const response = await fetch(
+                    `${process.env.SITE_URL}/api/set-cookie`,
                     {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            email,
-                            password,
+                            userType: userAuth.type,
                         }),
                     }
                 );
 
-                if (!userAuth.email) {
-                    throw new Error("Email ou senha inválidos");
-                }
+                const data = await response.json();
+                console.log({ data });
 
                 return userAuth;
             },

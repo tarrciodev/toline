@@ -1,3 +1,4 @@
+import { IProject } from "@/actions/projects/get-projects";
 import { create } from "zustand";
 
 export type ProjectFullProps = {
@@ -30,7 +31,7 @@ export type ProjectFullProps = {
     };
     subscriptions?: Array<{
         id: string;
-        freelancer: {
+        toliner: {
             id: string;
             name: string;
             avatarUrl?: string;
@@ -70,6 +71,7 @@ export type EntityProps = {
     isVerified?: boolean;
     userId: string;
     projects?: ProjectFullProps[];
+    projectsFreelanced: IProject[];
     createdAt: string;
     avatarUrl?: string;
     type: "freelancer" | "client";

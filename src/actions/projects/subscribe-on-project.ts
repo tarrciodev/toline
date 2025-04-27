@@ -12,15 +12,16 @@ type DataProps = {
 
 type DependenciesProps = {
     projectId: string;
-    freelancerId: string;
+    tolinerId: string;
 };
 
 export async function subscribeOnProject(
     data: DataProps,
     dependencies: DependenciesProps
 ): Promise<{ status: "Created" | "rejected"; message: string }> {
-    const { projectId, freelancerId } = dependencies;
-    if (!projectId || !freelancerId) {
+    const { projectId, tolinerId } = dependencies;
+    console.log({ dependencies });
+    if (!projectId || !tolinerId) {
         return {
             status: "rejected",
             message: "Sem informações suficientes para criar esta subscrição",
@@ -28,7 +29,7 @@ export async function subscribeOnProject(
     }
 
     const subscrition = await api<{ id: true }>(
-        `/project/${dependencies.projectId}/subscribe/${dependencies.freelancerId}`,
+        `/project/${dependencies.projectId}/subscribe/${tolinerId}`,
         {
             method: "PUT",
             headers: {
@@ -37,6 +38,8 @@ export async function subscribeOnProject(
             body: JSON.stringify(data),
         }
     );
+
+    console.log({ subscrition });
 
     if (!subscrition.id) {
         return {

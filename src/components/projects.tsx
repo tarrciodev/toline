@@ -1,6 +1,6 @@
 export function Projects() {
     return (
-        <section id='projects' className='bg-gray-100 py-20'>
+        <section id='projects' className='py-20'>
             <div className='max-w-6xl mx-auto px-4'>
                 <h3 className='text-3xl font-bold text-center text-gray-800'>
                     Explore Projectos

@@ -10,7 +10,7 @@ export function AuthButtonProviderButton({
     currentUrl: string;
 }) {
     return (
-        <form action={loginWithProvider}>
+        <form action={loginWithProvider} className='w-full'>
             <input type='hidden' name='currentUrl' value={currentUrl} />
             {provider == "google" ? (
                 <Button

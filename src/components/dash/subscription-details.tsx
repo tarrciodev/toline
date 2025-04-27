@@ -24,7 +24,7 @@ export function SubscriptionDetails({
             await hireFreelancerOnMyProject({
                 projectId: dependencies.projectId,
                 ownerId: dependencies.ownerId,
-                freelancerId: subscription.freelancer.id,
+                freelancerId: subscription.toliner.id,
             });
         });
     }
@@ -61,7 +61,7 @@ export function SubscriptionDetails({
 
                     <div className='flex w-full items-center justify-end gap-2'>
                         <ChatWithEntity
-                            entityId={subscription.freelancer.userId}
+                            entityId={subscription.toliner.userId}
                             entityType='freelancer'
                         />
                         <Button

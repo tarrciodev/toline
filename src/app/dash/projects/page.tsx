@@ -13,8 +13,8 @@ export default async function Page({
     const { projects, totalItems } = await getProjects(slug, page);
 
     return (
-        <main className='flex flex-col sm:flex-row  py-5 sm:py-3 gap-6 w-full'>
-            <div className=' w-full sm:w-[20vw] bg-white px-3 sm:px-8 shadow-lg flex-col h-fit py-6'>
+        <main className='flex flex-col sm:flex-row  py-5 sm:py-3 gap-6 w-full min-h-screen'>
+            <div className=' w-full sm:w-[20vw] bg-white px-3 sm:px-8 shadow-lg flex-col h-fit py-6 sticky top-20 self-start'>
                 <h1 className='text-xl sm:text-4xl font-semibold mb-2'>
                     Filtros{" "}
                     {totalItems / 8 > 1 && (

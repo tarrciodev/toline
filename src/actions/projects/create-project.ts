@@ -17,6 +17,7 @@ interface IFilteredSkills {
     description?: string | null;
     categoryId?: string | null;
     subcategoryId?: string | null;
+    skills?: Array<string>;
 }
 
 export async function createProject(
@@ -32,9 +33,15 @@ export async function createProject(
         };
     }
 
-    const me = await api<{ userId: string }>(`/me/${user.email}`);
+    const me = await api<{ tolinerId: string }>(`/me/${user.email}`, {
+        cache: "force-cache",
+        next: {
+            tags: ["me"],
+            revalidate: 180,
+        },
+    });
     const createdProject = await api<{ id: string }>(
-        `/project/create/${me.userId}`,
+        `/project/create/${me.tolinerId}`,
         {
             method: "POST",
             headers: {
@@ -44,7 +51,11 @@ export async function createProject(
                 name: project.name,
                 description: project.description,
                 categoryId: project.categoryId,
-                skills: filteredSkills?.map((s) => s.id),
+                skills: filteredSkills
+                    ?.filter((filtered) =>
+                        project.skills?.includes(filtered.name)
+                    )
+                    .map((s) => s.id),
                 subcategoryId: project.subcategoryId,
             }),
         }

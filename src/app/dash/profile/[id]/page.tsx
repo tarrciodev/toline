@@ -1,4 +1,4 @@
-import { getUserAsEntity } from "@/actions/users/get-entity";
+import { getTolinerAsEntity } from "@/actions/toliners/get-entity";
 import { Can } from "@/components/can";
 import { AboutMe } from "@/components/profile/about-me";
 import { FreelancerCard } from "@/components/profile/freelancer-card";
@@ -6,9 +6,11 @@ import { ProfileSideBar } from "@/components/profile/profile-sidebar";
 import { ProjectsIHaveWorkedOn } from "@/components/profile/projects-i-have-worked-on";
 import UserIdentification from "@/components/profile/user-identification";
 import { UserProfileSkills } from "@/components/profile/user-profile-skills";
+import { AlterPasswordModal } from "./(components)/alter-password-modal";
+import { DeleteAccountModal } from "./(components)/delete-account-modal";
 
 export default async function EditProfile() {
-    const entity = await getUserAsEntity();
+    const entity = await getTolinerAsEntity();
     const defaultScore = 70;
     const bioScore = entity?.bio ? 10 : 0;
     const identificationScore = entity?.identification ? 20 : 0;
@@ -39,7 +41,7 @@ export default async function EditProfile() {
                     </>
                 </Can>
             </div>
-            <aside className='hidden sm:flex w-[20dvw]'>
+            <aside className='hidden sm:flex flex-col w-[20dvw] sticky top-20 self-start'>
                 <ProfileSideBar
                     entityType={entity.type}
                     projects={entity?.projects}
@@ -48,6 +50,10 @@ export default async function EditProfile() {
                     createdAt={entity?.createdAt}
                     profileCompletation={profileCompletation}
                 />
+                <div className='my-2 bg-white rounded-lg p-4 flex flex-col gap-2'>
+                    <AlterPasswordModal />
+                    <DeleteAccountModal />
+                </div>
             </aside>
         </main>
     );

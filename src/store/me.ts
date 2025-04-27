@@ -11,6 +11,17 @@ export type ShowCaseProps = {
     }>;
 };
 
+export interface IMe {
+    id: string;
+    type: string;
+    email: string;
+    username: string;
+    avatarUrl?: string;
+    tag: string;
+    tolinerId: string;
+    hasSettedPassword: boolean;
+}
+
 export interface MeProps {
     id: string;
     type: string;
@@ -18,6 +29,7 @@ export interface MeProps {
     userId: string;
     username: string;
     avatarUrl?: string;
+    hasSettedPassword: boolean;
     tag: string;
     certifications?: {
         id: string;
@@ -46,11 +58,11 @@ export interface MeProps {
     showCases?: ShowCaseProps[];
 }
 interface EntityState {
-    me: MeProps | null;
-    setMe: (entity: MeProps) => void;
+    me: IMe | null;
+    setMe: (entity: IMe) => void;
 }
 
 export const useMeStore = create<EntityState>()((set) => ({
     me: null,
-    setMe: (me: MeProps) => set({ me }),
+    setMe: (me: IMe) => set({ me }),
 }));

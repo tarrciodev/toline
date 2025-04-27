@@ -7,7 +7,7 @@ export default function TermsOfUse() {
                 Termos de Uso
             </h1>
             <p className='mb-4'>
-                Ao utilizar a plataforma TOLINE, você concorda com os seguintes
+                Ao utilizar a plataforma TOOLINE, você concorda com os seguintes
                 termos e condições.
             </p>
 

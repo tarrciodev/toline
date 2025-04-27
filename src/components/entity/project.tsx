@@ -1,37 +1,38 @@
+import { ProjectFullProps } from "@/store/entity";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
 
-interface IEntityProject {
-    id: string;
-    name: string;
-    description: string;
-    status: string;
-    createdAt: string;
-    updatedAt: string;
-    category: string;
-    subcategory?: string;
-    skills?: {
-        id: string;
-        name: string;
-    }[];
-    subscriptions?: Array<{
-        id: string;
-        freelancer: {
-            id: string;
-            name: string;
-        };
-    }>;
-    owner?: {
-        name: string;
-        id: string;
-    };
-}
+// interface IEntityProject {
+//     id: string;
+//     name: string;
+//     description: string;
+//     status: string;
+//     createdAt: string;
+//     updatedAt: string;
+//     category: string;
+//     subcategory?: string;
+//     skills?: {
+//         id: string;
+//         name: string;
+//     }[];
+//     subscriptions?: Array<{
+//         id: string;
+//         freelancer: {
+//             id: string;
+//             name: string;
+//         };
+//     }>;
+//     owner?: {
+//         name: string;
+//         id: string;
+//     };
+// }
 
 export function Project({
     project,
     entityType,
 }: {
-    project: IEntityProject;
+    project: ProjectFullProps;
     entityType: string;
 }) {
     return (

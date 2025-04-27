@@ -1,12 +1,12 @@
 import { IConversation } from "@/store/chat";
-import { MeProps } from "@/store/me";
+import { IMe } from "@/store/me";
 import { ArrowLeft, MessageSquarePlus } from "lucide-react";
 import ConversationList from "./conversation-list";
 import { NewConversation } from "./new-conversation";
 
 interface IChatConversationContainerProps {
     displayNewConversation: boolean;
-    me: MeProps;
+    me: IMe;
     togleDisplayNewConversation: () => void;
     conversations: IConversation[];
     toggleDisplayChat?: () => void;

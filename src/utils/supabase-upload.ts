@@ -14,6 +14,8 @@ export async function supabaseUpload(file: File) {
             .from("toline-storage")
             .upload(filePath, file);
 
+        console.log({ supabase: data });
+
         if (error) {
             return error;
         }
@@ -21,6 +23,8 @@ export async function supabaseUpload(file: File) {
         const { data: url } = supabase.storage
             .from("toline-storage")
             .getPublicUrl(filePath);
+
+        console.log({ supabase: data });
 
         return url.publicUrl || null;
     } catch (error) {

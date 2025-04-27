@@ -190,4 +190,16 @@
     body {
         @apply bg-background text-foreground;
     }
+
+    h1 {
+        @apply text-3xl font-semibold leading-snug;
+    }
+
+    h2 {
+        @apply text-2xl font-semibold leading-snug;
+    }
+
+    h3 {
+        @apply text-xl font-medium leading-snug;
+    }
 }

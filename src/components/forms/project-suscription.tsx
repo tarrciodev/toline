@@ -9,33 +9,30 @@ import {
 } from "../ui/dialog";
 
 import { useSendProposalServices } from "@/services/freelancers/send-proposal";
+import { CustomEditorField } from "../custom-editor-field";
+import { CustomFormField } from "../custom-form-field";
 import { Loader } from "../loader";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "../ui/form";
+import { Form } from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 
 export function ProjectSuscriptionForm({
     projectId,
-    freelancerId,
+    tolinerId,
 }: {
     projectId: string;
-    freelancerId: string;
+    tolinerId: string;
 }) {
-    const { form, onSubmit, isSubmitting } = useSendProposalServices(
-        projectId,
-        freelancerId
-    );
+    const { form, onSubmit, isSubmitting, triggerRef } =
+        useSendProposalServices(projectId, tolinerId);
+
     return (
         <Dialog>
-            <DialogTrigger className='w-full'>
-                <div className='flex justify-center bg-black hover:bg-black/80 text-white w-full py-2 rounded-lg cursor-pointer'>
+            <DialogTrigger className='w-full' asChild>
+                <div
+                    ref={triggerRef}
+                    className='flex justify-center bg-black hover:bg-black/80 text-white w-full py-2 rounded-lg cursor-pointer'
+                >
                     Enviar Proposta
                 </div>
             </DialogTrigger>
@@ -46,84 +43,45 @@ export function ProjectSuscriptionForm({
 
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <div>
-                            <FormField
+                        <div className='flex flex-col gap-2'>
+                            <CustomFormField
                                 control={form.control}
                                 name='estimatedTime'
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>
-                                            Quanto tempo precisa para terminar o
-                                            projeto?
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder='exempo: (duas semanas)'
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <div>
-                            <FormField
+                                label='Quanto tempo precisa para terminar o projeto?'
+                            >
+                                <Input placeholder='exempo: (duas semanas)' />
+                            </CustomFormField>
+
+                            <CustomFormField
                                 control={form.control}
                                 name='requiredInformations'
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>
-                                            Que informações precisa para
-                                            começar?
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <div>
-                            <FormField
+                                label='Que informações precisa para começar?'
+                            >
+                                <Textarea placeholder='fale de forma resumida' />
+                            </CustomFormField>
+
+                            <CustomFormField
                                 control={form.control}
                                 name='similarExperiences'
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>
-                                            Fale um pouco de sua experiencia em
-                                            projetos similares
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Textarea
-                                                placeholder='fale de forma resumida'
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                label='Fale um pouco de sua experiencia em projetos similares'
+                            >
+                                <Textarea placeholder='fale de forma resumida' />
+                            </CustomFormField>
+                            <CustomEditorField
+                                control={form.control}
+                                name='proposal'
+                                label='Porque Devemos escolher Você?'
                             />
-                        </div>
-                        <div>
-                            <FormField
+
+                            <CustomFormField
                                 control={form.control}
                                 name='quotation'
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>
-                                            Qual é o seu orçamento para este
-                                            trabalho?
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input type='number' {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                                label='Qual é o seu orçamento para este trabalho?'
+                            >
+                                <Input type='number' />
+                            </CustomFormField>
                         </div>
+
                         <Button
                             className='w-full mt-3 cursor-pointer'
                             type='submit'

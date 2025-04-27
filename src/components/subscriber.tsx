@@ -7,7 +7,7 @@ import { SubscriptionDetails } from "./dash/subscription-details";
 
 export interface ISubscription {
     id: string;
-    freelancer: {
+    toliner: {
         id: string;
         name: string;
         avatarUrl?: string;
@@ -35,10 +35,10 @@ export function Subscriber({
         <div className='flex flex-col gap-4 shadow-sm p-4 bg-white border border-gray-100'>
             <div className='flex gap-2 items-center'>
                 <div>
-                    {subscription.freelancer.avatarUrl ? (
+                    {subscription.toliner.avatarUrl ? (
                         <div>
                             <Image
-                                src={subscription.freelancer.avatarUrl}
+                                src={subscription.toliner.avatarUrl}
                                 alt='Avatar'
                                 width={40}
                                 height={40}
@@ -46,18 +46,16 @@ export function Subscriber({
                         </div>
                     ) : (
                         <span className='h-20 w-20 rounded bg-teal-900 p-4 text-teal-50'>
-                            {extractAvatarFromName(
-                                subscription.freelancer.name
-                            )}
+                            {extractAvatarFromName(subscription.toliner.name)}
                         </span>
                     )}
                 </div>
                 <div>
                     <Link
-                        href={`/dash/freelancers/${subscription.freelancer.id}`}
+                        href={`/dash/freelancers/${subscription.toliner.id}`}
                         className='font-semibold hover:underline'
                     >
-                        {subscription.freelancer.name}
+                        {subscription.toliner.name}
                     </Link>
                     <p className='flex'>
                         <Star />

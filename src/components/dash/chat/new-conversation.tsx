@@ -1,7 +1,7 @@
 "use client";
 import { api } from "@/config/api";
 import { cn } from "@/lib/utils";
-import { MeProps } from "@/store/me";
+import { IMe } from "@/store/me";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
@@ -14,7 +14,7 @@ import {
 interface INewConversationProps {
     displayNewConversation: boolean;
     togleDisplayNewConversation: () => void;
-    me: MeProps;
+    me: IMe;
 }
 
 export function NewConversation({

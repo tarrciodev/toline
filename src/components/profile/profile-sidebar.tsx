@@ -24,7 +24,7 @@ export function ProfileSideBar({
     entityType,
 }: IuserProfileCompletation) {
     return (
-        <div className='bg-white p-8 flex flex-col gap-1'>
+        <div className='bg-white p-8 flex flex-col gap-1 rounded-lg'>
             <h1 className='font-semibold text-xl mb-3'>dados do Perfil</h1>
             <div className='my-1'>
                 <ProfileCompletation

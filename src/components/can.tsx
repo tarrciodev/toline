@@ -1,4 +1,5 @@
-import { getMe } from "@/actions/users/get-me";
+import { getTolinerAsEntity } from "@/actions/toliners/get-entity";
+import { cookies } from "next/headers";
 import React from "react";
 
 export async function Can({
@@ -8,9 +9,12 @@ export async function Can({
     who: "client" | "freelancer";
     children: React.ReactNode;
 }) {
-    const me = await getMe();
+    const cookieStore = await cookies();
+    const entity = await getTolinerAsEntity();
 
-    const isAuthorized = who === me?.type;
+    const userIsLoggedAs = cookieStore.get("logged_as")?.value ?? entity.type;
+
+    const isAuthorized = who === (userIsLoggedAs as "client" | "freelancer");
 
     if (!isAuthorized) {
         return <></>;

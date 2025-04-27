@@ -2,7 +2,9 @@
 
 import { loginWithCredentials } from "@/actions/users/login-with-credentials";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeClosed } from "lucide-react";
 import { redirect } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -27,10 +29,14 @@ export const loginWithEmailSchema = z.object({
 export type loginWithEmailProps = z.infer<typeof loginWithEmailSchema>;
 
 export default function LoginWithCredentials() {
+    const [showPassword, setShowPassword] = useState(false);
+    function handleShowPassword() {
+        setShowPassword((prev) => !prev);
+    }
     const form = useForm<loginWithEmailProps>({
         resolver: zodResolver(loginWithEmailSchema),
         defaultValues: {
-            email: "", // Ensure these fields are initialized
+            email: "",
             password: "",
         },
     });
@@ -74,16 +80,28 @@ export default function LoginWithCredentials() {
                         control={form.control}
                         name='password'
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className='relative'>
                                 <FormLabel>Senha</FormLabel>
                                 <FormControl>
                                     <Input
-                                        type='password'
-                                        placeholder='Digite sua senha'
+                                        type={
+                                            showPassword ? "text" : "password"
+                                        }
+                                        placeholder='Digite sua senha tarcio'
                                         {...field}
                                     />
                                 </FormControl>
                                 <FormMessage />
+                                <span
+                                    onClick={handleShowPassword}
+                                    className='absolute right-3 top-9 cursor-pointer'
+                                >
+                                    {showPassword ? (
+                                        <EyeClosed size={18} />
+                                    ) : (
+                                        <Eye size={18} />
+                                    )}
+                                </span>
                             </FormItem>
                         )}
                     />

@@ -1,7 +1,7 @@
 import { gql } from "graphql-request";
 export const GET_ALL_POSTS = gql`
     query getPosts($first: Int, $skip: Int) {
-        postsConnection(first: $first, skip: $skip) {
+        postsConnection(first: $first, skip: $skip, orderBy: createdAt_DESC) {
             aggregate {
                 count
             }
@@ -27,7 +27,6 @@ export const GET_ALL_POSTS = gql`
         }
     }
 `;
-
 export const GET_POST_BY_SLUG = gql`
     query postBySlug($slug: String!) {
         post(where: { slug: $slug }) {

@@ -38,7 +38,7 @@ interface IMarkProjectAsConcluedeProps {
 export function MarkProjectAsConcluded({
     project,
 }: IMarkProjectAsConcluedeProps) {
-    const { form, handleMarkProjectAsConcluded, isSubmitting } =
+    const { form, handleMarkProjectAsConcluded, isSubmitting, triggerRef } =
         useMarkProjectAsConcludedService({
             clientId: project.ownerId,
             projectId: project.id,
@@ -47,7 +47,10 @@ export function MarkProjectAsConcluded({
     return (
         <Dialog>
             <DialogTrigger asChild className='w-full'>
-                <div className='rounded-lg py-2 px-2 w-full cursor-pointer bg-black hover:bg-black/80 text-center text-red-50'>
+                <div
+                    ref={triggerRef}
+                    className='rounded-lg py-2 px-2 w-full cursor-pointer bg-black hover:bg-black/80 text-center text-red-50'
+                >
                     Marcar Como Concluído
                 </div>
             </DialogTrigger>

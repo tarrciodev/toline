@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { markProjectAsConcluded } from "@/actions/client/mark-project-as-concluded";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
@@ -32,6 +32,7 @@ interface IMarkProjectAsConcluedeResponse {
         rate: string;
         comment: string;
     }) => Promise<void>;
+    triggerRef: RefObject<HTMLDivElement | null>;
 }
 
 export function useMarkProjectAsConcludedService({
@@ -39,6 +40,7 @@ export function useMarkProjectAsConcludedService({
     projectId,
     freelancerId,
 }: IMarkProjectAsConcluedeProps): IMarkProjectAsConcluedeResponse {
+    const triggerRef = useRef<HTMLDivElement | null>(null);
     const form = useForm<{
         rate: string;
         comment: string;
@@ -57,6 +59,7 @@ export function useMarkProjectAsConcludedService({
     useEffect(() => {
         if (isSubmitSuccessful) {
             form.reset();
+            triggerRef.current?.click();
         }
     }, [isSubmitSuccessful, form]);
 
@@ -79,5 +82,6 @@ export function useMarkProjectAsConcludedService({
         isSubmitting,
         isSubmitSuccessful,
         handleMarkProjectAsConcluded,
+        triggerRef,
     };
 }

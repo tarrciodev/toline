@@ -31,7 +31,10 @@ export function Project({ project }: { project: IProject }) {
                 </p>
             </div>
             <div>
-                <p className='line-clamp-5'>{project?.description}</p>
+                <p
+                    className='line-clamp-5 prose max-w-none'
+                    dangerouslySetInnerHTML={{ __html: project.description! }}
+                />
             </div>
             {project.skills?.length != 0 && (
                 <div>

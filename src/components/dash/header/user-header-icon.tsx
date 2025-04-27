@@ -1,18 +1,36 @@
 "use client";
+import { setAccountTo } from "@/actions/users/set-acount-to";
 import { IDashUser } from "@/components/dash-header";
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getCookieStore } from "@/utils/cookie-store";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { NoUserAvatar } from "../chat/no-user-avatar";
 import { SignoutButton } from "./signout-button";
 
 export function UserHeaderIcon({ user }: { user: IDashUser }) {
+    const [userIsLogedAs, setUseIsLoggedAs] = useState<
+        "freelancer" | "client" | null
+    >(null);
+
+    function handleCick(value: "freelancer" | "client") {
+        setUseIsLoggedAs(value);
+        setAccountTo(value);
+    }
+    useEffect(() => {
+        (async () => {
+            const userIsLoggedAs = await getCookieStore("logged_as");
+            setUseIsLoggedAs(userIsLoggedAs as "freelancer" | "client");
+        })();
+    }, []);
     return (
         <DropdownMenu>
             <DropdownMenuTrigger className='rounded-full'>
@@ -40,6 +58,17 @@ export function UserHeaderIcon({ user }: { user: IDashUser }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                {userIsLogedAs === "freelancer" ? (
+                    <DropdownMenuItem onClick={() => handleCick("client")}>
+                        <NoUserAvatar username={user.username} variante='sm' />
+                        Entrar como cliente
+                    </DropdownMenuItem>
+                ) : (
+                    <DropdownMenuItem onClick={() => handleCick("freelancer")}>
+                        <NoUserAvatar username={user.username} variante='sm' />
+                        Entrar como freelancer
+                    </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 <SignoutButton />
             </DropdownMenuContent>

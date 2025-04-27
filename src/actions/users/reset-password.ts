@@ -1,19 +1,23 @@
 "use server";
 
 import { api } from "@/config/api";
+import { loginWithCredentials } from "./login-with-credentials";
 
 export async function resetPassword(data: {
     password: string;
     confirmPassword: string;
-    token: string;
+    code: string;
     email: string;
 }) {
     const userReset = {
         password: data.password,
-        token: data.token,
+        code: data.code,
     };
 
-    const response = await api(`/user/reset-password/${data.email}`, {
+    const response = await api<{
+        status: "error" | "success";
+        message: string;
+    }>(`/user/reset-password/${data.email}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -21,12 +25,17 @@ export async function resetPassword(data: {
         body: JSON.stringify(userReset),
     });
 
-    if (!response) {
+    if (response.status === "error") {
         return {
             status: "error",
-            message: "Falha ao resetar a password",
+            message: response.message,
         };
     }
+
+    await loginWithCredentials({
+        email: data.email,
+        password: userReset.password,
+    });
 
     return {
         status: "success",

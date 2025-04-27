@@ -9,6 +9,7 @@ export async function getProjectsOfInterest(
     const projects = await api<IProject[]>(
         `/projects/of-interest/${userEmail}`
     );
+
     const parsedProjects = projects?.map((project) => {
         return {
             ...project,

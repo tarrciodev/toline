@@ -1,44 +1,22 @@
-"use client";
-import { forgotPassword } from "@/actions/users/forgot-password";
-import { FormMessage } from "@/components/form-message";
-import { Header } from "@/components/header";
-import { Button } from "@/components/ui/button";
-import { Card, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Logo } from "@/components/logo";
 import Link from "next/link";
-import { useActionState, useEffect, useState } from "react";
+import ForgotPasswordForm from "./(components)/forgot-password-form";
 
-export default function ForgotPassword() {
-    const [result, setResult] = useState({ status: "", message: "" });
-    const [state, formAction, isPending] = useActionState(forgotPassword, null);
-    useEffect(() => {
-        if (state) {
-            setResult({ status: state!.status, message: state!.message });
-            setTimeout(() => {
-                setResult({ status: "", message: "" });
-            }, 2000);
-        }
-    }, [state]);
+export default function ForgotPasswordPage() {
     return (
-        <div className='h-screen bg-gray-200'>
-            <Header />
+        <div className='h-screen bg-white'>
+            <header className='px-40'>
+                <Logo redirectTo='/' />
+            </header>
             <div className='flex flex-1 justify-center pt-4'>
-                <Card className='w-[30vw]  p-8'>
-                    <CardTitle className='py-8'>Recuperação de Senha</CardTitle>
-                    {result?.status == "error" && (
-                        <FormMessage message={result.message} />
-                    )}
-                    <form className='space-y-4 mb-5' action={formAction}>
-                        <Input placeholder='informe o seu email' name='email' />
-                        <Button
-                            className='w-full bg-blue-600 hover:bg-blue-700'
-                            type='submit'
-                            disabled={isPending}
-                        >
-                            Continuar
-                        </Button>
-                    </form>
-                    <div className='relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border'>
+                <div className='w-[30vw] p-8'>
+                    <h1 className='py-8'>Recupere a sua Senha</h1>
+                    <span>
+                        Digite seu endereço de e-mail e enviaremos um link para
+                        redefinir sua senha.
+                    </span>
+                    <ForgotPasswordForm />
+                    <div className='relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border mt-5'>
                         <Link
                             href='/login'
                             className='relative z-10 bg-background px-2 text-muted-foreground'
@@ -46,7 +24,7 @@ export default function ForgotPassword() {
                             Ou volte para login
                         </Link>
                     </div>
-                </Card>
+                </div>
             </div>
         </div>
     );

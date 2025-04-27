@@ -21,9 +21,11 @@ export function useChatWithEntityService(
         },
     });
 
-    const userOnMyConversations = data?.find((conversation) =>
-        conversation.members.some((member) => member.id == entityId)
-    );
+    const userOnMyConversations = data
+        ? data.find((conversation) =>
+              conversation.members.some((member) => member.id == entityId)
+          )
+        : null;
 
     async function handleChatWithOwner() {
         if (userOnMyConversations) {

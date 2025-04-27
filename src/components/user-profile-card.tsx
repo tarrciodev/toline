@@ -3,13 +3,14 @@ import { PencilLine, Star } from "lucide-react";
 import Link from "next/link";
 import { BluredImage } from "./blured-image";
 import { ProfileCompletation } from "./profile/profile-completation";
-import { Card, CardContent, CardHeader } from "./ui/card";
+import { TeamsIcon } from "./svg-icons/teams";
+import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 
 export async function UserProfileCard() {
     const me = await getMe();
     return (
-        <Link href={`/dash/profile/${me?.id}`}>
-            <Card className='rounded sm:w-[25vw]'>
+        <Card className='rounded sm:w-[25vw] h-fit'>
+            <Link href={`/dash/profile/${me?.id}`}>
                 <CardHeader className='flex-row justify-between w-full'>
                     <span>Meu Perfil</span>
                     <span className='cursor-pointer'>
@@ -48,7 +49,16 @@ export async function UserProfileCard() {
                     </div>
                     <div></div>
                 </CardContent>
-            </Card>
-        </Link>
+            </Link>
+            <CardFooter className='flex items-center justify-center'>
+                <Link
+                    href='https://teams.live.com/l/community/FEALCz_BIyvKkOqxgU'
+                    target='blank'
+                    className=' w-full flex justify-center items-center gap-2 bg-blue-700 rounded-xl p-2 hover:bg-blue-800 text-blue-50 cursor-pointer'
+                >
+                    <TeamsIcon /> Junte se a nossa comunidade
+                </Link>
+            </CardFooter>
+        </Card>
     );
 }

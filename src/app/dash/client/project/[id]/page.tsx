@@ -1,14 +1,17 @@
-import { getUserAsEntity } from "@/actions/users/get-entity";
+import { getTolinerAsEntity } from "@/actions/toliners/get-entity";
 import { ProjectSideBar } from "@/components/project-details";
 import { Subscriber } from "@/components/subscriber";
 import { Badge } from "@/components/ui/badge";
+import { Edit } from "lucide-react";
+import Link from "next/link";
+import { DeleteProjectModal } from "./(components)/delete-project-modal";
 
 export default async function MyProject({
     params,
 }: {
     params: Promise<{ id: string }>;
 }) {
-    const entity = await getUserAsEntity();
+    const entity = await getTolinerAsEntity();
     const projectId = (await params).id;
     const project = entity?.projects?.find(
         (project) => project.id == projectId
@@ -20,8 +23,7 @@ export default async function MyProject({
 
     const subscriptions = project.subscriptions
         ?.filter(
-            (subscription) =>
-                subscription.freelancer.id !== project.freelancerId
+            (subscription) => subscription.toliner.id !== project.freelancerId
         )
         .map((subscription) => {
             return {
@@ -40,8 +42,19 @@ export default async function MyProject({
     };
 
     return (
-        <main className='flex gap-4 w-full flex-1'>
-            <div className='flex flex-col flex-1 gap-2'>
+        <main className='flex gap-6 p-4 min-h-screen'>
+            <div className='flex flex-col flex-1 gap-2 bg-white shadow relative'>
+                <div className='flex gap-3 absolute top-2 right-5 bg-gray-200 rounded-xl px-3 py-2'>
+                    <Link href={`/dash/client/project/${project.id}/edit`}>
+                        <span className='text-blue-700'>
+                            <Edit />
+                        </span>
+                    </Link>
+                    <DeleteProjectModal
+                        projectId={project.id}
+                        ownerId={entity?.id as string}
+                    />
+                </div>
                 <div className='flex flex-col gap-2 p-4 bg-white'>
                     <h1 className='text-blue-700 font-semibold text-2xl'>
                         <strong>{project.name}</strong>
@@ -100,13 +113,13 @@ export default async function MyProject({
                                 key={subscription.id}
                                 subscription={subscription}
                                 projectId={project.id}
-                                ownerId={entity?.userId as string}
+                                ownerId={entity?.id as string}
                             />
                         ))}
                     </div>
                 </div>
             </div>
-            <div className='w-[30dvw]'>
+            <div className='w-[30dvw] sticky top-1 self-start'>
                 <ProjectSideBar
                     projectDependencies={projectDependencies}
                     project={project}

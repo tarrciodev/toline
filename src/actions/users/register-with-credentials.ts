@@ -1,7 +1,6 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { registerWithCredentialProps } from "@/components/forms/register-with-credentials";
 import { aj } from "@/config/aj";
 import { api } from "@/config/api";
 import z, { ZodError } from "zod";
@@ -10,7 +9,10 @@ const schema = z.object({
     email: z.string().email(),
     password: z.string(),
     name: z.string(),
+    code: z.string().optional(),
 });
+
+type registerWithCredentialProps = z.infer<typeof schema>;
 
 export async function registerWithCredentials(
     data: registerWithCredentialProps,
@@ -32,7 +34,7 @@ export async function registerWithCredentials(
             status: "error",
             message: "Ocoreu un erro",
             error: validateSchema.error,
-        }; // Return an object with an error property
+        };
     }
 
     const { email } = user;
@@ -53,6 +55,7 @@ export async function registerWithCredentials(
                 email: user.email,
                 name: user.name,
                 password: user.password,
+                code: data?.code,
                 type: userType,
             }),
         }

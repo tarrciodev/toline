@@ -2,13 +2,13 @@ import { getMe } from "@/actions/users/get-me";
 import { api } from "@/config/api";
 import { WEBSOCKET_URL } from "@/config/define-urls";
 import { IConversation, IMessage } from "@/store/chat";
-import { MeProps, useMeStore } from "@/store/me";
+import { IMe, useMeStore } from "@/store/me";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { RefObject, useEffect, useRef, useState } from "react";
 
 interface IChatServiceResponse {
     chatRef: RefObject<HTMLSpanElement | null>;
-    me: MeProps | null;
+    me: IMe | null;
     unreadMessages: IConversation[] | null | undefined;
     activateWebSocketForNotification: () => void;
 }
@@ -41,6 +41,8 @@ export default function useChatService({
         | IConversation[]
         | null
         | undefined;
+
+    console.log({ conversations });
 
     const [unreadMessages, setUnreadMessages] = useState<
         IConversation[] | null | undefined

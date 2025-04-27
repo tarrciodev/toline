@@ -1,17 +1,24 @@
-import { getUserAsEntity } from "@/actions/users/get-entity";
+import { getBanner } from "@/actions/banner";
+import { getTolinerAsEntity } from "@/actions/toliners/get-entity";
 import { Can } from "@/components/can";
 import { ClientCard } from "@/components/client-card";
 import { ProjectsOfinterest } from "@/components/dash/projects-of-interest";
 import { FreelancerCard } from "@/components/freelancer-card";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { UserProfileCard } from "@/components/user-profile-card";
+import { cookies } from "next/headers";
 import Link from "next/link";
+import { WorkshopBanner } from "./(components)/banner";
 
 export default async function DashBoard() {
-    const entity = await getUserAsEntity();
+    const entity = await getTolinerAsEntity();
+    const cookieStore = await cookies();
+    const userIsLoggedAs = cookieStore.get("logged_as")?.value ?? entity.type;
+    const banner = await getBanner();
 
     return (
         <main className='w-full'>
+            {banner && <WorkshopBanner banner={banner} />}
             <Can who='freelancer'>
                 <FreelancerCard entity={entity!} />
             </Can>
@@ -22,7 +29,7 @@ export default async function DashBoard() {
                 <UserProfileCard />
                 <Card className='flex-1 rounded px-4'>
                     <CardHeader>
-                        {entity.type === "client" ? (
+                        {userIsLoggedAs === "client" ? (
                             <Link
                                 href={`/dash/client/projects`}
                                 className='text-lg font-semibold cursor-pointer'
@@ -35,7 +42,7 @@ export default async function DashBoard() {
                             <p>Projetos de Interesse</p>
                         )}
                     </CardHeader>
-                    {entity.type == "freelancer" ? (
+                    {userIsLoggedAs == "freelancer" ? (
                         <>
                             <ProjectsOfinterest userEmail={entity.email} />
                             <div className='flex justify-end py-4'>

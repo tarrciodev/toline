@@ -2,8 +2,8 @@
 
 import { subscribeOnProject } from "@/actions/projects/subscribe-on-project";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { RefObject, useEffect, useRef } from "react";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -14,6 +14,9 @@ const SubscriptionSchema = z.object({
             "Por favor, informe o tempo necessário para terminar o projeto."
         )
         .min(5, "A resposta deve ter pelo menos 5 caracteres."),
+    proposal: z
+        .string()
+        .nonempty("Por favor, informe o motivo para escolher você."),
     requiredInformations: z
         .string()
         .nonempty("Por favor, informe as informações necessárias para começar.")
@@ -46,33 +49,55 @@ const SubscriptionSchema = z.object({
 
 export type SubscriptionProps = z.infer<typeof SubscriptionSchema>;
 
+type UseSendProposalResponse = {
+    onSubmit: (data: SubscriptionProps) => Promise<void>;
+    isSubmitting: boolean;
+    form: UseFormReturn<
+        {
+            estimatedTime: string;
+            requiredInformations: string;
+            similarExperiences: string;
+            proposal: string;
+            quotation: number;
+        },
+        undefined
+    >;
+    triggerRef: RefObject<HTMLDivElement | null>;
+};
+
 export function useSendProposalServices(
     projectId: string,
-    freelancerId: string
-) {
+    tolinerId: string
+): UseSendProposalResponse {
     const form = useForm<SubscriptionProps>({
         resolver: zodResolver(SubscriptionSchema),
         defaultValues: {
             estimatedTime: "",
             requiredInformations: "",
             similarExperiences: "",
+            proposal: "",
             quotation: 0,
         },
     });
+
+    const triggerRef = useRef<HTMLDivElement | null>(null);
 
     const {
         formState: { isSubmitSuccessful, isSubmitting },
     } = form;
     async function onSubmit(data: SubscriptionProps) {
-        await subscribeOnProject(data, {
+        const sub = await subscribeOnProject(data, {
             projectId,
-            freelancerId,
+            tolinerId,
         });
+
+        console.log({ sub });
     }
 
     useEffect(() => {
         if (isSubmitSuccessful) {
             toast.success("Proposta enviada com sucesso!");
+            triggerRef.current?.click();
         }
     }, [isSubmitSuccessful]);
 
@@ -80,5 +105,6 @@ export function useSendProposalServices(
         form,
         isSubmitting,
         onSubmit,
+        triggerRef,
     };
 }

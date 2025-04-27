@@ -13,16 +13,20 @@ export default async function ProjectDetails({
 
     const user = await getMe();
     const entity = {
-        id: user.userId,
+        id: user.tolinerId,
         type: user.type as "freelancer" | "client",
     };
 
     return (
-        <main className='flex flex-col sm:flex-row sm:justify-between  py-3 gap-6 w-full'>
-            <div className='flex flex-col flex-1'>
+        <main className='flex flex-col sm:flex-row sm:justify-between  w-full gap-6 p-4 min-h-screen'>
+            <div className='flex flex-col flex-1 bg-gray-50 px-10 py-6 shadow'>
                 <div className='space-y-4'>
-                    <h1 className='text-4xl font-bold'>{project?.name}</h1>
-                    <p>{project?.description}</p>
+                    <h1 className='text-4xl font-bold '>{project?.name}</h1>
+                    <p
+                        dangerouslySetInnerHTML={{
+                            __html: project?.description,
+                        }}
+                    />
                     <div className='flex gap-2'>
                         <p>Status: {project?.status}</p>
                         <p>Data de Publicaçao: {project?.createdAt}</p>
@@ -39,7 +43,7 @@ export default async function ProjectDetails({
                     </div>
                 </div>
             </div>
-            <div className='sm:w-[30dvw] w-full'>
+            <div className='sm:w-[25dvw]'>
                 <ProjectSideBar project={project!} entity={entity} />
             </div>
         </main>
