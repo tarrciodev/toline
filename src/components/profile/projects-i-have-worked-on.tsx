@@ -21,7 +21,7 @@ export function ProjectsIHaveWorkedOn({
 }) {
     return (
         <div className='bg-white shadow-sm'>
-            <div className='flex justify-between p-4'>
+            <div className='flex justify-between p-4 font-semibold text-lg'>
                 <p>Portifolio</p>
                 <Dialog>
                     <DialogTrigger>

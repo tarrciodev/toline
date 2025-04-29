@@ -79,7 +79,7 @@ export function UserProfileSkills({
                 {!displaySelectionBox && (
                     <div className='flex justify-between'>
                         <span className='font-semibold text-lg'>
-                            Minhas Skills
+                            Minhas Habilidades
                         </span>
                         {publicProfile || (
                             <span

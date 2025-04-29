@@ -75,7 +75,7 @@ export function ProfileSideBar({
             <Can who='freelancer'>
                 <div>
                     <p className='w-full flex justify-between'>
-                        Skills: <span>{skills}</span>
+                        Habilidades: <span>{skills}</span>
                     </p>
                 </div>
             </Can>

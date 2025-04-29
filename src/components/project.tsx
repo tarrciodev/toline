@@ -24,7 +24,7 @@ export function Project({ project }: { project: IProject }) {
                 </p>
                 |
                 <p className='text-sm sm:text-base'>
-                    <span>Subscritores:</span>{" "}
+                    <span>Propostas:</span>{" "}
                     <span className='font-semibold'>
                         {project?.subscriptions?.length}
                     </span>
@@ -38,14 +38,14 @@ export function Project({ project }: { project: IProject }) {
             </div>
             {project.skills?.length != 0 && (
                 <div>
-                    <p className='font-semibold'>Skills</p>
+                    <p className='font-semibold'>Habilidades</p>
                     {project.skills?.map((skill) => (
                         <Badge key={skill.id}>{skill.name}</Badge>
                     ))}
                 </div>
             )}
             <div>
-                Proprietario:{" "}
+                Cliente:{" "}
                 <span className='font-semibold'>{project?.owner?.name}</span>
             </div>
         </div>

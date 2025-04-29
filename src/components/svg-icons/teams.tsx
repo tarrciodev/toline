@@ -1,4 +1,4 @@
-export function TeamsIcon({ width = 2, height = 2 }) {
+export function TeamsIcon({ width = 1.5, height = 1.5 }) {
     return (
         <svg
             xmlns='http://www.w3.org/2000/svg'

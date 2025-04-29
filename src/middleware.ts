@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
 
     if (!data?.user && isProtectedRoute) {
         const url = request.nextUrl.clone();
-        url.pathname = "/";
+        url.pathname = "/dash";
         return NextResponse.redirect(url);
     }
 

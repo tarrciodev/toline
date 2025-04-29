@@ -53,7 +53,7 @@ export function CustomSelectField({
                                 <SelectContent>
                                     {data ? (
                                         <>
-                                            {data?.map(
+                                            {(data ?? []).map(
                                                 (dt: {
                                                     id: string;
                                                     name: string;

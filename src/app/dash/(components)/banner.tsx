@@ -22,7 +22,7 @@ export function WorkshopBanner({ banner }: { banner: IBanner }) {
                 <div className='relative z-20 flex items-center justify-between p-4'>
                     <div className='flex flex-1 justify-between items-center'>
                         <div className='flex-1 text-white gap-2'>
-                            <div className='inline-block bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full mb-2'>
+                            <div className='inline-block bg-red-700 text-white text-xs font-semibold px-2 py-1 rounded-full mb-2'>
                                 Workshop Gravado
                             </div>
                             <h3 className='text-xl font-bold'>

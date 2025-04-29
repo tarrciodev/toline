@@ -54,7 +54,7 @@ export async function UserProfileCard() {
                 <Link
                     href='https://teams.live.com/l/community/FEALCz_BIyvKkOqxgU'
                     target='blank'
-                    className=' w-full flex justify-center items-center gap-2 bg-blue-700 rounded-xl p-2 hover:bg-blue-800 text-blue-50 cursor-pointer'
+                    className=' w-full flex justify-center items-center gap-2 bg-indigo-700 rounded-xl p-1.5 hover:bg-indigo-800 text-blue-50 cursor-pointer'
                 >
                     <TeamsIcon /> Junte se a nossa comunidade
                 </Link>

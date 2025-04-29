@@ -67,12 +67,6 @@ export function ProjectSuscriptionForm({
                             >
                                 <Textarea placeholder='fale de forma resumida' />
                             </CustomFormField>
-                            <CustomEditorField
-                                control={form.control}
-                                name='proposal'
-                                label='Porque Devemos escolher Você?'
-                            />
-
                             <CustomFormField
                                 control={form.control}
                                 name='quotation'
@@ -80,6 +74,11 @@ export function ProjectSuscriptionForm({
                             >
                                 <Input type='number' />
                             </CustomFormField>
+                            <CustomEditorField
+                                control={form.control}
+                                name='proposal'
+                                label='Escreva a sua proposta'
+                            />
                         </div>
 
                         <Button

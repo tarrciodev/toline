@@ -44,7 +44,7 @@ export function ClientCard({ entity }: { entity: EntityProps }) {
 
             <Card className='flex-1 rounded'>
                 <CardContent className='flex items-center gap-2 pt-4'>
-                    <span className='size-16 rounded-full flex items-center justify-center bg-green-600 text-green-50'>
+                    <span className='size-16 rounded-full flex items-center justify-center bg-green-800 text-green-50'>
                         <FileCheck2 />
                     </span>
                     <div>
@@ -57,7 +57,7 @@ export function ClientCard({ entity }: { entity: EntityProps }) {
             </Card>
             <Card className='flex-1 rounded'>
                 <CardContent className='flex items-center gap-2 pt-4'>
-                    <span className='size-16 rounded-full flex items-center justify-center bg-red-600 text-red-50'>
+                    <span className='size-16 rounded-full flex items-center justify-center bg-red-800 text-red-50'>
                         <Megaphone />
                     </span>
                     <div>

@@ -16,7 +16,7 @@ export async function FreelancerCard({ entity }: { entity: EntityProps }) {
             <Link href={`/dash/freelancer/${entity.id}/earnings`}>
                 <Card className='flex  flex-1 items-center rounded'>
                     <CardContent className='flex items-center gap-2 pt-4'>
-                        <span className='size-16 rounded-full flex items-center justify-center bg-blue-700 text-blue-50'>
+                        <span className='size-16 rounded-full flex items-center justify-center bg-blue-900 text-blue-50'>
                             <CircleDollarSign />
                         </span>
                         <div>
@@ -30,7 +30,7 @@ export async function FreelancerCard({ entity }: { entity: EntityProps }) {
             <Link href='/dash/freelancer/proposals?status=sent'>
                 <Card className='flex-1 rounded'>
                     <CardContent className='flex items-center gap-2 pt-4'>
-                        <span className='size-16 rounded-full flex items-center justify-center bg-teal-700 text-teal-50'>
+                        <span className='size-16 rounded-full flex items-center justify-center bg-teal-900 text-teal-50'>
                             <GavelIcon />
                         </span>
                         <div>
@@ -46,7 +46,7 @@ export async function FreelancerCard({ entity }: { entity: EntityProps }) {
             <Link href='/dash/freelancer/proposals?status=accepted'>
                 <Card className='flex-1 rounded'>
                     <CardContent className='flex items-center gap-2 pt-4'>
-                        <span className='size-16 rounded-full flex items-center justify-center bg-green-600 text-green-50'>
+                        <span className='size-16 rounded-full flex items-center justify-center bg-green-800 text-green-50'>
                             <FileCheck2 />
                         </span>
                         <div>
@@ -60,7 +60,7 @@ export async function FreelancerCard({ entity }: { entity: EntityProps }) {
             </Link>
             <Card className='flex-1 rounded'>
                 <CardContent className='flex items-center gap-2 pt-4'>
-                    <span className='size-16 rounded-full flex items-center justify-center bg-red-600 text-red-50'>
+                    <span className='size-16 rounded-full flex items-center justify-center bg-red-800 text-red-50'>
                         <FileCheck2 />
                     </span>
                     <div>

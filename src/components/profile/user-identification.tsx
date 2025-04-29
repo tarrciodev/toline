@@ -35,7 +35,7 @@ export default function UserIdentification({ userId }: { userId: string }) {
             {displayIdentificationBox || (
                 <div>
                     <p className='text-red-500 text-sm'>
-                        Você ainda não adicionou o seu Bilhete
+                        Você ainda não adicionou o seu cartão de identificação
                     </p>
                 </div>
             )}
