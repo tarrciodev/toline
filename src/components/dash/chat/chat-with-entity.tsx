@@ -16,8 +16,9 @@ export function ChatWithEntity({
             onClick={handleChatWithOwner}
         >
             <span>
-                Converçar com o{" "}
-                {entityType === "freelancer" ? "Freelancer" : "Proprietário"}
+                {entityType === "freelancer"
+                    ? "Fazer pergunta"
+                    : "Fazer pergunta"}
             </span>{" "}
             <div>
                 <MessagesSquare />
