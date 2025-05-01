@@ -12,6 +12,7 @@ import {
 import { getCookieStore } from "@/utils/cookie-store";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NoUserAvatar } from "../chat/no-user-avatar";
 import { SignoutButton } from "./signout-button";
@@ -21,9 +22,16 @@ export function UserHeaderIcon({ user }: { user: IDashUser }) {
         "freelancer" | "client" | null
     >(null);
 
+    const pathname = usePathname();
+    const route = useRouter();
+
     function handleCick(value: "freelancer" | "client") {
         setUseIsLoggedAs(value);
         setAccountTo(value);
+
+        if (pathname !== "/dash") {
+            route.push("/dash");
+        }
     }
     useEffect(() => {
         (async () => {

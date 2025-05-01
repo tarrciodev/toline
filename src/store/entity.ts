@@ -63,6 +63,18 @@ export type ShowCaseProps = {
     assets: Array<string>;
 };
 
+export interface INotification {
+    id: string;
+    type: string;
+    target: string;
+    payload: {
+        message: string;
+        saw: boolean;
+        createdAt: string;
+        redirectId: string;
+    };
+}
+
 export type EntityProps = {
     id: string;
     name: string;
@@ -104,6 +116,7 @@ export type EntityProps = {
         cardNumber: string;
         bankName: string;
     };
+    notifications?: INotification[];
 };
 
 interface EntityState {

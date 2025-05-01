@@ -84,7 +84,11 @@ export default async function MyProject({
                     <div>
                         <p>
                             <span className='font-semibold'>Descrição:</span>{" "}
-                            {project.description}
+                            <div
+                                dangerouslySetInnerHTML={{
+                                    __html: project.description,
+                                }}
+                            ></div>
                         </p>
                     </div>
                     <div>

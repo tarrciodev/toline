@@ -39,23 +39,6 @@ const authOptions = {
                 if (!userAuth.email) {
                     throw new Error("Email ou senha inválidos");
                 }
-
-                const response = await fetch(
-                    `${process.env.SITE_URL}/api/set-cookie`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            userType: userAuth.type,
-                        }),
-                    }
-                );
-
-                const data = await response.json();
-                console.log({ data });
-
                 return userAuth;
             },
         }),

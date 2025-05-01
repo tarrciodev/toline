@@ -64,7 +64,11 @@ export function Project({
             <div>
                 <p>
                     <span className='font-semibold'>Descrição:</span>{" "}
-                    {project.description}
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: project.description,
+                        }}
+                    ></div>
                 </p>
             </div>
             <div>

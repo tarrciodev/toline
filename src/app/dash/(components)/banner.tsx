@@ -11,30 +11,31 @@ export function WorkshopBanner({ banner }: { banner: IBanner }) {
     return (
         <div className='w-full mb-6 mt-4'>
             <div className='bg-white rounded-lg shadow-md overflow-hidden relative'>
-                {/* Substituindo o gradiente anterior por uma opção mais suave e profissional */}
+                {/* Background with consistent design across screen sizes */}
                 <div className='absolute inset-0 bg-indigo-900 z-10'>
-                    {/* Overlay com padrão sutil */}
+                    {/* Overlay with subtle pattern */}
                     <div className="absolute inset-0 opacity-90 bg-[url('/patterns/grid.svg')]"></div>
-                    {/* Destaque lateral com cor mais vibrante */}
-                    <div className='absolute top-0 right-0 w-1/3 h-full bg-white  transform skew-x-12 translate-x-20'></div>
+                    {/* Side highlight with vibrant color - hidden on mobile */}
+                    <div className='absolute top-0 right-0 w-1/3 h-full bg-white transform skew-x-12 translate-x-20 hidden md:block'></div>
                 </div>
 
-                <div className='relative z-20 flex items-center justify-between p-4'>
-                    <div className='flex flex-1 justify-between items-center'>
-                        <div className='flex-1 text-white gap-2'>
+                <div className='relative z-20 p-4'>
+                    {/* Main container - switched to column layout on mobile */}
+                    <div className='flex flex-col md:flex-row md:items-center md:justify-between'>
+                        <div className='text-white mb-6 md:mb-0 md:mr-4 md:flex-1'>
                             <div className='inline-block bg-red-700 text-white text-xs font-semibold px-2 py-1 rounded-full mb-2'>
                                 Workshop Gravado
                             </div>
                             <h3 className='text-xl font-bold'>
                                 Workshop Exclusivo: {banner.title}
                             </h3>
-                            <p className='py-2 max-w-[50vw]'>
+                            <p className='py-2 max-w-full md:max-w-[50vw]'>
                                 {banner.description}
                             </p>
                             <p className='text-sm text-blue-50 font-semibold'>
                                 Com Prof. Carlos Santos
                             </p>
-                            <div className='my-2'>
+                            <div className='my-4 md:my-2'>
                                 <Link
                                     href={banner.url}
                                     target='_blank'
@@ -44,8 +45,10 @@ export function WorkshopBanner({ banner }: { banner: IBanner }) {
                                 </Link>
                             </div>
                         </div>
-                        <div className='flex gap-2 mb-4 md:mb-0 justify-end'>
-                            <div className='bg-indigo-900 backdrop-blur-sm rounded px-3 py-2 text-center w-16'>
+
+                        {/* Timer container - grid on mobile, flex on desktop */}
+                        <div className='flex md:gap-2 md:justify-end'>
+                            <div className='bg-indigo-900 backdrop-blur-sm rounded px-3 py-2 text-center w-full md:w-16'>
                                 <div className='text-white font-bold text-lg'>
                                     {formatNumber(timeLeft.days)}
                                 </div>
@@ -54,7 +57,7 @@ export function WorkshopBanner({ banner }: { banner: IBanner }) {
                                 </div>
                             </div>
 
-                            <div className='bg-indigo-900 backdrop-blur-sm rounded px-3 py-2 text-center w-16'>
+                            <div className='bg-indigo-900 backdrop-blur-sm rounded px-3 py-2 text-center w-full md:w-16'>
                                 <div className='text-white font-bold text-lg'>
                                     {formatNumber(timeLeft.hours)}
                                 </div>
@@ -63,7 +66,7 @@ export function WorkshopBanner({ banner }: { banner: IBanner }) {
                                 </div>
                             </div>
 
-                            <div className='bg-indigo-900 backdrop-blur-sm rounded px-3 py-2 text-center w-16'>
+                            <div className='bg-indigo-900 backdrop-blur-sm rounded px-3 py-2 text-center w-full md:w-16'>
                                 <div className='text-white font-bold text-lg'>
                                     {formatNumber(timeLeft.minutes)}
                                 </div>
@@ -72,7 +75,7 @@ export function WorkshopBanner({ banner }: { banner: IBanner }) {
                                 </div>
                             </div>
 
-                            <div className='bg-indigo-900 backdrop-blur-sm rounded px-3 py-2 text-center w-16'>
+                            <div className='bg-indigo-900 backdrop-blur-sm rounded px-3 py-2 text-center w-full md:w-16'>
                                 <div className='text-white font-bold text-lg'>
                                     {formatNumber(timeLeft.seconds)}
                                 </div>

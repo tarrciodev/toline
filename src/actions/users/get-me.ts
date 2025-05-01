@@ -19,7 +19,5 @@ export async function getMe(): Promise<IMe> {
     } = (await auth()) as { user: { email: string } };
 
     const me = await api<IMe>(`/me/${email}`);
-
-    console.log({ me });
     return me;
 }

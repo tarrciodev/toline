@@ -42,8 +42,6 @@ export default function useChatService({
         | null
         | undefined;
 
-    console.log({ conversations });
-
     const [unreadMessages, setUnreadMessages] = useState<
         IConversation[] | null | undefined
     >(null);
@@ -86,7 +84,6 @@ export default function useChatService({
 
         ws.onmessage = (event) => {
             const commingMessage = JSON.parse(event.data) as IMessage;
-            console.log({ commingMessage });
 
             if (!conversations) {
                 client.invalidateQueries({
