@@ -79,7 +79,8 @@ export type EntityProps = {
     id: string;
     name: string;
     email: string;
-    bio?: string;
+    clientBio?: string;
+    freelancerBio?: string;
     isVerified?: boolean;
     userId: string;
     projects?: ProjectFullProps[];

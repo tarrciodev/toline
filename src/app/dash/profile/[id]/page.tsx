@@ -6,22 +6,27 @@ import { ProfileSideBar } from "@/components/profile/profile-sidebar";
 import { ProjectsIHaveWorkedOn } from "@/components/profile/projects-i-have-worked-on";
 import UserIdentification from "@/components/profile/user-identification";
 import { UserProfileSkills } from "@/components/profile/user-profile-skills";
+import { getCookieStore } from "@/utils/cookie-store";
 import { AlterPasswordModal } from "./(components)/alter-password-modal";
 import { DeleteAccountModal } from "./(components)/delete-account-modal";
 
 export default async function EditProfile() {
     const entity = await getTolinerAsEntity();
     const defaultScore = 70;
-    const bioScore = entity?.bio ? 10 : 0;
+    const bio = entity.clientBio ?? entity.freelancerBio;
+    const bioScore = bio ? 10 : 0;
     const identificationScore = entity?.identification ? 20 : 0;
 
     const profileCompletation = defaultScore + bioScore + identificationScore;
+    const logged_as = (await getCookieStore("logged_as")) as
+        | "client"
+        | "freelancer";
 
     return (
         <main className='flex flex-col sm:flex-row py-3 gap-6 w-full'>
             <div className='flex flex-col flex-1 gap-2'>
-                <FreelancerCard entity={entity} />
-                <AboutMe userId={entity.id} />
+                <FreelancerCard entity={entity} logged_as={logged_as} />
+                <AboutMe userId={entity.userId} />
                 <Can who='freelancer'>
                     <>
                         <UserProfileSkills

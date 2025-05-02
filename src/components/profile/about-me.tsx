@@ -1,5 +1,7 @@
 "use client";
 import { updateUserBio } from "@/actions/users/update-bio";
+import { getCookieStore } from "@/utils/cookie-store";
+import { useQuery } from "@tanstack/react-query";
 import { Pencil } from "lucide-react";
 import { useActionState, useEffect, useState } from "react";
 import { Loader } from "../loader";
@@ -8,6 +10,14 @@ import { Textarea } from "../ui/textarea";
 
 export function AboutMe({ userId }: { userId: string }) {
     const [displayTextBox, setDisplayTextBox] = useState(false);
+    const { data: logged_as } = useQuery({
+        queryKey: ["logged_as"],
+        queryFn: async () => {
+            const data = getCookieStore("logged_as");
+            return data;
+        },
+    });
+
     function toogleDisplayTextBox() {
         setDisplayTextBox((prev) => !prev);
     }
@@ -42,6 +52,7 @@ export function AboutMe({ userId }: { userId: string }) {
                         className='h-32'
                     />
                     <input type='hidden' name='userId' value={userId} />
+                    <input type='hidden' name='logged_as' value={logged_as} />
 
                     <div className='w-full p-4 flex justify-end gap-2'>
                         <Button
@@ -51,7 +62,7 @@ export function AboutMe({ userId }: { userId: string }) {
                         >
                             Cancelar
                         </Button>
-                        <Button disabled={isPending}>
+                        <Button disabled={isPending} type='submit'>
                             {isPending && <Loader />} Salvar
                         </Button>
                     </div>

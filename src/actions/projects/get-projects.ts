@@ -1,5 +1,6 @@
 "use server";
 import { api } from "@/config/api";
+import { getMe } from "../users/get-me";
 
 export type IProject = {
     id: string;
@@ -32,10 +33,11 @@ export async function getProjects(
     slug = "",
     page = "1"
 ): Promise<{ projects: IProject[]; totalItems: number }> {
+    const me = await getMe();
     const data = await api<{ projects: IProject[]; totalItems: number }>(
-        `/projects?page=${page}&take=8&slug=${slug}`
+        `/projects?page=${page}&take=8&slug=${slug}&me=${me.tolinerId}`
     );
-    const parsedProjects = data.projects.map((project) => {
+    const parsedProjects = data?.projects?.map((project) => {
         return {
             ...project,
             createdAt: new Date(project.createdAt).toLocaleDateString(),

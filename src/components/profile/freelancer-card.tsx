@@ -3,7 +3,15 @@ import { EntityProps } from "@/store/entity";
 import { extractAvatarFromName } from "@/utils/extract-avatar-from-name";
 import Image from "next/image";
 
-export function FreelancerCard({ entity }: { entity: EntityProps }) {
+export function FreelancerCard({
+    entity,
+    logged_as,
+}: {
+    entity: EntityProps;
+    logged_as: "client" | "freelancer";
+}) {
+    const userType = logged_as ?? entity.type;
+
     return (
         <div className='border border-gray-200 rounded p-4 sm:p-8 w-full flex gap-2 bg-white shadow-xl relative'>
             <span className='absolute right-5 top-5'>
@@ -40,7 +48,9 @@ export function FreelancerCard({ entity }: { entity: EntityProps }) {
                 <div className='border-b border-gray-400 w-full my-4' />
                 <div>
                     <p className='sm:w-[30dvw]  text-left sm:text-justify -ml-20 sm:-ml-0'>
-                        {entity?.bio}
+                        {userType === "client"
+                            ? entity.clientBio
+                            : entity.freelancerBio}
                     </p>
                 </div>
             </div>

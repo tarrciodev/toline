@@ -26,7 +26,7 @@ export default async function Page({
                 <CategoryFilters slug={slug} />
             </div>
             <div className='flex flex-col flex-1'>
-                {projects.length === 0 ? (
+                {(projects ?? []).length === 0 ? (
                     <div className='flex flex-col  w-full justify-center items-center'>
                         <NotFoundFilter />
                         <strong>Nenhum projeto encontrado</strong>

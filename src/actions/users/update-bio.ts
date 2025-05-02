@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 
 export async function updateUserBio(_: unknown, formData: FormData) {
     const bio = formData.get("bio") as string;
+    const logged_as = formData.get("logged_as") as string;
     const userId = formData.get("userId") as string;
     if (!bio) {
         return {
@@ -12,15 +13,18 @@ export async function updateUserBio(_: unknown, formData: FormData) {
         };
     }
 
-    const data = await api<{ id: string }>(`/user/${userId}/bio/update`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            bio,
-        }),
-    });
+    const data = await api<{ id: string }>(
+        `/user/${userId}/bio/update?logged_as=${logged_as}`,
+        {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                bio,
+            }),
+        }
+    );
 
     if (!data.id) {
         return {

@@ -34,7 +34,7 @@ export function ProjectDetailsFreelancer({
                         <div className='p-4'>
                             Quando você iniciar um projeto, você pode selecionar
                             um freelancer para o seu projeto. Eles serão
-                            responsáveis por gerenciar o projeto e fazer as
+                            responsáveis por executar o projeto e fazer as
                             entregas.
                         </div>
                     </CardContent>
