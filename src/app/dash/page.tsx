@@ -6,7 +6,7 @@ import { ProjectsOfinterest } from "@/components/dash/projects-of-interest";
 import { FreelancerCard } from "@/components/freelancer-card";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { UserProfileCard } from "@/components/user-profile-card";
-import { getCookieStore, setCookieStore } from "@/utils/cookie-store";
+import { getCookieStore } from "@/utils/cookie-store";
 import Link from "next/link";
 import { WorkshopBanner } from "./(components)/banner";
 
@@ -14,9 +14,7 @@ export default async function DashBoard() {
     const entity = await getTolinerAsEntity();
 
     const logged_as = await getCookieStore("logged_as");
-    if (!logged_as) {
-        await setCookieStore("logged_as", entity.type);
-    }
+
     const userIsLoggedAs = logged_as ?? entity.type;
     const banner = await getBanner();
 

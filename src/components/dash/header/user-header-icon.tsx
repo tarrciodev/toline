@@ -20,7 +20,7 @@ import { SignoutButton } from "./signout-button";
 export function UserHeaderIcon({ user }: { user: IDashUser }) {
     const [userIsLogedAs, setUseIsLoggedAs] = useState<
         "freelancer" | "client" | null
-    >(null);
+    >();
 
     const pathname = usePathname();
     const route = useRouter();
@@ -35,7 +35,8 @@ export function UserHeaderIcon({ user }: { user: IDashUser }) {
     }
     useEffect(() => {
         (async () => {
-            const userIsLoggedAs = await getCookieStore("logged_as");
+            const userIsLoggedAs =
+                (await getCookieStore("logged_as")) ?? user.type;
             setUseIsLoggedAs(userIsLoggedAs as "freelancer" | "client");
         })();
     }, []);
