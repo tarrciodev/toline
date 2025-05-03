@@ -1,10 +1,8 @@
 "use server";
 
-import {
-    PaymentDependencies,
-    ProjectPaymentProps,
-} from "@/components/dash/edit-project-payment-button";
+import { PaymentDependencies } from "@/components/dash/edit-project-payment-button";
 import { api } from "@/config/api";
+import { ProjectPaymentProps } from "@/services/projects/client-payment-service";
 import { supabaseUpload } from "@/utils/supabase-upload";
 import { revalidatePath } from "next/cache";
 

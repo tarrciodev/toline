@@ -24,6 +24,7 @@ import {
     FormMessage,
 } from "../ui/form";
 
+import { cn } from "@/lib/utils";
 import { Loader } from "../loader";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
@@ -33,6 +34,7 @@ interface IMarkProjectAsConcluedeProps {
         id: string;
         freelancerId?: string;
         ownerId: string;
+        status: "Em andamento" | "Concluido" | "Não Iniciado";
     };
 }
 export function MarkProjectAsConcluded({
@@ -44,19 +46,32 @@ export function MarkProjectAsConcluded({
             projectId: project.id,
             freelancerId: project.freelancerId!,
         });
+
+    const isCompleted = project.status === "Concluido";
+    const isDisabled = isSubmitting || isCompleted;
     return (
         <Dialog>
-            <DialogTrigger asChild className='w-full'>
+            {isCompleted ? (
                 <div
-                    ref={triggerRef}
-                    className='rounded-lg py-2 px-2 w-full cursor-pointer bg-black hover:bg-black/80 text-center text-red-50'
+                    className={cn(
+                        "rounded-lg py-2 px-2 w-full text-center bg-black/40 text-white cursor-not-allowed"
+                    )}
                 >
-                    Marcar Como Concluído
+                    Marcar Como Concluído {isCompleted ? 0 : 1}{" "}
                 </div>
-            </DialogTrigger>
+            ) : (
+                <DialogTrigger asChild className='w-full'>
+                    <div
+                        ref={triggerRef}
+                        className='rounded-lg py-2 px-2 w-full cursor-pointer bg-black hover:bg-black/80 text-center text-red-50'
+                    >
+                        Marcar Como Concluído
+                    </div>
+                </DialogTrigger>
+            )}
             <DialogContent className='px-12'>
                 <DialogHeader>
-                    <DialogTitle>Atualizar Projeto</DialogTitle>
+                    <DialogTitle></DialogTitle>
                     <DialogDescription>
                         Ao marcar o seu projeto como concluído já não poderá
                         fazer nenhuma alteração.
@@ -120,7 +135,11 @@ export function MarkProjectAsConcluded({
                                     )}
                                 />
                             </div>
-                            <Button type='submit' className='cursor-pointer'>
+                            <Button
+                                type='submit'
+                                className='cursor-pointer'
+                                disabled={isDisabled}
+                            >
                                 {isSubmitting && <Loader />}Concluir
                             </Button>
                         </form>

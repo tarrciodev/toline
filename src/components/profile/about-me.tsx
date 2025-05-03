@@ -8,7 +8,7 @@ import { Loader } from "../loader";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 
-export function AboutMe({ userId }: { userId: string }) {
+export function AboutMe({ userId, bio }: { userId: string; bio: string }) {
     const [displayTextBox, setDisplayTextBox] = useState(false);
     const { data: logged_as } = useQuery({
         queryKey: ["logged_as"],
@@ -50,6 +50,7 @@ export function AboutMe({ userId }: { userId: string }) {
                         name='bio'
                         placeholder='Nos fale um poquinho sobre você'
                         className='h-32'
+                        defaultValue={bio}
                     />
                     <input type='hidden' name='userId' value={userId} />
                     <input type='hidden' name='logged_as' value={logged_as} />

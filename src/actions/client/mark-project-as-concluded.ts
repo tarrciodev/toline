@@ -1,5 +1,6 @@
 "use server";
 import { api } from "@/config/api";
+import { revalidatePath } from "next/cache";
 
 interface IMarkProjectAsConcluedeProps {
     dependencies: {
@@ -45,6 +46,8 @@ export async function markProjectAsConcluded({
             message: "Failed to mark project as concluded",
         };
     }
+
+    revalidatePath("/");
 
     return {
         status: "success",

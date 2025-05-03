@@ -4,6 +4,7 @@ import { Card, CardContent } from "../ui/card";
 interface IProjectDetailFreelancerProps {
     project: {
         id: string;
+        status: "Em andamento" | "Concluido";
         owner: {
             id: string;
         };
@@ -25,6 +26,7 @@ export function ProjectDetailsFreelancer({
             {freelancer ? (
                 <SelectedFreelancer
                     ownerId={project.owner?.id as string}
+                    projectStatus={project.status}
                     projectId={project.id}
                     freelancer={freelancer}
                 />

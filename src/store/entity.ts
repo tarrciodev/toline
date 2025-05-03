@@ -11,6 +11,7 @@ export type ProjectFullProps = {
     category: string;
     subcategory?: string;
     freelancerId?: string;
+    concludedAt?: string;
     dueDate?: string;
     skills?: {
         id: string;

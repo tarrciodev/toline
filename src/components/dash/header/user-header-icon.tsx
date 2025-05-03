@@ -1,5 +1,4 @@
 "use client";
-import { setAccountTo } from "@/actions/users/set-acount-to";
 import { IDashUser } from "@/components/dash-header";
 import {
     DropdownMenu,
@@ -9,37 +8,28 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getCookieStore } from "@/utils/cookie-store";
+import { useSessionStore } from "@/store/session";
+import { setCookieStore } from "@/utils/cookie-store";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { NoUserAvatar } from "../chat/no-user-avatar";
 import { SignoutButton } from "./signout-button";
 
 export function UserHeaderIcon({ user }: { user: IDashUser }) {
-    const [userIsLogedAs, setUseIsLoggedAs] = useState<
-        "freelancer" | "client" | null
-    >();
+    const { logged_as, setIsLoggedAs } = useSessionStore();
 
     const pathname = usePathname();
     const route = useRouter();
 
-    function handleCick(value: "freelancer" | "client") {
-        setUseIsLoggedAs(value);
-        setAccountTo(value);
-
+    function handleCick(value: "client" | "freelancer") {
+        setIsLoggedAs(value);
+        setCookieStore("logged_as", value);
         if (pathname !== "/dash") {
             route.push("/dash");
         }
     }
-    useEffect(() => {
-        (async () => {
-            const userIsLoggedAs =
-                (await getCookieStore("logged_as")) ?? user.type;
-            setUseIsLoggedAs(userIsLoggedAs as "freelancer" | "client");
-        })();
-    }, []);
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger className='rounded-full'>
@@ -67,12 +57,13 @@ export function UserHeaderIcon({ user }: { user: IDashUser }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                {userIsLogedAs === "freelancer" ? (
+                {logged_as === "freelancer" && (
                     <DropdownMenuItem onClick={() => handleCick("client")}>
                         <NoUserAvatar username={user.username} variante='sm' />
                         Entrar como cliente
                     </DropdownMenuItem>
-                ) : (
+                )}
+                {logged_as === "client" && (
                     <DropdownMenuItem onClick={() => handleCick("freelancer")}>
                         <NoUserAvatar username={user.username} variante='sm' />
                         Entrar como freelancer

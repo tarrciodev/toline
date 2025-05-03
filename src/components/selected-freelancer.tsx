@@ -1,5 +1,6 @@
 "use client";
 import { removeFreelancerFromMyProject } from "@/actions/client/remove-freelancer-from-my-project";
+import { cn } from "@/lib/utils";
 import { extractAvatarFromName } from "@/utils/extract-avatar-from-name";
 import { Star } from "lucide-react";
 import Image from "next/image";
@@ -16,11 +17,13 @@ interface ISelectedFreelancerProps {
     };
     ownerId: string;
     projectId: string;
+    projectStatus: "Em andamento" | "Concluido";
 }
 export function SelectedFreelancer({
     freelancer,
     ownerId,
     projectId,
+    projectStatus,
 }: ISelectedFreelancerProps) {
     const [isPending, startTransition] = useTransition();
     function handleHireFreelancerOnMyProject() {
@@ -32,6 +35,9 @@ export function SelectedFreelancer({
             });
         });
     }
+
+    const isDisabled = isPending || projectStatus === "Concluido";
+
     return (
         <div className='flex flex-col gap-4 shadow-sm p-4 bg-white border border-gray-100'>
             <div className='flex gap-2 items-center'>
@@ -72,8 +78,13 @@ export function SelectedFreelancer({
                     <span>Mensagens: 0</span>
                 </p>
                 <Button
-                    className='ml-auto bg-red-700 hover:bg-red-500'
-                    disabled={isPending}
+                    className={cn(
+                        "ml-auto",
+                        projectStatus === "Concluido"
+                            ? "cursor-not-allowed bg-red-100 text-red-600 hover:bg-red-100"
+                            : "bg-red-700 hover:bg-red-500"
+                    )}
+                    disabled={isDisabled}
                     onClick={handleHireFreelancerOnMyProject}
                 >
                     {isPending && <Loader />}Remover

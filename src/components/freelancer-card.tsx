@@ -21,7 +21,7 @@ export async function FreelancerCard({ entity }: { entity: EntityProps }) {
                         </span>
                         <div>
                             <span>0</span>
-                            <p>Seus ganhos</p>
+                            <p>Minhas Finanças</p>
                         </div>
                     </CardContent>
                 </Card>

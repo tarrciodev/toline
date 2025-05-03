@@ -13,20 +13,22 @@ import { DeleteAccountModal } from "./(components)/delete-account-modal";
 export default async function EditProfile() {
     const entity = await getTolinerAsEntity();
     const defaultScore = 70;
-    const bio = entity.clientBio ?? entity.freelancerBio;
-    const bioScore = bio ? 10 : 0;
     const identificationScore = entity?.identification ? 20 : 0;
 
-    const profileCompletation = defaultScore + bioScore + identificationScore;
     const logged_as = (await getCookieStore("logged_as")) as
         | "client"
         | "freelancer";
+
+    const bio =
+        logged_as == "freelancer" ? entity.freelancerBio : entity.clientBio;
+    const bioScore = bio ? 10 : 0;
+    const profileCompletation = defaultScore + bioScore + identificationScore;
 
     return (
         <main className='flex flex-col sm:flex-row py-3 gap-6 w-full'>
             <div className='flex flex-col flex-1 gap-2'>
                 <FreelancerCard entity={entity} logged_as={logged_as} />
-                <AboutMe userId={entity.userId} />
+                <AboutMe userId={entity.userId} bio={bio as string} />
                 <Can who='freelancer'>
                     <>
                         <UserProfileSkills

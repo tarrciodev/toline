@@ -61,6 +61,8 @@ export async function updateFreelancerSkills({
         }
     );
 
+    console.log({ freelancer });
+
     revalidatePath(`/`);
 
     return freelancer;

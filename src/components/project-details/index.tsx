@@ -22,10 +22,14 @@ export function ProjectSideBar({
     projectDependencies,
     project,
     entity,
+    logged_as,
+    imTheOwner,
 }: {
     projectDependencies?: ProjectDependencies;
     project: ProjectFullProps;
     entity?: SubscriberAsEntity;
+    logged_as: "client" | "freelancer";
+    imTheOwner?: boolean;
 }) {
     const dependencies = {
         projectId: projectDependencies?.projectId as string,
@@ -39,21 +43,27 @@ export function ProjectSideBar({
 
     const subscriber = project.freelancer;
 
+    const projectStatus = project.status as
+        | "Em andamento"
+        | "Concluído"
+        | "Não Iniciado";
+
     return (
         <ProjectDetailsRoot>
             <ProjectDetails
                 ammount={project.quotation?.ammount}
                 description={project.quotation?.description}
                 quotationDependencies={dependencies}
-                isEditable={entity?.type == "client"}
+                projectStatus={projectStatus}
+                imTheOwner={imTheOwner}
             />
             <ProjectDetailsPayment
                 ammount={project.payment?.ammount}
                 dueDate={project.dueDate}
                 paymentDependencies={dependencies}
-                isEditable={entity?.type == "client"}
+                imTheOwner={imTheOwner}
             />
-            {entity?.type == "freelancer" && (
+            {logged_as == "freelancer" && (
                 <div className='flex flex-col gap-1'>
                     <ChatWithEntity
                         entityId={project.owner!.userId}
@@ -64,27 +74,36 @@ export function ProjectSideBar({
                             id: project.id,
                             freelancerId: project?.freelancerId,
                         }}
-                        tolinerId={entity.id}
+                        tolinerId={entity?.id as string}
                         imSubscribed={imSubscribed}
                     />
                 </div>
             )}
-            {entity?.type == "client" && (
+            <p>{imTheOwner ? "owner" : "Not Owner"}</p>
+            {logged_as == "client" && imTheOwner && (
                 <div className='flex flex-col gap-3'>
                     <ProjectDetailsFreelancer
                         project={{
+                            status: project.status as
+                                | "Em andamento"
+                                | "Concluido",
                             id: project.id,
                             owner: { id: project.owner!.id! },
                         }}
                         freelancer={subscriber}
                     />
-                    <MarkProjectAsConcluded
-                        project={{
-                            id: project.id,
-                            freelancerId: project.freelancer?.id,
-                            ownerId: project.owner!.id,
-                        }}
-                    />
+                    {project.freelancerId && (
+                        <MarkProjectAsConcluded
+                            project={{
+                                status: project.status as
+                                    | "Em andamento"
+                                    | "Concluido",
+                                id: project.id,
+                                freelancerId: project?.freelancerId,
+                                ownerId: project.owner!.id!,
+                            }}
+                        />
+                    )}
                 </div>
             )}
         </ProjectDetailsRoot>

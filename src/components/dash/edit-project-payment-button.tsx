@@ -7,10 +7,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { useForm } from "react-hook-form";
-
 import { Button } from "@/components/ui/button";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
     Form,
     FormControl,
@@ -21,44 +18,11 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 
-import { updateProjectPayment } from "@/actions/projects/update-project-payment";
+import { useClientPaymentService } from "@/services/projects/client-payment-service";
 import { Edit2 } from "lucide-react";
-import { z } from "zod";
+import { CustomFormField } from "../custom-form-field";
 import { Loader } from "../loader";
 import { EditProjectDatePicker } from "./date-picker";
-
-export const ProjectPaymentSchema = z
-    .object({
-        ammount: z.string().optional(),
-        dueDate: z.date().nullable().optional(),
-        file: z
-            .instanceof(File)
-            .nullable()
-            .optional()
-            .refine(
-                (file) =>
-                    !file ||
-                    ["image/jpeg", "image/png", "image/gif"].includes(
-                        file.type
-                    ),
-                "O ficheiro deve ser uma imagem válida (JPEG, PNG, GIF)"
-            ),
-    })
-    .refine(
-        (data) => {
-            if (data.file && !data.ammount) {
-                return false;
-            }
-            return true;
-        },
-        {
-            message:
-                "O campo 'file' só pode ser preenchido se o campo 'ammount' também estiver preenchido.",
-            path: ["file"],
-        }
-    );
-
-export type ProjectPaymentProps = z.infer<typeof ProjectPaymentSchema>;
 
 export type PaymentDependencies = {
     projectId: string;
@@ -70,28 +34,12 @@ export function EditProjectPaymentButton({
 }: {
     paymentDependencies: PaymentDependencies;
 }) {
-    const form = useForm<ProjectPaymentProps>({
-        resolver: zodResolver(ProjectPaymentSchema),
-        defaultValues: {
-            ammount: "",
-            file: null,
-        },
-    });
-
-    const {
-        formState: { isSubmitting },
-    } = form;
-
-    async function handleSubmit(data: ProjectPaymentProps) {
-        await updateProjectPayment({
-            data,
-            dependencies: paymentDependencies,
-        });
-    }
+    const { form, isSubmitting, handleSubmit, triggerRef } =
+        useClientPaymentService(paymentDependencies);
     return (
         <Dialog>
             <DialogTrigger>
-                <div className='w-[2.5vw] flex justify-end'>
+                <div ref={triggerRef} className='w-[2.5vw] flex justify-end'>
                     <Edit2 />
                 </div>
             </DialogTrigger>
@@ -105,19 +53,13 @@ export function EditProjectPaymentButton({
                         onSubmit={form.handleSubmit(handleSubmit)}
                     >
                         <div>
-                            <FormField
+                            <CustomFormField
                                 control={form.control}
                                 name='ammount'
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Valor a pagar</FormLabel>
-                                        <FormControl>
-                                            <Input type='number' {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                                label='Valor a pagar'
+                            >
+                                <Input type='number' />
+                            </CustomFormField>
                         </div>
 
                         <div>

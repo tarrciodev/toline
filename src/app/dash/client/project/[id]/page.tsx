@@ -2,6 +2,7 @@ import { getTolinerAsEntity } from "@/actions/toliners/get-entity";
 import { ProjectSideBar } from "@/components/project-details";
 import { Subscriber } from "@/components/subscriber";
 import { Badge } from "@/components/ui/badge";
+import { getCookieStore } from "@/utils/cookie-store";
 import { Edit } from "lucide-react";
 import Link from "next/link";
 import { DeleteProjectModal } from "./(components)/delete-project-modal";
@@ -40,6 +41,12 @@ export default async function MyProject({
         freelancerId: project.freelancerId as string,
         ownerId: project.owner?.id as string,
     };
+
+    const logged_as = (await getCookieStore("logged_as")) as
+        | "client"
+        | "freelancer";
+
+    const imTheOwner = project.owner?.id === entity?.id;
 
     return (
         <main className='flex gap-6 p-4 min-h-screen'>
@@ -82,14 +89,14 @@ export default async function MyProject({
                         </p>
                     </div>
                     <div>
-                        <p>
+                        <div>
                             <span className='font-semibold'>Descrição:</span>{" "}
-                            <div
+                            <p
                                 dangerouslySetInnerHTML={{
                                     __html: project.description,
                                 }}
-                            ></div>
-                        </p>
+                            ></p>
+                        </div>
                     </div>
                     <div>
                         <p className='text-lg font-semibold'>Skills</p>
@@ -128,6 +135,8 @@ export default async function MyProject({
                     projectDependencies={projectDependencies}
                     project={project}
                     entity={entity}
+                    logged_as={logged_as}
+                    imTheOwner={imTheOwner}
                 />
             </div>
         </main>

@@ -2,6 +2,7 @@ import { getProjectById } from "@/actions/projects/get-project-by-id";
 import { getMe } from "@/actions/users/get-me";
 import { ProjectSideBar } from "@/components/project-details";
 import { Badge } from "@/components/ui/badge";
+import { getCookieStore } from "@/utils/cookie-store";
 
 export default async function ProjectDetails({
     params,
@@ -16,6 +17,10 @@ export default async function ProjectDetails({
         id: user.tolinerId,
         type: user.type as "freelancer" | "client",
     };
+
+    const logged_as = (await getCookieStore("logged_as")) as
+        | "client"
+        | "freelancer";
 
     return (
         <main className='flex flex-col sm:flex-row sm:justify-between  w-full gap-6 p-4 min-h-screen'>
@@ -44,7 +49,11 @@ export default async function ProjectDetails({
                 </div>
             </div>
             <div className='sm:w-[25dvw]'>
-                <ProjectSideBar project={project!} entity={entity} />
+                <ProjectSideBar
+                    project={project!}
+                    entity={entity}
+                    logged_as={logged_as}
+                />
             </div>
         </main>
     );

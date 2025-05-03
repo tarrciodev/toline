@@ -8,12 +8,13 @@ interface IProjectDetailsPaymentProps {
     ammount?: number;
     dueDate?: string;
     isEditable?: boolean;
+    imTheOwner?: boolean;
 }
 export function ProjectDetailsPayment({
     paymentDependencies,
     ammount,
     dueDate,
-    isEditable,
+    imTheOwner,
 }: IProjectDetailsPaymentProps) {
     return (
         <div className='flex flex-col w-full mt-2'>
@@ -31,7 +32,7 @@ export function ProjectDetailsPayment({
                     </div>
                 </div>
 
-                {isEditable && paymentDependencies && (
+                {paymentDependencies && imTheOwner && (
                     <EditProjectPaymentButton
                         paymentDependencies={paymentDependencies}
                     />
