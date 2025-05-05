@@ -7,7 +7,6 @@ import { FreelancerCard } from "@/components/freelancer-card";
 import { UserProfileCard } from "@/components/user-profile-card";
 import { WorkshopBanner } from "./(components)/banner";
 import { DashContent } from "./(components)/dash-content";
-// import { DashContent } from "./(components)/dash-content";
 
 export default async function DashBoard() {
     const entity = await getTolinerAsEntity();

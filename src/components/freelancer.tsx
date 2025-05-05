@@ -48,7 +48,7 @@ export function Freelancer({ freelancer }: { freelancer: FreelancersProps }) {
                     </Button> */}
                 </div>
                 <p className='my-2 line-clamp-3'>{freelancer.bio}</p>
-                {freelancer.skills.length > 0 && (
+                {freelancer?.skills?.length > 0 && (
                     <div>
                         <p className='font-semibold'>Skills</p>
                         {freelancer.skills.map((skill) => (

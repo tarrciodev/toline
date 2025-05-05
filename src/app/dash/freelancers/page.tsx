@@ -8,8 +8,8 @@ export default async function Page({
     searchParams: Promise<{ especialization: string; skills: string }>;
 }) {
     const skills = (await searchParams).skills;
-    const especialization = (await searchParams).especialization;
-    const freelancers = await getFreelancers(especialization, skills);
+    const specialization = (await searchParams).especialization;
+    const { freelancers } = await getFreelancers({ specialization, skills });
 
     return (
         <main className='flex w-full gap-6'>

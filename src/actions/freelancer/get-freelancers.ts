@@ -18,13 +18,24 @@ export type FreelancersProps = {
     }>;
 };
 
-export async function getFreelancers(
-    especialization: string | undefined,
-    skills: string
-): Promise<FreelancersProps[]> {
-    const freelancers = await api<FreelancersProps[]>(
-        `/freelancers?skills=${skills}&especialization=${especialization}`
+interface IGetFreelancers {
+    freelancers: FreelancersProps[];
+    totalPages: number;
+}
+
+export async function getFreelancers({
+    specialization,
+    skills,
+}: {
+    specialization: string | undefined;
+    skills: string;
+}): Promise<IGetFreelancers> {
+    const data = await api<IGetFreelancers>(
+        `/freelancers?skills=${skills}&specialization=${specialization}`
     );
 
-    return freelancers;
+    return {
+        freelancers: data.freelancers,
+        totalPages: data.totalPages,
+    };
 }
