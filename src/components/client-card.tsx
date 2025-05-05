@@ -1,5 +1,5 @@
 import { EntityProps } from "@/store/entity";
-import { FileCheck2, FolderKanban, Hourglass, Megaphone } from "lucide-react";
+import { DollarSign, FileCheck2, FolderKanban, Hourglass } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent } from "./ui/card";
 
@@ -14,7 +14,20 @@ export function ClientCard({ entity }: { entity: EntityProps }) {
         (project) => project.status == "Concluido"
     ).length;
     return (
-        <div className='flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center'>
+        <div className='flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center justify-between'>
+            <Link href='/dash/client/finances'>
+                <Card className='flex-1 rounded'>
+                    <CardContent className='flex items-center gap-2 pt-4'>
+                        <span className='size-16 rounded-full flex items-center justify-center bg-red-800 text-red-50'>
+                            <DollarSign />
+                        </span>
+                        <div>
+                            <span>0</span>
+                            <p>Minhas Finanças</p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </Link>
             <Link href={`/dash/client/projects?query=published`}>
                 <Card className='flex  flex-1 items-center rounded'>
                     <CardContent className='flex items-center gap-2 pt-4'>
@@ -62,17 +75,6 @@ export function ClientCard({ entity }: { entity: EntityProps }) {
                     </CardContent>
                 </Card>
             </Link>
-            <Card className='flex-1 rounded'>
-                <CardContent className='flex items-center gap-2 pt-4'>
-                    <span className='size-16 rounded-full flex items-center justify-center bg-red-800 text-red-50'>
-                        <Megaphone />
-                    </span>
-                    <div>
-                        <span>0</span>
-                        <p>Anuncios</p>
-                    </div>
-                </CardContent>
-            </Card>
         </div>
     );
 }

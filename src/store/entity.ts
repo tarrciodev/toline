@@ -76,6 +76,22 @@ export interface INotification {
     };
 }
 
+export type PaymentSummary = {
+    id: string;
+    ammount: number;
+    createdAt: Date; // because toLocaleDateString() returns a string
+    isVerified: boolean;
+    status: "completed" | "pending" | "failed";
+    project: {
+        id: string;
+        name: string;
+    };
+    freelancer: {
+        id?: string; // optional, because of optional chaining
+        name?: string; // optional, because of optional chaining
+    };
+};
+
 export type EntityProps = {
     id: string;
     name: string;
@@ -88,6 +104,9 @@ export type EntityProps = {
     projectsFreelanced: IProject[];
     createdAt: string;
     avatarUrl?: string;
+    balance: {
+        ammount: number;
+    };
     type: "freelancer" | "client";
     certifications?: {
         id: string;
@@ -119,6 +138,7 @@ export type EntityProps = {
         bankName: string;
     };
     notifications?: INotification[];
+    Payments?: PaymentSummary[];
 };
 
 interface EntityState {

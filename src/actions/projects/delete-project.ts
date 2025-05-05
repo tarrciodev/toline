@@ -25,8 +25,6 @@ export async function deleteProject({
         }
     );
 
-    console.log({ deleteTedProject });
-
     if (!deleteTedProject.id) {
         return {
             status: "error",

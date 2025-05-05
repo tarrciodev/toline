@@ -57,8 +57,6 @@ export function MultiStepForm() {
             body: JSON.stringify({ type: "register", name }),
         });
 
-        console.log({ code });
-
         if (!Number(code)) {
             return;
         }

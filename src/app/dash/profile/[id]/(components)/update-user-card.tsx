@@ -20,9 +20,14 @@ import { useUpdteUserCard } from "@/services/profile/update-user-card";
 import { extractAvatarFromName } from "@/utils/extract-avatar-from-name";
 import { Camera, Pencil } from "lucide-react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export function UpdateUserCard() {
     const { form, previewUrl, me, onSubmit, isSubmitting } = useUpdteUserCard();
+    const pathname = usePathname();
+    if (pathname.includes("freelancer")) {
+        return null;
+    }
     return (
         <ResponsiveModal>
             <ResponsiveModalTrigger asChild>

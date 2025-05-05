@@ -20,7 +20,6 @@ export async function subscribeOnProject(
     dependencies: DependenciesProps
 ): Promise<{ status: "Created" | "rejected"; message: string }> {
     const { projectId, tolinerId } = dependencies;
-    console.log({ dependencies });
     if (!projectId || !tolinerId) {
         return {
             status: "rejected",
@@ -38,8 +37,6 @@ export async function subscribeOnProject(
             body: JSON.stringify(data),
         }
     );
-
-    console.log({ subscrition });
 
     if (!subscrition.id) {
         return {

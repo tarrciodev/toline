@@ -86,12 +86,10 @@ export function useSendProposalServices(
         formState: { isSubmitSuccessful, isSubmitting },
     } = form;
     async function onSubmit(data: SubscriptionProps) {
-        const sub = await subscribeOnProject(data, {
+        await subscribeOnProject(data, {
             projectId,
             tolinerId,
         });
-
-        console.log({ sub });
     }
 
     useEffect(() => {

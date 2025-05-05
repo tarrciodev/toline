@@ -14,7 +14,6 @@ export async function updateUserCard(data: UpdateUserCardProps) {
 
     if (data.avatar) {
         avatarUrl = ((await supabaseUpload(data.avatar)) as string) ?? null;
-        console.log({ avatarUrl });
     }
 
     const me = await getMe();

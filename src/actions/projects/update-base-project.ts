@@ -43,11 +43,6 @@ export async function updateBaseProject(
 
     const { id, ...parsedProject } = project;
 
-    console.log({
-        remaining: filteredSkills
-            ?.filter((filtered) => project.skills?.includes(filtered.name))
-            .map((s) => s.id),
-    });
     const createdProject = await api<{ id: string }>(
         `/project/${id}/ownerId/${me.tolinerId}`,
         {

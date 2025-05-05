@@ -50,8 +50,6 @@ export function useForgotPasswordService(): ForgotPasswordResponse {
         }, 2500);
     };
 
-    console.log(forgotMessage);
-
     return {
         form,
         handleSubmit,
