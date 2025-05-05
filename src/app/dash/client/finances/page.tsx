@@ -22,7 +22,7 @@ export default async function ClienteFinanceiro() {
                 <div className='bg-white rounded-lg shadow p-6 mb-3 flex flex-col sm:flex-row justify-between items-start sm:items-center'>
                     <div>
                         <p className='text-gray-500 text-sm'>Seu saldo atual</p>
-                        <Balance ammount={toliner?.balance.ammount} />
+                        <Balance ammount={toliner?.balance?.ammount} />
                     </div>
                     <RechargeButton>
                         <RechargeForm />
