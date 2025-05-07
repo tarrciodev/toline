@@ -13,17 +13,17 @@ export function ProjectDetails({
         projectId: string;
         ownerId: string;
     };
-    projectStatus?: "Em andamento" | "Concluído" | "Não Iniciado";
+    projectStatus?: "onGoing" | "created" | "completed";
     imTheOwner?: boolean;
 }) {
     const statusConfig = {
-        "Em andamento": {
+        onGoing: {
             baseClass: "bg-blue-100 text-blue-600",
         },
         Concluido: {
             baseClass: "bg-green-100 text-green-600",
         },
-        "Não Iniciado": {
+        created: {
             baseClass: "bg-red-100 text-red-600",
         },
     };

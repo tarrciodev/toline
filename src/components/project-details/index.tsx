@@ -43,10 +43,7 @@ export function ProjectSideBar({
 
     const subscriber = project.freelancer;
 
-    const projectStatus = project.status as
-        | "Em andamento"
-        | "Concluído"
-        | "Não Iniciado";
+    const projectStatus = project.status as "onGoing" | "completed" | "created";
 
     return (
         <ProjectDetailsRoot>
@@ -66,7 +63,7 @@ export function ProjectSideBar({
             {logged_as == "freelancer" && (
                 <div className='flex flex-col gap-1'>
                     <ChatWithEntity
-                        entityId={project.owner!.userId}
+                        entityId={project?.owner?.userId as string}
                         entityType='client'
                     />
                     <SubscriptionActions
@@ -84,9 +81,7 @@ export function ProjectSideBar({
                 <div className='flex flex-col gap-3'>
                     <ProjectDetailsFreelancer
                         project={{
-                            status: project.status as
-                                | "Em andamento"
-                                | "Concluido",
+                            status: project.status as "onGoing" | "completed",
                             id: project.id,
                             owner: { id: project.owner!.id! },
                         }}
@@ -96,8 +91,8 @@ export function ProjectSideBar({
                         <MarkProjectAsConcluded
                             project={{
                                 status: project.status as
-                                    | "Em andamento"
-                                    | "Concluido",
+                                    | "onGoing"
+                                    | "completed",
                                 id: project.id,
                                 freelancerId: project?.freelancerId,
                                 ownerId: project.owner!.id!,

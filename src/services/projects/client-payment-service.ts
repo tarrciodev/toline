@@ -76,7 +76,11 @@ export function useClientPaymentService(
             setTimeout(() => {
                 triggerRef.current?.click();
             }, 2500);
+
+            return;
         }
+
+        toast.error(response.message);
     }
 
     return {

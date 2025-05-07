@@ -1,8 +1,8 @@
-import type { PaymentSummary } from "@/store/entity";
+import { FreelancerPayments } from "@/actions/freelancer/get-freelancer-payments";
 
-export function TrPaymentItem({ payment }: { payment: PaymentSummary }) {
+export function TrPaymentItem({ payment }: { payment: FreelancerPayments }) {
     const statusTranslation = {
-        completed: "Completo",
+        completed: "Concluído",
         pending: "Pendente",
         failed: "Falhou",
     };
@@ -22,7 +22,7 @@ export function TrPaymentItem({ payment }: { payment: PaymentSummary }) {
     return (
         <tr key={payment.id} className='hover:bg-gray-50'>
             <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
-                {payment.createdAt.toLocaleDateString()}
+                {payment.createdAt}
             </td>
             <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
                 {payment?.project?.name}
@@ -35,9 +35,13 @@ export function TrPaymentItem({ payment }: { payment: PaymentSummary }) {
             </td>
             <td className='px-6 py-4 whitespace-nowrap'>
                 <span
-                    className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClasses[payment.status]}`}
+                    className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClasses[payment.status as keyof typeof statusClasses]}`}
                 >
-                    {statusTranslation[payment.status]}
+                    {
+                        statusTranslation[
+                            payment.status as keyof typeof statusTranslation
+                        ]
+                    }
                 </span>
             </td>
         </tr>

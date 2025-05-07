@@ -4,7 +4,7 @@ import { Card, CardContent } from "../ui/card";
 interface IProjectDetailFreelancerProps {
     project: {
         id: string;
-        status: "Em andamento" | "Concluido";
+        status: "onGoing" | "completed";
         owner: {
             id: string;
         };

@@ -11,7 +11,7 @@ export function ClientCard({ entity }: { entity: EntityProps }) {
     ).length;
 
     const completedProjects = entity.projects?.filter(
-        (project) => project.status == "Concluido"
+        (project) => project.status == "completed"
     ).length;
     return (
         <div className='flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center justify-between'>

@@ -32,11 +32,11 @@ export default async function page({
     }
 
     const accceptedProposals = freelancer?.projectsFreelanced?.filter(
-        (project) => project.status != "Concluido"
+        (project) => project.status != "completed"
     );
 
     const concludedProjects = freelancer?.projectsFreelanced?.filter(
-        (project) => project.status == "Concluido"
+        (project) => project.status == "completed"
     );
 
     return (

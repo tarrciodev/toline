@@ -34,7 +34,7 @@ interface IMarkProjectAsConcluedeProps {
         id: string;
         freelancerId?: string;
         ownerId: string;
-        status: "Em andamento" | "Concluido" | "Não Iniciado";
+        status: "onGoing" | "completed";
     };
 }
 export function MarkProjectAsConcluded({
@@ -47,7 +47,7 @@ export function MarkProjectAsConcluded({
             freelancerId: project.freelancerId!,
         });
 
-    const isCompleted = project.status === "Concluido";
+    const isCompleted = project.status === "completed";
     const isDisabled = isSubmitting || isCompleted;
     return (
         <Dialog>

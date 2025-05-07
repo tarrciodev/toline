@@ -17,7 +17,7 @@ interface ISelectedFreelancerProps {
     };
     ownerId: string;
     projectId: string;
-    projectStatus: "Em andamento" | "Concluido";
+    projectStatus: "onGoing" | "completed";
 }
 export function SelectedFreelancer({
     freelancer,
@@ -36,7 +36,7 @@ export function SelectedFreelancer({
         });
     }
 
-    const isDisabled = isPending || projectStatus === "Concluido";
+    const isDisabled = isPending || projectStatus === "completed";
 
     return (
         <div className='flex flex-col gap-4 shadow-sm p-4 bg-white border border-gray-100'>
@@ -80,7 +80,7 @@ export function SelectedFreelancer({
                 <Button
                     className={cn(
                         "ml-auto",
-                        projectStatus === "Concluido"
+                        projectStatus === "completed"
                             ? "cursor-not-allowed bg-red-100 text-red-600 hover:bg-red-100"
                             : "bg-red-700 hover:bg-red-500"
                     )}

@@ -90,6 +90,10 @@ export type PaymentSummary = {
         id?: string; // optional, because of optional chaining
         name?: string; // optional, because of optional chaining
     };
+    client?: {
+        id: string;
+        name: string;
+    };
 };
 
 export type EntityProps = {
