@@ -12,17 +12,16 @@ export function TransactionsContainer({
 }) {
     const [activeTab, setActiveTab] = useState("transactions");
     const monthlyStats = [
-        { month: "Janeiro", earnings: 4200 },
-        { month: "Fevereiro", earnings: 3800 },
-        { month: "Março", earnings: 5100 },
-        { month: "Abril", earnings: 6150 },
+        { month: "Janeiro", earnings: 0 },
+        { month: "Fevereiro", earnings: 0 },
+        { month: "Março", earnings: 0 },
+        { month: "Abril", earnings: 0 },
     ];
 
     const filterdPayments = useFilteredPayments({
         payments,
     });
 
-    console.log({ filterdPayments });
     return (
         <div className='bg-white rounded-lg shadow'>
             <div className='border-b border-gray-200'>

@@ -25,9 +25,10 @@ export function PaymenTable({ payments }: { payments: FreelancerPayments[] }) {
                     </tr>
                 </thead>
                 <tbody className='bg-white divide-y divide-gray-200'>
-                    {payments.map((payment) => (
-                        <TrPayment key={payment.id} payment={payment} />
-                    ))}
+                    {(payments ?? []).length > 0 &&
+                        payments.map((payment) => (
+                            <TrPayment key={payment.id} payment={payment} />
+                        ))}
                 </tbody>
             </table>
         </div>

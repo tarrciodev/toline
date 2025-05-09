@@ -26,7 +26,6 @@ export async function getTolinerPayments(
     entityId: string
 ): Promise<FreelancerPayments[]> {
     const logged_as = await getCookieStore("logged_as");
-    console.log({ logged_as });
     const payments = await api<FreelancerPayments[]>(
         `/${logged_as}/${entityId}/payments`
     );

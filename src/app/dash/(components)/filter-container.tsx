@@ -18,7 +18,7 @@ export function FilterContainer() {
     });
 
     return (
-        <div className='flex flex-col md:flex-row justify-between mb-6 gap-4'>
+        <div className='flex flex-col md:flex-row justify-center sm:justify-between mb-6 gap-4 sm:px-4'>
             <div className='flex items-center bg-gray-100 rounded-md px-3 py-2 w-full md:w-80'>
                 <SearchIcon />
                 <input
@@ -30,7 +30,7 @@ export function FilterContainer() {
                 />
             </div>
             <div>
-                <div className='flex gap-4'>
+                <div className='flex gap-1 sm:gap-4 pr-2'>
                     <select
                         className='bg-white border border-gray-300 rounded-md px-3 py-2 outline-none'
                         value={periodFilter}

@@ -34,9 +34,6 @@ export function UserProfileSkills({
     userSkills: Array<{
         id: string;
         name: string;
-        categoryId: string;
-        subcategoryId?: string;
-        tag?: string;
     }>;
     publicProfile?: boolean;
 }) {

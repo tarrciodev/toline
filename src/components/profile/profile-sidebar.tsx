@@ -6,9 +6,7 @@ interface IuserProfileCompletation {
         id: string;
         status: string;
         name: string;
-        description: string;
     }[];
-    certifications: number;
     createdAt: string;
     skills: number;
     profileCompletation: number;
@@ -17,7 +15,6 @@ interface IuserProfileCompletation {
 
 export function ProfileSideBar({
     projects,
-    certifications,
     createdAt,
     skills,
     profileCompletation,
@@ -65,13 +62,6 @@ export function ProfileSideBar({
                     </span>
                 </p>
             </div>
-            <Can who='freelancer'>
-                <div>
-                    <p className='w-full flex justify-between'>
-                        Certificações: <span>{certifications}</span>
-                    </p>
-                </div>
-            </Can>
             <Can who='freelancer'>
                 <div>
                     <p className='w-full flex justify-between'>

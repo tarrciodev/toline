@@ -2,25 +2,53 @@
 import { IBanner } from "@/actions/banner";
 import { useTimeLeft } from "@/services/banner";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export function WorkshopBanner({ banner }: { banner: IBanner }) {
     const { timeLeft, formatNumber } = useTimeLeft(
         new Date(banner.avaialbleAt)
     );
 
+    const [shouldDisplay, setShouldDisplay] = useState(false);
+
+    useEffect(() => {
+        const checkDisplayPeriod = () => {
+            const now = new Date();
+            const availableDate = new Date(banner.avaialbleAt);
+
+            const startDisplay = new Date(availableDate);
+            startDisplay.setDate(availableDate.getDate() - 2);
+
+            const endDisplay = new Date(availableDate);
+            endDisplay.setDate(availableDate.getDate() + 3);
+
+            const isWithinDisplayPeriod =
+                now >= startDisplay && now <= endDisplay;
+
+            setShouldDisplay(isWithinDisplayPeriod);
+        };
+
+        checkDisplayPeriod();
+
+        const intervalId = setInterval(checkDisplayPeriod, 3600000);
+
+        return () => clearInterval(intervalId);
+    }, [banner.avaialbleAt]);
+
+    if (!shouldDisplay) {
+        return null;
+    }
+
     return (
         <div className='w-full mb-6 mt-4'>
             <div className='bg-white rounded-lg shadow-md overflow-hidden relative'>
-                {/* Background with consistent design across screen sizes */}
                 <div className='absolute inset-0 bg-indigo-900 z-10'>
-                    {/* Overlay with subtle pattern */}
                     <div className="absolute inset-0 opacity-90 bg-[url('/patterns/grid.svg')]"></div>
-                    {/* Side highlight with vibrant color - hidden on mobile */}
+
                     <div className='absolute top-0 right-0 w-1/3 h-full bg-white transform skew-x-12 translate-x-20 hidden md:block'></div>
                 </div>
 
                 <div className='relative z-20 p-4'>
-                    {/* Main container - switched to column layout on mobile */}
                     <div className='flex flex-col md:flex-row md:items-center md:justify-between'>
                         <div className='text-white mb-6 md:mb-0 md:mr-4 md:flex-1'>
                             <div className='inline-block bg-red-700 text-white text-xs font-semibold px-2 py-1 rounded-full mb-2'>
@@ -46,7 +74,6 @@ export function WorkshopBanner({ banner }: { banner: IBanner }) {
                             </div>
                         </div>
 
-                        {/* Timer container - grid on mobile, flex on desktop */}
                         <div className='flex md:gap-2 md:justify-end'>
                             <div className='bg-indigo-900 backdrop-blur-sm rounded px-3 py-2 text-center w-full md:w-16'>
                                 <div className='text-white font-bold text-lg'>

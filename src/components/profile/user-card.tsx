@@ -1,17 +1,15 @@
 import { UpdateUserCard } from "@/app/dash/profile/[id]/(components)/update-user-card";
-import { EntityProps } from "@/store/entity";
 import { extractAvatarFromName } from "@/utils/extract-avatar-from-name";
 import Image from "next/image";
 
-export function FreelancerCard({
-    entity,
-    logged_as,
-}: {
-    entity: EntityProps;
-    logged_as: "client" | "freelancer";
-}) {
-    const userType = logged_as ?? entity.type;
+interface Entity {
+    avatarUrl: string | null;
+    name: string;
+    jobDescription: string;
+    bio: string;
+}
 
+export function UserCard({ entity }: { entity: Entity }) {
     return (
         <div className='border border-gray-200 rounded p-4 sm:p-8 w-full flex gap-2 bg-white shadow-xl relative'>
             <span className='absolute right-5 top-5'>
@@ -48,9 +46,7 @@ export function FreelancerCard({
                 <div className='border-b border-gray-400 w-full my-4' />
                 <div>
                     <p className='sm:w-[30dvw]  text-left sm:text-justify -ml-20 sm:-ml-0'>
-                        {userType === "client"
-                            ? entity.clientBio
-                            : entity.freelancerBio}
+                        {entity.bio}
                     </p>
                 </div>
             </div>

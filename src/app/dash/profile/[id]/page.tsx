@@ -1,9 +1,9 @@
 import { getTolinerAsEntity } from "@/actions/toliners/get-entity";
 import { Can } from "@/components/can";
 import { AboutMe } from "@/components/profile/about-me";
-import { FreelancerCard } from "@/components/profile/freelancer-card";
 import { ProfileSideBar } from "@/components/profile/profile-sidebar";
 import { ProjectsIHaveWorkedOn } from "@/components/profile/projects-i-have-worked-on";
+import { UserCard } from "@/components/profile/user-card";
 import UserIdentification from "@/components/profile/user-identification";
 import { UserProfileSkills } from "@/components/profile/user-profile-skills";
 import { getCookieStore } from "@/utils/cookie-store";
@@ -23,11 +23,17 @@ export default async function EditProfile() {
         logged_as == "freelancer" ? entity.freelancerBio : entity.clientBio;
     const bioScore = bio ? 10 : 0;
     const profileCompletation = defaultScore + bioScore + identificationScore;
+    const user = {
+        bio: bio as string,
+        name: entity.name as string,
+        avatarUrl: entity.avatarUrl as string,
+        jobDescription: "",
+    };
 
     return (
         <main className='flex flex-col sm:flex-row py-3 gap-6 w-full'>
             <div className='flex flex-col flex-1 gap-2'>
-                <FreelancerCard entity={entity} logged_as={logged_as} />
+                <UserCard entity={user} />
                 <AboutMe userId={entity.userId} bio={bio as string} />
                 <Can who='freelancer'>
                     <>
@@ -35,11 +41,8 @@ export default async function EditProfile() {
                             freelancerId={entity.userId}
                             userSkills={entity.skills!}
                         />
-                        {/* <Certification
-                                certifications={entity?.certifications}
-                            /> */}
                         <ProjectsIHaveWorkedOn
-                            entityId={entity.userId}
+                            entityId={entity.id}
                             showCases={entity.showCases!}
                         />
                         {!entity.identification && (
@@ -52,7 +55,6 @@ export default async function EditProfile() {
                 <ProfileSideBar
                     entityType={entity.type}
                     projects={entity?.projects}
-                    certifications={entity?.certifications?.length ?? 0}
                     skills={entity?.skills?.length ?? 0}
                     createdAt={entity?.createdAt}
                     profileCompletation={profileCompletation}

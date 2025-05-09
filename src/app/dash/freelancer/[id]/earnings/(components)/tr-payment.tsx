@@ -7,7 +7,7 @@ export default function TrPayment({
     payment: FreelancerPayments;
 }) {
     const statusPayment = {
-        Paid: {
+        resolved: {
             text: "Pago",
             css: "bg-green-100 text-green-800",
         },
@@ -26,18 +26,18 @@ export default function TrPayment({
                 {payment?.client?.name}
             </td>
             <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>
-                {formatCurrency(payment.ammount)}
+                {formatCurrency(payment?.ammount)}
             </td>
             <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                {new Date(payment.createdAt).toLocaleDateString("pt-BR")}
+                {new Date(payment?.createdAt).toLocaleDateString("pt-BR")}
             </td>
             <td className='px-6 py-4 whitespace-nowrap'>
                 <span
-                    className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${statusPayment[payment.status as keyof typeof statusPayment].css}`}
+                    className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${statusPayment[payment?.status as keyof typeof statusPayment].css}`}
                 >
                     {
                         statusPayment[
-                            payment.status as keyof typeof statusPayment
+                            payment?.status as keyof typeof statusPayment
                         ].text
                     }
                 </span>

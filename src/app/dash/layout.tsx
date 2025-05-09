@@ -22,7 +22,7 @@ export default async function DashLayout({
             <div className='bg-gray-50  flex flex-col min-h-screen'>
                 <ClientSessionHydrator logged_as={entity.type} />
                 <DashHeader user={userForHeader} />
-                <div className='bg-gray-200 px-4 sm:px-56 py-1 flex flex-1'>
+                <div className='bg-gray-200  sm:px-56 py-1 flex flex-1'>
                     {children}
                 </div>
                 <Footer />

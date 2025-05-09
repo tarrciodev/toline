@@ -43,9 +43,6 @@ export function Freelancer({ freelancer }: { freelancer: FreelancersProps }) {
                             <Star />
                         </p>
                     </div>
-                    {/* <Button className='bg-teal-900 w-fit self-center'>
-                        Convidar
-                    </Button> */}
                 </div>
                 <p className='my-2 line-clamp-3'>{freelancer.bio}</p>
                 {freelancer?.skills?.length > 0 && (
@@ -56,7 +53,7 @@ export function Freelancer({ freelancer }: { freelancer: FreelancersProps }) {
                         ))}
                     </div>
                 )}
-                <p className='mt-3 sm:mt-0'>
+                <p className='mt-3 '>
                     <span>Aderiu</span>: {freelancer.createdAt}
                 </p>
             </div>

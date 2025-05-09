@@ -12,8 +12,6 @@ export default async function ProjectDetails({
     const id = (await params).id;
     const project = await getProjectById(id);
 
-    console.log({ project });
-
     const user = await getMe();
     const entity = {
         id: user.tolinerId,

@@ -13,8 +13,6 @@ type UpdateSkills = {
     userSkills: Array<{
         id: string;
         name: string;
-        categoryId: string;
-        subcategoryId?: string;
     }>;
     action: "remove" | "add";
 };

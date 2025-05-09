@@ -8,12 +8,12 @@ export default async function ClienteFinanceiro() {
     const toliner = await getTolinerAsEntity();
 
     const payments = await getTolinerPayments(toliner.id);
-    console.log({ payments });
+
     return (
         <div className='bg-white min-h-screen w-full'>
-            <main className='p-6'>
+            <main className='sm:p-6'>
                 <div className='mb-3'>
-                    <h1 className='text-2xl font-bold text-gray-900'>
+                    <h1 className='text-2xl font-bold text-gray-900 p-5 sm:p-0'>
                         Área Financeira
                     </h1>
                 </div>

@@ -9,8 +9,8 @@ export default async function EarningsPage() {
     const payments = await getFreelancerPayments(toliner.id);
 
     return (
-        <div className='min-h-screen w-full'>
-            <div className='container px-4 py-8 bg-white'>
+        <div className='min-h-screen w-full bg-white'>
+            <div className='container sm:px-4 sm:py-8 bg-white'>
                 <Balance ammount={toliner?.balance?.ammount} />
                 <FilterContainer />
 

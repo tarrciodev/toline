@@ -57,6 +57,8 @@ export async function addShowCase(data: ShowCaseProps, freelancerId: string) {
             }
         );
 
+        console.log({ portifolio });
+
         revalidatePath("/");
 
         return {

@@ -10,10 +10,6 @@ import SkillItem from "./skill-item";
 export interface ISkills {
     id: string;
     name: string;
-    categoryId: string;
-    description?: string;
-    subcategoryId?: string;
-    tag?: string;
 }
 
 interface ISkillListProps {
