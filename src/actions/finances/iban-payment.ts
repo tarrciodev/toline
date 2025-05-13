@@ -40,6 +40,7 @@ export async function ibanPayment(data: IbanPaymentProps) {
 
     return {
         status: "success",
-        message: "Pagamento realizado com sucesso",
+        message:
+            "Seu pagamento será verificado em breve. Poderá acompanhar o status nas recargas.",
     };
 }

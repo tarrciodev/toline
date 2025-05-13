@@ -2,7 +2,7 @@ import { getTolinerAsEntity } from "@/actions/toliners/get-entity";
 import { getTolinerPayments } from "@/actions/toliners/get-toliner-payments";
 import { Balance } from "../../(components)/balance";
 import { FilterContainer } from "../../(components)/filter-container";
-import PaymentsContainer from "./(components)/payments-container";
+import { TransactionsContainer } from "./(components)/transaction-container";
 
 export default async function ClienteFinanceiro() {
     const toliner = await getTolinerAsEntity();
@@ -27,7 +27,7 @@ export default async function ClienteFinanceiro() {
                         </h2>
 
                         <FilterContainer />
-                        <PaymentsContainer payments={payments} />
+                        <TransactionsContainer payments={payments} />
                     </div>
                 </div>
             </main>

@@ -1,7 +1,6 @@
 "use client";
 import { FreelancerPayments } from "@/actions/freelancer/get-freelancer-payments";
 import { useFilteredPayments } from "@/utils/filter-payments-per-period";
-import { NoPayment } from "./no-payment";
 import { TrPaymentItem } from "./tr-payment-item";
 
 export default function PaymentsContainer({
@@ -36,7 +35,6 @@ export default function PaymentsContainer({
                     {filteredPayments.map((payment) => (
                         <TrPaymentItem key={payment.id} payment={payment} />
                     ))}
-                    {payments.length === 0 && <NoPayment />}
                 </tbody>
             </table>
         </div>

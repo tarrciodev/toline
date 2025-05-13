@@ -1,10 +1,10 @@
 "use client";
 import { FreelancerPayments } from "@/actions/freelancer/get-freelancer-payments";
+import { EmptyPayment } from "@/app/dash/freelancer/[id]/earnings/(components)/empty-payment";
+import { RechargesTable } from "@/app/dash/freelancer/[id]/earnings/(components)/recharge-table";
 import { useFilteredPayments } from "@/utils/filter-payments-per-period";
 import { useState } from "react";
-import { EmptyPayment } from "./empty-payment";
-import { PaymenTable } from "./payment-table";
-import { RechargesTable } from "./recharge-table";
+import PaymentsContainer from "./payments-container";
 
 export function TransactionsContainer({
     payments,
@@ -18,7 +18,7 @@ export function TransactionsContainer({
     });
 
     return (
-        <div className='bg-white rounded-lg shadow'>
+        <div className='bg-white rounded-lg'>
             <div className='border-b border-gray-200'>
                 <nav className='flex'>
                     <button
@@ -42,7 +42,7 @@ export function TransactionsContainer({
                         {(payments ?? []).length === 0 ? (
                             <EmptyPayment />
                         ) : (
-                            <PaymenTable payments={filterdPayments} />
+                            <PaymentsContainer payments={filterdPayments} />
                         )}
                     </>
                 ) : (
