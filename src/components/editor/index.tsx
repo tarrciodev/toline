@@ -1,44 +1,57 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import "froala-editor/css/froala_editor.pkgd.min.css";
-import "froala-editor/css/froala_style.min.css";
-import "froala-editor/js/plugins.pkgd.min.js";
-import FroalaEditor from "react-froala-wysiwyg";
 
-type EditorProps = {
-    model: string;
-    onModelChange: (content: string) => void;
-};
+import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
+import { StarterKit } from "@tiptap/starter-kit";
+import { useEffect } from "react";
+import "../../styles/_keyframe-animations.scss";
+import "../../styles/_variables.scss";
+import { Toolbar, ToolbarGroup } from "../editor/tiptap-ui-primitive/toolbar";
+import { ListDropdownMenu } from "../editor/tiptap-ui/list-dropdown-menu";
+import { MarkButton } from "../editor/tiptap-ui/mark-button";
+import { UndoRedoButton } from "../editor/tiptap-ui/undo-redo-button";
 
-export function Editor({ model, onModelChange }: EditorProps) {
-    const config = {
-        toolbarSticky: false,
-        toolbarButtons: [
-            "bold",
-            "italic",
-            "|",
-            "paragraphFormat",
-            "textColor",
-            "|",
-            "formatUL",
-            "|",
-            "undo",
-            "redo",
-        ],
-        pluginsEnabled: ["colors", "paragraphFormat", "lists"],
-        paragraphFormat: {
-            N: "Normal",
-            H1: "Heading 1",
-            H2: "Heading 2",
-            H3: "Heading 3",
+export function Editor({ field, clear }: { field: any; clear: boolean }) {
+    const editor = useEditor({
+        immediatelyRender: false,
+        extensions: [StarterKit],
+        onUpdate: ({ editor }) => {
+            // Update form value on editor content change
+            field.onChange(editor.getHTML());
         },
-    };
+        content: clear ? "" : (field.value ?? ""),
+    });
+
+    useEffect(() => {
+        if (editor && clear) {
+            editor.commands.setContent("");
+            field.onChange(""); // Ensure form field is also cleared
+        }
+    }, [clear, editor, field]);
 
     return (
-        <FroalaEditor
-            config={config}
-            tag='textarea'
-            model={model}
-            onModelChange={onModelChange}
-        />
+        <div className='rich-text'>
+            <EditorContext.Provider value={{ editor }}>
+                <Toolbar variant='fixed'>
+                    <ToolbarGroup>
+                        <MarkButton type='bold' />
+                        <MarkButton type='italic' />
+                    </ToolbarGroup>
+                    {/* <HeadingDropdownMenu levels={[1, 2, 3, 4]} /> */}
+
+                    <ListDropdownMenu types={["bulletList", "orderedList"]} />
+                    <ToolbarGroup>
+                        <UndoRedoButton action='undo' />
+                        <UndoRedoButton action='redo' />
+                    </ToolbarGroup>
+                </Toolbar>
+
+                <EditorContent
+                    editor={editor}
+                    role='presentation'
+                    className='tiptap-editor'
+                />
+            </EditorContext.Provider>
+        </div>
     );
 }

@@ -89,7 +89,7 @@ export default async function MyProject({
                         </p>
                     </div>
                     <div>
-                        <div>
+                        <div className='rich-text'>
                             <span className='font-semibold'>Descrição:</span>{" "}
                             <p
                                 dangerouslySetInnerHTML={{

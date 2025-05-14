@@ -74,6 +74,31 @@
     ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
     }
+
+    .rich-text ul,
+    .rich-text ol {
+        all: revert; /* Restaura os estilos padrão do navegador */
+        margin: revert;
+        padding: revert;
+        list-style: revert;
+    }
+
+    .tiptap-editor .ProseMirror {
+        @apply border border-input bg-background text-foreground p-2 rounded-md;
+        font-family: monospace; /* Mimics textarea's default font */
+        font-size: 14px; /* Common textarea font size */
+        width: 100%; /* Approximate width of 40 columns */
+        height: 100px;
+        resize: none; /* Approximate height of 20 rows */ /* Allows vertical resizing like a textarea */
+        overflow: hidden; /* Ensures scrollbars appear when content overflows */
+    }
+
+    /* Ensure focus styles match a textarea */
+    .tiptap-editor .ProseMirror:focus {
+        @apply outline-none ring-2 ring-ring;
+    }
+
+    /* Aplica formatação Tailwind a todas as ul e ol fora de rich-text */
 }
 
 @layer utilities {

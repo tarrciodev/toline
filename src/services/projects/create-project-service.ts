@@ -53,6 +53,7 @@ interface IUseCreateProjectServiceResponse {
         undefined
     >;
     isSubmitting: boolean;
+    isSubmitSuccessful: boolean;
     categories: Category[] | null;
     subcategories: Subcategories[];
     filteredSkills: Skill[] | undefined;
@@ -102,6 +103,7 @@ export function useCreateProjectService(): IUseCreateProjectServiceResponse {
     );
 
     async function handleSubmit(data: CreateProjectProps) {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         const filteredSkills = category?.skills?.filter(
             (skill) =>
                 !skill.subcategoryId ||
@@ -123,5 +125,6 @@ export function useCreateProjectService(): IUseCreateProjectServiceResponse {
         subcategories,
         filteredSkills,
         handleSubmit,
+        isSubmitSuccessful,
     };
 }

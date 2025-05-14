@@ -1,4 +1,6 @@
+"use client";
 import { IProject } from "@/actions/projects/get-projects";
+import { htmlToString } from "@/utils/html-to-string";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
 
@@ -30,11 +32,8 @@ export function Project({ project }: { project: IProject }) {
                     </span>
                 </p>
             </div>
-            <div>
-                <p
-                    className='line-clamp-5 prose max-w-none'
-                    dangerouslySetInnerHTML={{ __html: project.description! }}
-                />
+            <div className='rich-text'>
+                <p>{htmlToString(project.description!, 200)}</p>
             </div>
             {project.skills?.length != 0 && (
                 <div>

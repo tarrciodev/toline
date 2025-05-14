@@ -76,7 +76,6 @@ export function ProjectSideBar({
                     />
                 </div>
             )}
-            <p>{imTheOwner ? "owner" : "Not Owner"}</p>
             {logged_as == "client" && imTheOwner && (
                 <div className='flex flex-col gap-3'>
                     <ProjectDetailsFreelancer

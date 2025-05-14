@@ -27,11 +27,14 @@ export default async function ProjectDetails({
             <div className='flex flex-col flex-1 bg-gray-50 px-10 py-6 shadow'>
                 <div className='space-y-4'>
                     <h1 className='text-4xl font-bold '>{project?.name}</h1>
-                    {/* <p
-                        dangerouslySetInnerHTML={{
-                            __html: project?.description,
-                        }}
-                    /> */}
+                    <div className='rich-text'>
+                        <p
+                            className='line-clamp-1'
+                            dangerouslySetInnerHTML={{
+                                __html: project?.description,
+                            }}
+                        />
+                    </div>
                     <div className='flex gap-2'>
                         <p>Status: {project?.status}</p>
                         <p>Data de Publicaçao: {project?.createdAt}</p>

@@ -18,6 +18,7 @@ export function CreateProjectForm() {
         categories,
         subcategories,
         filteredSkills,
+        isSubmitSuccessful,
     } = useCreateProjectService();
 
     return (
@@ -41,6 +42,7 @@ export function CreateProjectForm() {
                 <CustomEditorField
                     control={form.control}
                     name='description'
+                    clear={isSubmitSuccessful}
                     label='Descreva o Seu Projeto'
                 />
 

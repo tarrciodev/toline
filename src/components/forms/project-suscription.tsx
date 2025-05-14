@@ -42,7 +42,10 @@ export function ProjectSuscriptionForm({
                 </DialogHeader>
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className='w-full sm:w-[30vw] pr-4'
+                    >
                         <div className='flex flex-col gap-2'>
                             <CustomFormField
                                 control={form.control}
