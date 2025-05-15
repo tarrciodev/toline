@@ -63,7 +63,7 @@ export function useIbanPaymentService(
             return;
         }
 
-        toast.success(charge.message);
+        toast.success(charge.message, { duration: 6000 });
         form.reset();
         setTimeout(() => {
             triggerRef?.current?.click();
