@@ -1,4 +1,5 @@
 import { ProjectFullProps } from "@/store/entity";
+import { CanIf } from "../can-if";
 import { ChatWithEntity } from "../dash/chat/chat-with-entity";
 import { MarkProjectAsConcluded } from "./mark-as-concluded";
 import { ProjectDetails } from "./project-detail";
@@ -61,20 +62,32 @@ export function ProjectSideBar({
                 imTheOwner={imTheOwner}
             />
             {logged_as == "freelancer" && (
-                <div className='flex flex-col gap-1'>
-                    <ChatWithEntity
-                        entityId={project?.owner?.userId as string}
-                        entityType='client'
-                    />
-                    <SubscriptionActions
-                        project={{
-                            id: project.id,
-                            freelancerId: project?.freelancerId,
-                        }}
-                        tolinerId={entity?.id as string}
-                        imSubscribed={imSubscribed}
-                    />
-                </div>
+                <CanIf
+                    isVerified
+                    fallback={
+                        <div className='bg-red-100 p-4 rounded my-2'>
+                            <p className='text-red-600'>
+                                Apénas freelancers verifiacados podem enviar
+                                propostas em projetos
+                            </p>
+                        </div>
+                    }
+                >
+                    <div className='flex flex-col gap-1'>
+                        <ChatWithEntity
+                            entityId={project?.owner?.userId as string}
+                            entityType='client'
+                        />
+                        <SubscriptionActions
+                            project={{
+                                id: project.id,
+                                freelancerId: project?.freelancerId,
+                            }}
+                            tolinerId={entity?.id as string}
+                            imSubscribed={imSubscribed}
+                        />
+                    </div>
+                </CanIf>
             )}
             {logged_as == "client" && imTheOwner && (
                 <div className='flex flex-col gap-3'>

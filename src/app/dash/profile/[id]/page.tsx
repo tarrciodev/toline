@@ -6,6 +6,7 @@ import { ProjectsIHaveWorkedOn } from "@/components/profile/projects-i-have-work
 import { UserCard } from "@/components/profile/user-card";
 import UserIdentification from "@/components/profile/user-identification";
 import { UserProfileSkills } from "@/components/profile/user-profile-skills";
+import { UserSpecializations } from "@/components/profile/user-specialization";
 import { getCookieStore } from "@/utils/cookie-store";
 import { AlterPasswordModal } from "./(components)/alter-password-modal";
 import { DeleteAccountModal } from "./(components)/delete-account-modal";
@@ -27,7 +28,7 @@ export default async function EditProfile() {
         bio: bio as string,
         name: entity.name as string,
         avatarUrl: entity.avatarUrl as string,
-        jobDescription: "",
+        jobDescription: entity.jobDescription,
     };
 
     return (
@@ -37,6 +38,10 @@ export default async function EditProfile() {
                 <AboutMe userId={entity.userId} bio={bio as string} />
                 <Can who='freelancer'>
                     <>
+                        <UserSpecializations
+                            tolinerId={entity.id}
+                            userSpecializations={entity.specialization!}
+                        />
                         <UserProfileSkills
                             freelancerId={entity.userId}
                             userSkills={entity.skills!}

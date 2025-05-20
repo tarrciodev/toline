@@ -7,8 +7,8 @@ export function Hero() {
         <section className='bg-white  py-8 sm:py-16  flex px-4 sm:px-56 gap-10'>
             <div>
                 <p className='text-2xl sm:text-4xl font-extrabold text-blue-700 sm:max-w-[50vw] text-left'>
-                    Bem-vindo à TOLINE, Onde O Trabalho Não Tem Endereço, Só
-                    Resultados..
+                    Bem-vindo à TOLINE WORK, Onde O Trabalho Não Tem Endereço,
+                    Só Resultados..
                 </p>
 
                 <div className='mt-4 text-4xl'>

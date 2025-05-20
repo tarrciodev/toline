@@ -8,8 +8,11 @@ import { getMe } from "./get-me";
 type UpdateUserCardProps = {
     username: string;
     avatar?: File | undefined;
+    jobDescription?: string;
 };
-export async function updateUserCard(data: UpdateUserCardProps) {
+export async function updateUserCard(
+    data: UpdateUserCardProps
+): Promise<{ status: "error" | "success"; message: string }> {
     let avatarUrl: string | null = null;
 
     if (data.avatar) {
@@ -18,18 +21,32 @@ export async function updateUserCard(data: UpdateUserCardProps) {
 
     const me = await getMe();
 
-    const updateUser = await api(`/user/${me?.id}/update-card`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            username: data.username,
-            avatarUrl,
-        }),
-    });
+    const updatedUser = await api<{ id: string }>(
+        `/user/${me?.id}/update-card`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: data.username,
+                avatarUrl,
+                jobDescription: data.jobDescription,
+            }),
+        }
+    );
+
+    if (!updatedUser.id) {
+        return {
+            status: "error",
+            message: "Ocorreu um erro. tente outra vez",
+        };
+    }
 
     revalidatePath("/");
 
-    return updateUser;
+    return {
+        status: "success",
+        message: "Perfil Atualizado com Sucesso",
+    };
 }

@@ -1,4 +1,5 @@
 "use client";
+import { CustomFormField } from "@/components/custom-form-field";
 import { Loader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,23 +8,19 @@ import {
     ResponsiveModalTitle,
     ResponsiveModalTrigger,
 } from "@/components/ui/extension/responsive-modal";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useUpdteUserCard } from "@/services/profile/update-user-card";
+import { useSessionStore } from "@/store/session";
 import { extractAvatarFromName } from "@/utils/extract-avatar-from-name";
 import { Camera, Pencil } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 export function UpdateUserCard() {
-    const { form, previewUrl, me, onSubmit, isSubmitting } = useUpdteUserCard();
+    const { form, previewUrl, me, onSubmit, isSubmitting, triggerRef } =
+        useUpdteUserCard();
+    const { logged_as } = useSessionStore();
     const pathname = usePathname();
     if (pathname.includes("freelancer")) {
         return null;
@@ -31,7 +28,7 @@ export function UpdateUserCard() {
     return (
         <ResponsiveModal>
             <ResponsiveModalTrigger asChild>
-                <span>
+                <span ref={triggerRef}>
                     <Pencil className='size-5' />
                 </span>
             </ResponsiveModalTrigger>
@@ -100,23 +97,33 @@ export function UpdateUserCard() {
                             </span>
                         </div>
                         <div className='w-full'>
-                            <FormField
+                            <CustomFormField
                                 control={form.control}
                                 name='username'
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Username</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder={me?.name}
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                                label='Username'
+                            >
+                                <Input
+                                    placeholder={me?.name}
+                                    defaultValue={form.getValues("username")}
+                                />
+                            </CustomFormField>
                         </div>
+                        {logged_as == "freelancer" && (
+                            <div className='w-full'>
+                                <CustomFormField
+                                    control={form.control}
+                                    name='jobDescription'
+                                    label='Role'
+                                >
+                                    <Input
+                                        placeholder={"ex: Web Developer"}
+                                        defaultValue={form.getValues(
+                                            "jobDescription"
+                                        )}
+                                    />
+                                </CustomFormField>
+                            </div>
+                        )}
                         <div className='w-full'>
                             <Button className='w-full' type='submit'>
                                 {isSubmitting && <Loader />} salvar

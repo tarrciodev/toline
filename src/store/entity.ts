@@ -106,6 +106,10 @@ export type EntityProps = {
     userId: string;
     projects?: ProjectFullProps[];
     projectsFreelanced: IProject[];
+    specialization?: {
+        id: string;
+        name: string;
+    }[];
     createdAt: string;
     avatarUrl?: string;
     balance: {
@@ -143,6 +147,7 @@ export type EntityProps = {
     };
     notifications?: INotification[];
     Payments?: PaymentSummary[];
+    jobDescription?: string;
 };
 
 interface EntityState {

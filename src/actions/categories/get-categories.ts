@@ -25,5 +25,5 @@ export type Icategories = {
 
 export async function getCategories(): Promise<Icategories[]> {
     const categories = await api<Icategories[]>("/categories");
-    return categories;
+    return categories ?? [];
 }

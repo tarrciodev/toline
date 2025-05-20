@@ -13,8 +13,6 @@ export function RechargesTable() {
         queryFn: async () => await getCharges(tolinerId as string),
     });
 
-    console.log({ charges });
-
     return (
         <div className='overflow-x-auto'>
             {(charges ?? []).length === 0 ? (

@@ -2,8 +2,9 @@ import { getMe } from "@/actions/users/get-me";
 import { updateUserCard } from "@/actions/users/update-user-card";
 import { getPreviewUrl } from "@/utils/get-preview-url";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 interface IuseUpdateUserProps {
@@ -11,6 +12,7 @@ interface IuseUpdateUserProps {
         {
             username: string;
             avatar?: File | undefined;
+            jobDescription?: string;
         },
         undefined
     >;
@@ -18,6 +20,7 @@ interface IuseUpdateUserProps {
     me: { avatarUrl?: string; name: string } | null;
     onSubmit: (data: FormProps) => Promise<void>;
     isSubmitting: boolean;
+    triggerRef: RefObject<HTMLSpanElement | null>;
 }
 
 export const formSchema = z.object({
@@ -25,11 +28,13 @@ export const formSchema = z.object({
         .string()
         .min(3, "O nome de usuário deve ter no mínimo 3 caracteres"),
     avatar: z.instanceof(File).optional(),
+    jobDescription: z.string().optional(),
 });
 
 export type FormProps = z.infer<typeof formSchema>;
 
 export function useUpdteUserCard(): IuseUpdateUserProps {
+    const triggerRef = useRef<HTMLSpanElement | null>(null);
     const [me, setMe] = useState<{ avatarUrl?: string; name: string } | null>(
         null
     );
@@ -38,11 +43,12 @@ export function useUpdteUserCard(): IuseUpdateUserProps {
         resolver: zodResolver(formSchema),
         defaultValues: {
             username: "",
+            jobDescription: "",
         },
     });
 
     const {
-        formState: { isSubmitting, isSubmitSuccessful },
+        formState: { isSubmitting },
     } = form;
 
     const previewUrl = getPreviewUrl(form.watch("avatar"));
@@ -57,16 +63,22 @@ export function useUpdteUserCard(): IuseUpdateUserProps {
         })();
     }, []);
 
-    useEffect(() => {
-        if (isSubmitSuccessful) {
-            form.reset({
-                avatar: undefined,
-            });
-        }
-    }, [isSubmitSuccessful, form]);
-
     async function onSubmit(data: FormProps) {
-        await updateUserCard(data);
+        const response = await updateUserCard(data);
+
+        if (response.status == "success") {
+            toast.success(response.message);
+            setTimeout(() => {
+                form.reset({
+                    avatar: undefined,
+                });
+                triggerRef.current?.click();
+            });
+
+            return;
+        }
+
+        toast.error(response.message);
     }
 
     return {
@@ -75,5 +87,6 @@ export function useUpdteUserCard(): IuseUpdateUserProps {
         me,
         onSubmit,
         isSubmitting,
+        triggerRef,
     };
 }

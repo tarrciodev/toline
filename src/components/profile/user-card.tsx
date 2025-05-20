@@ -5,7 +5,7 @@ import Image from "next/image";
 interface Entity {
     avatarUrl: string | null;
     name: string;
-    jobDescription: string;
+    jobDescription?: string;
     bio: string;
 }
 
@@ -39,8 +39,7 @@ export function UserCard({ entity }: { entity: Entity }) {
                     {entity?.name}
                 </h1>
                 <div className='flex flex-col sm:flex-row sm:gap-3 px-1'>
-                    <p>Desenvolvimento Web</p>
-                    <p>/ Video Editor</p>
+                    <p>{entity?.jobDescription ?? "Toline Freelancer"}</p>
                 </div>
 
                 <div className='border-b border-gray-400 w-full my-4' />

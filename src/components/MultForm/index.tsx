@@ -115,7 +115,7 @@ export function MultiStepForm() {
                     {!isLastStep ? (
                         <Button
                             type='button'
-                            className='w-full'
+                            className='w-full cursor-pointer'
                             onClick={nextStep}
                         >
                             Próximo
