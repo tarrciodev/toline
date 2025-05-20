@@ -1,7 +1,9 @@
 "use client";
 import { updateFreelancerIdentification } from "@/actions/freelancer/update-freelancer-identification";
 import { Pencil } from "lucide-react";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
+import { Loader } from "../loader";
 import { Button } from "../ui/button";
 import { UploadImagePreview } from "./upload-image-preview";
 
@@ -11,12 +13,27 @@ export default function UserIdentification({ userId }: { userId: string }) {
     const [displayIdentificationBox, setDisplayIdentificationBox] =
         useState(false);
 
+    const [isSubmitting, startTransition] = useTransition();
+
     function toggleDisplayIdentificationBox() {
         setDisplayIdentificationBox((prev) => !prev);
     }
 
     async function handleUpdateUserIdentification() {
-        updateFreelancerIdentification({ BIFront, BIBack, userId });
+        startTransition(async () => {
+            const response = await updateFreelancerIdentification({
+                userId,
+                BIFront,
+                BIBack,
+            });
+
+            if (response.status === "success") {
+                toast.success(response.message);
+                return;
+            }
+
+            toast.error(response.message);
+        });
     }
 
     return (
@@ -62,9 +79,11 @@ export default function UserIdentification({ userId }: { userId: string }) {
                             </Button>
                             <Button
                                 className='flex flex-1'
+                                disabled={isSubmitting}
                                 size='sm'
                                 onClick={handleUpdateUserIdentification}
                             >
+                                {isSubmitting && <Loader />}
                                 Salvar
                             </Button>
                         </div>

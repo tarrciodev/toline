@@ -12,7 +12,7 @@ export async function updateFreelancerIdentification({
     BIFront: File | null;
     BIBack: File | null;
     userId: string;
-}) {
+}): Promise<{ status: "error" | "success"; message: string }> {
     const [frontUrl, backUrl] = await Promise.all([
         supabaseUpload(BIFront!),
         supabaseUpload(BIBack!),
@@ -21,25 +21,36 @@ export async function updateFreelancerIdentification({
     if (!BIFront || !BIBack) {
         return {
             status: "error",
-            message: "Erro ao fazer o upload",
+            message:
+                "Erro ao fazer o upload. cada imagem deve ter no máximo 1MB",
         };
     }
 
-    await api(`/user/${userId}/identification/update`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            frontUrl,
-            backUrl,
-        }),
-    });
+    const response = await api<{ id: string }>(
+        `/user/${userId}/identification/update`,
+        {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                frontUrl,
+                backUrl,
+            }),
+        }
+    );
 
-    revalidatePath("/");
+    if (response.id) {
+        revalidatePath("/");
+
+        return {
+            status: "success",
+            message: "Identificação atualizada com sucesso",
+        };
+    }
 
     return {
-        status: "success",
-        message: "Identificação atualizada com sucesso",
+        status: "error",
+        message: "Erro ao atualizar a identificação",
     };
 }

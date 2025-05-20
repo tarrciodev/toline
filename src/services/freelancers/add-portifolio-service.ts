@@ -31,9 +31,19 @@ export const ProjectSchema = z.object({
         }),
     assets: z
         .array(
-            z.custom<File>((file) => file.type.startsWith("image/"), {
-                message: "Cada item na galeria deve ser uma imagem válida.",
-            })
+            z.custom<File>(
+                (file) => {
+                    return (
+                        file instanceof File &&
+                        file.type.startsWith("image/") &&
+                        file.size <= 1024 * 1024 // 1MB
+                    );
+                },
+                {
+                    message:
+                        "Cada item deve ser uma imagem válida com no máximo 1MB.",
+                }
+            )
         )
         .min(1, {
             message: "Você deve adicionar pelo menos uma imagem na galeria.",

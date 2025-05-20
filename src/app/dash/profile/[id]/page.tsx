@@ -51,7 +51,7 @@ export default async function EditProfile() {
                             showCases={entity.showCases!}
                         />
                         {!entity.identification && (
-                            <UserIdentification userId={entity.id} />
+                            <UserIdentification userId={entity.userId} />
                         )}
                     </>
                 </Can>
