@@ -1,6 +1,7 @@
 "use client";
 
-import { ibanPayment } from "@/actions/finances/iban-payment";
+import { updateProjectPayment } from "@/actions/projects/update-project-payment";
+import { useEntityStore } from "@/store/entity";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RefObject } from "react";
 import { useForm } from "react-hook-form";
@@ -9,7 +10,7 @@ import { z } from "zod";
 
 const schema = z.object({
     ammount: z.coerce.number().min(1, "O valor deve ser maior que zero."),
-    referenceNumber: z.string().optional(),
+    referenceNumber: z.string(),
     file: z
         .instanceof(File)
         .refine(
@@ -38,14 +39,20 @@ export type IbanPaymentResponse = {
 };
 
 export type IbanPaymentProps = z.infer<typeof schema>;
-export function useIbanPaymentService(
-    triggerRef?: RefObject<HTMLDivElement | null>
-) {
+export function useIbanPaymentService({
+    triggerRef,
+    projectId,
+}: {
+    triggerRef?: RefObject<HTMLDivElement | null>;
+    projectId: string;
+}) {
+    const { entity } = useEntityStore();
     const form = useForm<IbanPaymentProps>({
         resolver: zodResolver(schema),
         defaultValues: {
             ammount: 0,
             referenceNumber: "",
+            file: undefined,
         },
     });
 
@@ -58,18 +65,24 @@ export function useIbanPaymentService(
     } = form;
 
     async function handleSubmit(data: IbanPaymentProps) {
-        const charge = await ibanPayment(data);
+        const response = await updateProjectPayment({
+            data,
+            dependencies: {
+                projectId: projectId,
+                ownerId: entity?.id as string,
+            },
+        });
 
-        if (charge.status === "error") {
-            toast.error(charge.message);
+        if (response.status === "success") {
+            toast.success(response.message);
+            setTimeout(() => {
+                form.reset();
+                triggerRef?.current?.click();
+            }, 3000);
+
             return;
         }
-
-        toast.success(charge.message, { duration: 6000 });
-        form.reset();
-        setTimeout(() => {
-            triggerRef?.current?.click();
-        }, 3500);
+        toast.error(response.message);
     }
     return {
         isSubmitting,

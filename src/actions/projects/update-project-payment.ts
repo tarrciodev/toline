@@ -1,8 +1,8 @@
 "use server";
 
-import { PaymentDependencies } from "@/components/dash/edit-project-payment-button";
+import { Dependencies } from "@/components/dash/edit-project-due-date";
 import { api } from "@/config/api";
-import { ProjectPaymentProps } from "@/services/projects/client-payment-service";
+import { IbanPaymentProps } from "@/services/payments/iban-payment-service";
 import { supabaseUpload } from "@/utils/supabase-upload";
 import { revalidatePath } from "next/cache";
 
@@ -10,8 +10,8 @@ export async function updateProjectPayment({
     data,
     dependencies,
 }: {
-    data: ProjectPaymentProps;
-    dependencies: PaymentDependencies;
+    data: IbanPaymentProps;
+    dependencies: Dependencies;
 }) {
     if (!dependencies.projectId) {
         return {
@@ -30,7 +30,7 @@ export async function updateProjectPayment({
     }
 
     const projectUpadated = await api<{ id: string }>(
-        `/project/${dependencies.projectId}/owner/${dependencies.ownerId}/payment`,
+        `/project/${dependencies.projectId}/owner/${dependencies.ownerId}/payment?paymentMethod=iban`,
         {
             method: "PUT",
             headers: {
@@ -39,7 +39,7 @@ export async function updateProjectPayment({
             body: JSON.stringify({
                 ammount: Number(data.ammount),
                 clientInvoice: url,
-                dueDate: data.dueDate,
+                referenceNumber: data.referenceNumber as string,
             }),
         }
     );
@@ -48,6 +48,7 @@ export async function updateProjectPayment({
         return {
             status: "error",
             message: "Não foi possível atualizar o pagamento",
+            projectUpadated,
         };
     }
 

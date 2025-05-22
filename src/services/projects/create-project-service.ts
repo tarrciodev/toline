@@ -16,6 +16,7 @@ const createProjectSchema = z.object({
     categoryId: z.string(),
     subcategoryId: z.string().optional(),
     skills: z.array(z.string()).optional(),
+    quotation: z.coerce.number().optional(),
 });
 
 type CreateProjectProps = z.infer<typeof createProjectSchema>;
@@ -49,6 +50,7 @@ interface IUseCreateProjectServiceResponse {
             categoryId: string;
             subcategoryId?: string | undefined;
             skills?: string[] | undefined;
+            quotation?: number;
         },
         undefined
     >;
@@ -69,6 +71,7 @@ export function useCreateProjectService(): IUseCreateProjectServiceResponse {
             categoryId: "",
             subcategoryId: "",
             skills: [],
+            quotation: 0,
         },
     });
 
@@ -103,7 +106,6 @@ export function useCreateProjectService(): IUseCreateProjectServiceResponse {
     );
 
     async function handleSubmit(data: CreateProjectProps) {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
         const filteredSkills = category?.skills?.filter(
             (skill) =>
                 !skill.subcategoryId ||

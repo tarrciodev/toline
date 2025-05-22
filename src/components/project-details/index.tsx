@@ -1,10 +1,13 @@
+"use client";
 import { ProjectFullProps } from "@/store/entity";
 import { CanIf } from "../can-if";
 import { ChatWithEntity } from "../dash/chat/chat-with-entity";
 import { MarkProjectAsConcluded } from "./mark-as-concluded";
+import { PaymentButton } from "./payment-button";
+import { PaymentCard } from "./payment-card";
 import { ProjectDetails } from "./project-detail";
 import { ProjectDetailsFreelancer } from "./project-detail-freelancer";
-import { ProjectDetailsPayment } from "./project-details-payment";
+import { ProjectDueDate } from "./project-details-due-date";
 import { ProjectDetailsRoot } from "./project-details-root";
 import { SubscriptionActions } from "./subscription-actions";
 
@@ -55,11 +58,10 @@ export function ProjectSideBar({
                 projectStatus={projectStatus}
                 imTheOwner={imTheOwner}
             />
-            <ProjectDetailsPayment
-                ammount={project.payment?.ammount}
+            <ProjectDueDate
                 dueDate={project.dueDate}
-                paymentDependencies={dependencies}
-                imTheOwner={imTheOwner}
+                dependencies={dependencies}
+                imTheOwner={imTheOwner as boolean}
             />
             {logged_as == "freelancer" && (
                 <CanIf
@@ -112,6 +114,11 @@ export function ProjectSideBar({
                         />
                     )}
                 </div>
+            )}
+            {!project.payment && project.freelancerId && (
+                <PaymentButton>
+                    <PaymentCard projectId={project.id} />
+                </PaymentButton>
             )}
         </ProjectDetailsRoot>
     );

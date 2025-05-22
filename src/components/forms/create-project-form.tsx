@@ -27,7 +27,7 @@ export function CreateProjectForm() {
                 className='w-full sm:w-[30vw]'
                 onSubmit={form.handleSubmit(handleSubmit)}
             >
-                <h1 className='text-center text-xl sm:text-4xl font-semibold mb-8'>
+                <h1 className='text-center text-xl sm:text-4xl font-semibold mb-4'>
                     Crie um novo projeto
                 </h1>
 
@@ -45,6 +45,14 @@ export function CreateProjectForm() {
                     clear={isSubmitSuccessful}
                     label='Descreva o Seu Projeto'
                 />
+
+                <CustomFormField
+                    control={form.control}
+                    name='quotation'
+                    label='Orçamento Inicial'
+                >
+                    <Input type='number' />
+                </CustomFormField>
 
                 <div className='flex gap-2 py-4 justify-between w-full'>
                     <CustomSelectField

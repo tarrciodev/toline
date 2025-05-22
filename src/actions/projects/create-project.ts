@@ -9,6 +9,7 @@ interface ICreateProjectProps {
     categoryId: string;
     subcategoryId?: string;
     skills?: Array<string>;
+    quotation?: number;
 }
 
 interface IFilteredSkills {
@@ -57,6 +58,7 @@ export async function createProject(
                     )
                     .map((s) => s.id),
                 subcategoryId: project.subcategoryId,
+                quotation: project.quotation,
             }),
         }
     );

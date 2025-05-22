@@ -20,9 +20,7 @@ export function EditProjectDatePicker({
     control: Control<
         {
             dueDate?: Date | null | undefined;
-            ammount?: string | undefined;
-            file?: File | null | undefined;
-            check?: boolean | undefined;
+            projectId: string;
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         any
@@ -34,8 +32,8 @@ export function EditProjectDatePicker({
             control={control}
             name='dueDate'
             render={({ field }) => (
-                <FormItem className='flex justify-between items-center'>
-                    <FormLabel>Due Date para o Projeto</FormLabel>
+                <FormItem className='flex items-center gap-2 bg-gray-200 justify-between rounded pl-4'>
+                    <FormLabel className='mt-3'>Prazo de entrega</FormLabel>
                     <FormControl>
                         <Popover>
                             <PopoverTrigger asChild>
@@ -55,7 +53,7 @@ export function EditProjectDatePicker({
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent
-                                className='w-auto p-0'
+                                className='w-full p-0'
                                 align='start'
                             >
                                 <Calendar

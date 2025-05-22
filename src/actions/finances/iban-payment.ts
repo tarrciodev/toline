@@ -25,7 +25,11 @@ export async function ibanPayment(data: IbanPaymentProps) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ ammount: data.ammount, invoice }),
+            body: JSON.stringify({
+                ammount: data.ammount,
+                invoice,
+                referenceNumber: data.referenceNumber,
+            }),
         }
     );
 

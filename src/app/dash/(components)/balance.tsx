@@ -2,7 +2,7 @@
 
 import { formatCurrency } from "@/utils/format-currency";
 import { RechargeButton } from "../client/finances/(components)/recharge-button";
-import { RechargeForm } from "../client/finances/(components)/recharge-form";
+import { RechargeCard } from "../client/finances/(components)/recharge-card";
 
 export function Balance({ ammount }: { ammount: number }) {
     return (
@@ -14,7 +14,7 @@ export function Balance({ ammount }: { ammount: number }) {
                 </h2>
             </div>
             <RechargeButton>
-                <RechargeForm />
+                <RechargeCard />
             </RechargeButton>
         </div>
     );
