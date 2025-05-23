@@ -7,7 +7,7 @@ export function FreelancerProjectsFilter({ status }: { status: string }) {
     const [activeStatus, setActiveStatus] = useState(status);
 
     return (
-        <aside className='w-full sm:w-[20dvw]'>
+        <aside className='w-full sm:w-[20dvw] bg-white sm:bg-transparent p-4 sm:p-0'>
             <div className='flex flex-col sm:gap-2'>
                 <p className='text-xl font-semibold my-2'>Filtros</p>
                 <div className='flex w-full gap-2 overflow-x-auto whitespace-nowrap scrollbar-none scrollbar-none hide-scrollbar sm:flex-col'>

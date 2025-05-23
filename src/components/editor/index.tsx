@@ -32,25 +32,33 @@ export function Editor({ field, clear }: { field: any; clear: boolean }) {
     return (
         <div className='rich-text'>
             <EditorContext.Provider value={{ editor }}>
-                <Toolbar variant='fixed'>
-                    <ToolbarGroup>
-                        <MarkButton type='bold' />
-                        <MarkButton type='italic' />
-                    </ToolbarGroup>
-                    {/* <HeadingDropdownMenu levels={[1, 2, 3, 4]} /> */}
+                <div className='flex flex-col gap-2'>
+                    <div className='relative'>
+                        <Toolbar variant='fixed'>
+                            <ToolbarGroup>
+                                <MarkButton type='bold' />
+                                <MarkButton type='italic' />
+                            </ToolbarGroup>
+                            {/* <HeadingDropdownMenu levels={[1, 2, 3, 4]} /> */}
 
-                    <ListDropdownMenu types={["bulletList", "orderedList"]} />
-                    <ToolbarGroup>
-                        <UndoRedoButton action='undo' />
-                        <UndoRedoButton action='redo' />
-                    </ToolbarGroup>
-                </Toolbar>
+                            <ListDropdownMenu
+                                types={["bulletList", "orderedList"]}
+                            />
+                            <ToolbarGroup>
+                                <UndoRedoButton action='undo' />
+                                <UndoRedoButton action='redo' />
+                            </ToolbarGroup>
+                        </Toolbar>
+                    </div>
 
-                <EditorContent
-                    editor={editor}
-                    role='presentation'
-                    className='tiptap-editor'
-                />
+                    <div className='relative mt-10 sm:mt-0'>
+                        <EditorContent
+                            editor={editor}
+                            role='presentation'
+                            className='tiptap-editor'
+                        />
+                    </div>
+                </div>
             </EditorContext.Provider>
         </div>
     );

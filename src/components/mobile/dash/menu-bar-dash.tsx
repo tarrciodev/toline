@@ -1,5 +1,6 @@
 "use client";
 import { handleSignout } from "@/actions/users/signout";
+import { NoUserAvatar } from "@/components/dash/chat/no-user-avatar";
 import { Button } from "@/components/ui/button";
 import {
     Drawer,
@@ -9,16 +10,35 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useEntityStore } from "@/store/entity";
+import { useSessionStore } from "@/store/session";
+import { setCookieStore } from "@/utils/cookie-store";
 import { Menu } from "lucide-react";
 import Link from "next/link";
 
+import { useRef } from "react";
+
 export function MenuBarDash() {
     const { entity } = useEntityStore();
+    const { logged_as, setIsLoggedAs } = useSessionStore();
+
+    const triggerRef = useRef<HTMLSpanElement | null>(null);
+
+    function handleCick(value: "client" | "freelancer") {
+        setIsLoggedAs(value);
+        setCookieStore("logged_as", value);
+        triggerRef.current?.click();
+    }
+
+    function handleTriggerClick() {
+        if (triggerRef.current) {
+            triggerRef.current.click();
+        }
+    }
     return (
         <div className='flex sm:hidden'>
             <Drawer>
                 <DrawerTrigger asChild>
-                    <span>
+                    <span ref={triggerRef}>
                         <Menu />
                     </span>
                 </DrawerTrigger>
@@ -35,18 +55,21 @@ export function MenuBarDash() {
                                 <nav>
                                     <ul className='flex flex-col space-x-6'>
                                         <Link
+                                            onClick={handleTriggerClick}
                                             href='/dash/projects'
                                             className='text-gray-700 hover:text-blue-60 py-2 border-y border-gray-200 w-full'
                                         >
                                             Projects
                                         </Link>
                                         <Link
+                                            onClick={handleTriggerClick}
                                             href='/dash/freelancers'
                                             className='text-gray-700 hover:text-blue-600 border-y py-2 border-gray-200 w-full'
                                         >
                                             Freelancers
                                         </Link>
                                         <Link
+                                            onClick={handleTriggerClick}
                                             href='/blog'
                                             className='text-gray-700 hover:text-blue-600 border-y py-2 border-gray-200 w-full'
                                         >
@@ -63,7 +86,12 @@ export function MenuBarDash() {
                                     <ul className='flex flex-col space-x-6'>
                                         <li className='py-2 border-y border-gray-200 w-full'>
                                             <Link
-                                                href='/dash/projects'
+                                                onClick={handleTriggerClick}
+                                                href={
+                                                    logged_as === "freelancer"
+                                                        ? "/dash/freelancer/proposals?status=sent"
+                                                        : "/dash/clients/projects?query=published"
+                                                }
                                                 className='text-gray-700 hover:text-blue-600'
                                             >
                                                 Meus Projectos
@@ -77,14 +105,44 @@ export function MenuBarDash() {
                                                 Meu Perfil
                                             </Link>
                                         </li>
-                                        <li className='py-2 border-b border-gray-200 w-full'>
-                                            <a
-                                                href='/blog'
-                                                className='text-gray-700 hover:text-blue-600'
-                                            >
-                                                Minha Conta
-                                            </a>
-                                        </li>
+                                        {logged_as === "freelancer" && (
+                                            <li className='py-2 border-b border-gray-200 w-full'>
+                                                <Link
+                                                    href='/dash'
+                                                    className='flex items-center gap-2'
+                                                    onClick={() =>
+                                                        handleCick("client")
+                                                    }
+                                                >
+                                                    <NoUserAvatar
+                                                        username={
+                                                            entity?.name as string
+                                                        }
+                                                        variante='sm'
+                                                    />
+                                                    Entrar como cliente
+                                                </Link>
+                                            </li>
+                                        )}
+                                        {logged_as === "client" && (
+                                            <li className='py-2 border-b border-gray-200 w-full'>
+                                                <Link
+                                                    href='/dash'
+                                                    className='flex items-center gap-2'
+                                                    onClick={() =>
+                                                        handleCick("freelancer")
+                                                    }
+                                                >
+                                                    <NoUserAvatar
+                                                        username={
+                                                            entity?.name as string
+                                                        }
+                                                        variante='sm'
+                                                    />
+                                                    Entrar como freelancer
+                                                </Link>
+                                            </li>
+                                        )}
                                     </ul>
                                 </nav>
                             </div>

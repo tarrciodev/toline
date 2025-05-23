@@ -2,6 +2,7 @@ import { getProjectsBySubscription } from "@/actions/projects/get-projects-by-su
 import { getTolinerAsEntity } from "@/actions/toliners/get-entity";
 import { FreelancerProjectsFilter } from "@/components/freelancers/freelancer-projects-filter";
 import { Project } from "@/components/project";
+import { NoProjectFound } from "./(components)/no-project";
 
 export default async function page({
     searchParams,
@@ -20,13 +21,17 @@ export default async function page({
         );
 
         return (
-            <main className='flex flex-col sm:flex-row py-3 gap-4 w-full'>
+            <main className='flex flex-col sm:flex-row sm:py-3 gap-2 sm:gap-4 w-full -mt-4 sm:-mt-0'>
                 <FreelancerProjectsFilter status={status} />
-                <div className='flex flex-col flex-1 gap-2'>
-                    {sentProposals?.map((project) => (
-                        <Project key={project.id} project={project} />
-                    ))}
-                </div>
+                {(sentProposals ?? []).length > 0 ? (
+                    <div className='flex flex-col flex-1 gap-2'>
+                        {sentProposals?.map((project) => (
+                            <Project key={project.id} project={project} />
+                        ))}
+                    </div>
+                ) : (
+                    <NoProjectFound />
+                )}
             </main>
         );
     }
@@ -45,17 +50,35 @@ export default async function page({
             <div className='flex flex-col flex-1 gap-2'>
                 {status == "accepted" && (
                     <>
-                        {accceptedProposals?.map((project) => (
-                            <Project key={project.id} project={project} />
-                        ))}
+                        {(accceptedProposals ?? []).length > 0 ? (
+                            <>
+                                {accceptedProposals?.map((project) => (
+                                    <Project
+                                        key={project.id}
+                                        project={project}
+                                    />
+                                ))}
+                            </>
+                        ) : (
+                            <NoProjectFound />
+                        )}
                     </>
                 )}
 
                 {status == "concluded" && (
                     <>
-                        {concludedProjects?.map((project) => (
-                            <Project key={project.id} project={project!} />
-                        ))}
+                        {(concludedProjects ?? []).length > 0 ? (
+                            <>
+                                {concludedProjects?.map((project) => (
+                                    <Project
+                                        key={project.id}
+                                        project={project!}
+                                    />
+                                ))}
+                            </>
+                        ) : (
+                            <NoProjectFound />
+                        )}
                     </>
                 )}
             </div>

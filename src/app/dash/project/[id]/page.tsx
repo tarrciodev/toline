@@ -23,10 +23,12 @@ export default async function ProjectDetails({
         | "freelancer";
 
     return (
-        <main className='flex flex-col sm:flex-row sm:justify-between  w-full gap-6 p-4 min-h-screen'>
-            <div className='flex flex-col flex-1 bg-gray-50 px-10 py-6 shadow'>
+        <main className='flex flex-col sm:flex-row sm:justify-between  w-full gap-6 p-1 min-h-screen'>
+            <div className='flex flex-col flex-1 bg-gray-50 px-4 sm:px-10 py-6 shadow'>
                 <div className='space-y-4'>
-                    <h1 className='text-4xl font-bold '>{project?.name}</h1>
+                    <h1 className='text-xl sm:text-2xl font-bold '>
+                        {project?.name}
+                    </h1>
                     <div className='rich-text'>
                         <p
                             className='line-clamp-1'
@@ -41,12 +43,17 @@ export default async function ProjectDetails({
                     </div>
                 </div>
                 <div className='mt-5'>
-                    <h2 className='text-2xl font-semibold py-2'>
+                    <h2 className='text-xltext-2xl font-semibold py-2'>
                         Habilidades Desejadas
                     </h2>
                     <div className='flex gap-1'>
                         {project?.skills?.map((skill) => (
-                            <Badge key={skill?.id}>{skill?.name}</Badge>
+                            <Badge
+                                key={skill?.id}
+                                className='text-xs sm:text-base'
+                            >
+                                {skill?.name}
+                            </Badge>
                         ))}
                     </div>
                 </div>
