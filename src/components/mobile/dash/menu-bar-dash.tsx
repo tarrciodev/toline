@@ -1,3 +1,4 @@
+"use client";
 import { handleSignout } from "@/actions/users/signout";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,10 +8,12 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useEntityStore } from "@/store/entity";
 import { Menu } from "lucide-react";
 import Link from "next/link";
 
 export function MenuBarDash() {
+    const { entity } = useEntityStore();
     return (
         <div className='flex sm:hidden'>
             <Drawer>
@@ -68,7 +71,7 @@ export function MenuBarDash() {
                                         </li>
                                         <li className='py-2 border-b border-gray-200 w-full'>
                                             <Link
-                                                href='/dash/freelancers'
+                                                href={`/dash/profile/${entity?.id}`}
                                                 className='text-gray-700 hover:text-blue-600'
                                             >
                                                 Meu Perfil

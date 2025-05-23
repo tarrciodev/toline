@@ -83,7 +83,7 @@ export function UserProfileSkills({
                                 className='cursor-pointer'
                                 onClick={toggleDisplaySelectionBox}
                             >
-                                <Pencil className='size-5' />
+                                <Pencil className='size-4 sm:size-5' />
                             </span>
                         )}
                     </div>

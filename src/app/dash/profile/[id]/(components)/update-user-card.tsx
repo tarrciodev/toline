@@ -3,11 +3,11 @@ import { CustomFormField } from "@/components/custom-form-field";
 import { Loader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-    ResponsiveModalTitle,
-    ResponsiveModalTrigger,
-} from "@/components/ui/extension/responsive-modal";
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useUpdteUserCard } from "@/services/profile/update-user-card";
@@ -26,16 +26,16 @@ export function UpdateUserCard() {
         return null;
     }
     return (
-        <ResponsiveModal>
-            <ResponsiveModalTrigger asChild>
+        <Dialog>
+            <DialogTrigger asChild>
                 <span ref={triggerRef}>
-                    <Pencil className='size-5' />
+                    <Pencil className='size-4 sm:size-5' />
                 </span>
-            </ResponsiveModalTrigger>
-            <ResponsiveModalContent className=' w-[25vw]!'>
-                <ResponsiveModalTitle className='hidden'>
+            </DialogTrigger>
+            <DialogContent className=' w-[90%] ml-1 sm:ml-0 sm:w-[25vw]!'>
+                <DialogTitle className='hidden'>
                     Update User Profile Modal
-                </ResponsiveModalTitle>
+                </DialogTitle>
                 <Form {...form}>
                     <form
                         className='flex flex-col items-center gap-3'
@@ -131,7 +131,7 @@ export function UpdateUserCard() {
                         </div>
                     </form>
                 </Form>
-            </ResponsiveModalContent>
-        </ResponsiveModal>
+            </DialogContent>
+        </Dialog>
     );
 }

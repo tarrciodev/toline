@@ -46,7 +46,7 @@ export default function UserIdentification({ userId }: { userId: string }) {
                     className='cursor-pointer'
                     onClick={toggleDisplayIdentificationBox}
                 >
-                    <Pencil className='size-5' />
+                    <Pencil className='size-4 sm:size-5' />
                 </span>
             </div>
             {displayIdentificationBox || (

@@ -25,8 +25,8 @@ export function ProjectsIHaveWorkedOn({
                 <p>Portifolio</p>
                 <Dialog>
                     <DialogTrigger>
-                        <span className='flex bg-gray-200 rounded-lg px-2'>
-                            adicionar <Plus />
+                        <span className='text-sm sm:text-base flex items-center gap-1 bg-gray-200 rounded-lg px-2'>
+                            adicionar <Plus className='size-4 sm:size-5' />
                         </span>
                     </DialogTrigger>
                     <DialogContent>

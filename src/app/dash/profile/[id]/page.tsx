@@ -32,7 +32,7 @@ export default async function EditProfile() {
     };
 
     return (
-        <main className='flex flex-col sm:flex-row py-3 gap-6 w-full'>
+        <main className='flex flex-col sm:flex-row py-3 gap-6 w-full px-2 sm:px-0 -mt-3 sm:-mt-0'>
             <div className='flex flex-col flex-1 gap-2'>
                 <UserCard entity={user} />
                 <AboutMe userId={entity.userId} bio={bio as string} />

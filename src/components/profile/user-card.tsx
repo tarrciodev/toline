@@ -23,7 +23,7 @@ export function UserCard({ entity }: { entity: Entity }) {
                             alt='User picture'
                             width={100}
                             height={100}
-                            className='rounded-full size-2 sm:size-[9.8rem] object-cover'
+                            className='rounded-full size-9 sm:size-[9.8rem] object-cover'
                         />
                     </div>
                 ) : (

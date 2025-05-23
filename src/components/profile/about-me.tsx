@@ -39,7 +39,7 @@ export function AboutMe({ userId, bio }: { userId: string; bio: string }) {
                         className='cursor-pointer'
                         onClick={toogleDisplayTextBox}
                     >
-                        <Pencil className='size-5' />
+                        <Pencil className='size-4 sm:size-5' />
                     </span>
                 </div>
             )}
