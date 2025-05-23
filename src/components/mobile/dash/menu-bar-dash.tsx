@@ -99,6 +99,7 @@ export function MenuBarDash() {
                                         </li>
                                         <li className='py-2 border-b border-gray-200 w-full'>
                                             <Link
+                                                onClick={handleTriggerClick}
                                                 href={`/dash/profile/${entity?.id}`}
                                                 className='text-gray-700 hover:text-blue-600'
                                             >

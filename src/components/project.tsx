@@ -6,7 +6,7 @@ import { Badge } from "./ui/badge";
 
 export function Project({ project }: { project: IProject }) {
     return (
-        <div className='bg-white flex flex-col gap-2 border-t border-gray-200 w-full py-2 px-4 sm:px-2 sm:p-6'>
+        <div className='bg-white flex flex-col gap-2 border-t border-gray-200 w-full py-2 px-4 sm:px-6 sm:p-6'>
             <Link
                 href={`/dash/project/${project.id}`}
                 className='text-blue-700 font-semibold'
